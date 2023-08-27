@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Plan;
 use Auth;
+use Alert;
 
 class PlansController extends Controller
 {
@@ -13,7 +14,10 @@ class PlansController extends Controller
      */
     public function index()
     {
-        //
+        $title = 'All Posting Plans';
+        $plans = Plan::orderBy('price')->get()->unique('plan_type');
+
+        return view('admin-pages.plans-index')->with(compact('title', 'plans'));
     }
 
     /**
@@ -30,21 +34,29 @@ class PlansController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->validate($request, [
+            'plan_type' => 'required|unique:plans,plan_type',
+            'plan_title' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+                          
+        ]);   
+
         $adminName = Auth::user()->username;
-        $formattedPrice = number_format($request->input('price'), 2, '.', '');
-        $plan_type = $request->plan_type;
-        $plan_title = $request->plan_title;
-        $description = $request->description;
+        $formattedPrice = number_format($request->input('price'), 2, '.', '');        
 
         $plan = new Plan;
         $plan->price = $formattedPrice;
-        $plan->plan_type = $plan_type;
-        $plan->plan_title = $plan_title;
-        $plan->description = $description;
+        $plan->plan_type = $request->plan_type;
+        $plan->plan_title = $request->plan_title;
+        $plan->description = $request->description;
         $plan->added_by =   $adminName;    
         $plan->save();
 
-        return redirect()->back()->with('success', 'Posting Plan Created');
+        $alerted = Alert::success('Plan Added', 'You have added a new posting plan'); 
+
+        return redirect()->back()->with('alerted');
 
     }
 
@@ -59,24 +71,45 @@ class PlansController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Plan $plan)
     {
-        //
+        $title = 'Edit Plan';
+        return view('admin-pages.edit-plan-types')->with(compact('title', 'plan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Plan $plan)
     {
-        //
+        $this->validate($request, [
+            'plan_type' => 'required|unique:plans,plan_type',
+            'plan_title' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+                          
+        ]);  
+
+        $formattedPrice = number_format($request->input('price'), 2, '.', '');   
+        
+        $plan->plan_type = $request->plan_type;
+        $plan->plan_title = $request->plan_title;
+        $plan->price = $formattedPrice;
+        $plan->description = $request->description;           
+        $plan->save();
+
+        $alerted = Alert::success('Plan Edited', 'You have Edited this posting plan'); 
+
+        return redirect()->back()->with('alerted');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Plan $plan)
     {
-        //
+        $plan->delete();
+        $alerted = Alert::success('Plan Deleted', 'The plan has been deleted'); 
+        return redirect()->back()->with('alerted');
     }
 }

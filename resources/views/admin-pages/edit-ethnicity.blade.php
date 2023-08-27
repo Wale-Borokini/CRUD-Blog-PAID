@@ -5,7 +5,10 @@
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
                 <h1>{{$ethnicity->name}}</h1>
-            </div>            
+            </div>        
+            <div class="text-center mt-1">
+                <a href="{{route('personal-attributes')}}" class="btn btn-outline-dark btn-md">Personal Atributes</a>                
+            </div>     
             <div class="text-center mt-2">
                 <a href="{{route('ethnicities.index')}}" class="btn btn-outline-success btn-md">All Ethnicities</a>
             </div>                           
@@ -14,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-12 mx-auto">                    
                     <div class="col-md-6">                            
-                        <form method="POST" action="{{route('ethnicity.update', $ethnicity->slug)}}">
+                        <form method="POST" action="{{route('ethnicities.update', $ethnicity->slug)}}">
                             @csrf 
                             @method('PUT')                           
                             <div class="col-lg-12">

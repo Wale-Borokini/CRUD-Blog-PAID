@@ -11,6 +11,8 @@
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
                 <h1>City Details</h1>
+            </div><div class="text-center mt-1">
+                <a href="{{route('add-locations')}}" class="btn btn-outline-dark btn-md">Locations</a>                
             </div>
             <div class="text-center mt-2">
                 <a href="{{route('cities.index')}}" class="btn btn-outline-success btn-md">All Cities</a>

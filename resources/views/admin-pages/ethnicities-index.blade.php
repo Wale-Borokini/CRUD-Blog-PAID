@@ -38,9 +38,9 @@
                                 <tr>
                                     <td><strong>{{$ethnicity->name}}</strong></td>                                    								
                                     <td>{{$ethnicity->added_by}}</td>                                    
-                                    <td><a class="btn btn-primary btn-sm" href="{{ route('edit-ethnicity', $ethnicity->slug) }}">Edit</a></td>
+                                    <td><a class="btn btn-primary btn-sm" href="{{ route('ethnicities.edit', $ethnicity->slug) }}">Edit</a></td>
                                     <td>
-                                        <form class="delete-form" action="{{ route('ethnicity.delete', $ethnicity->slug) }}" method="post">
+                                        <form class="delete-form" action="{{ route('ethnicities.destroy', $ethnicity->slug) }}" method="post">
                                             @csrf
                                             @method('DELETE')                                        
                                             <button type="submit" class="delete-button btn btn-danger btn-sm">Delete</button>

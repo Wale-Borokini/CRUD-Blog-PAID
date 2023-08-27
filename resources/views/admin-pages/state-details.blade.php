@@ -12,6 +12,9 @@
             <div class="container d-flex flex-column align-items-center">					
                 <h1>State Details</h1>
             </div>
+            <div class="text-center mt-1">
+                <a href="{{route('add-locations')}}" class="btn btn-outline-dark btn-md">Locations</a>                
+            </div>
             <div class="text-center mt-2">
                 <a href="{{route('states.index')}}" class="btn btn-outline-success btn-md">All States</a>
             </div> 
@@ -24,7 +27,7 @@
                     <div class="mt-3">
                         <h3>Cities in {{$state->name}}</h3>
                     </div>
-                    <table class="table table-striped table-responsive">
+                    <table class="table text-center table-striped table-responsive">
                         <thead>
                             <tr>
                                 <th>City</th> 

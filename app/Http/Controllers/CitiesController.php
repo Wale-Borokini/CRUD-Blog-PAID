@@ -23,7 +23,7 @@ class CitiesController extends Controller
     public function index()
     {
         $title = 'All Cities';
-        $cities = City::orderBy('name')->withCount(['posts'])->get()->unique('name');
+        $cities = City::orderBy('name')->withCount(['posts'])->cursorPaginate(50);
 
         return view('admin-pages.cities-index')->with(compact('title', 'cities'));
     }

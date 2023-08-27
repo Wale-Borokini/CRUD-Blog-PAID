@@ -10,7 +10,7 @@
     <main class="min-height-page main">
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
-                <h1>Add Locations</h1>
+                <h1>Transaction Menu</h1>
             </div>
 			<div class="text-center mt-1">
                 <a href="{{route('admin-dashboard')}}" class="btn btn-outline-dark btn-md">Admin Dashboard</a>
@@ -22,23 +22,23 @@
 				<div class="container">					
 					<div class="row justify-content-center">
 						<div class="col-sm-6 col-lg-4">
-							<a href="{{route('countries.index')}}" class="icon-box">
+							<a href="{{route('plans.index')}}" class="icon-box">
 								<i class="fa fa-bars"></i>
-								<h5 class="porto-sicon-title">Countries</h5>
+								<h5 class="porto-sicon-title">Post Plans</h5>
 								<i class="fa fa-bars"></i>
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
-							<a href="{{route('states.index')}}" class="icon-box">
+							<a href="#" class="icon-box">
 								<i class="fa fa-exclamation-triangle"></i>
-								<h5 class="porto-sicon-title">States</h5>
+								<h5 class="porto-sicon-title">Credit User</h5>
 								<i class="fa fa-exclamation-triangle"></i>
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
-							<a href="{{route('cities.index')}}" class="icon-box">
+							<a href="#" class="icon-box">
 								<i class="fa fa-cart-arrow-down"></i>
-								<h5 class="porto-sicon-title">Cities</h5>
+								<h5 class="porto-sicon-title">Debit User</h5>
 								<i class="fa fa-cart-arrow-down"></i>
 							</a>
 						</div>																					

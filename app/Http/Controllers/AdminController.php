@@ -25,7 +25,7 @@ class AdminController extends Controller
 
     }
 
-    public function viewpersonalAttributesPage()
+    public function viewPersonalAttributesPage()
     {
 
         $title = 'Personal Attributes';
@@ -33,5 +33,13 @@ class AdminController extends Controller
         return view('admin-pages.personal-attributes')->with(compact('title'));
 
     }
+    
+    public function viewTransactionMenuPage()
+    {
 
+        $title = 'Transaction Menu';
+               
+        return view('admin-pages.transaction-menu')->with(compact('title'));
+
+    }
 }

@@ -47,9 +47,9 @@
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
-							<a href="element-product-categories.html" class="icon-box">
+							<a href="{{route('transaction-menu')}}" class="icon-box">
 								<i class="fas fa-shopping-basket"></i>
-								<h5 class="porto-sicon-title">Credit User</h5>
+								<h5 class="porto-sicon-title">Transactions</h5>
 								<i class="fas fa-shopping-basket"></i>
 							</a>
 						</div>

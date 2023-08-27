@@ -44,8 +44,12 @@
 
                     <li>
                         <a href="{{ route('create-post') }}">Post Ad</a>
-                    </li>
-                    
+                    </li>                    
+                    @if (Auth::check() && Auth::user()->isAdmin())
+                        <li>
+                            <a href="{{ route('admin-dashboard') }}">Admin Dashboard</a>
+                        </li>
+                    @endif                        
                     {{-- Right side of Nav --}}
                     @guest
                         @if (Route::has('login'))

@@ -85,38 +85,20 @@ Route::group([ 'middleware' => ['auth']], function() {
 
 Route::middleware(['auth', 'admin'])->group(function () {
     // Admin middleware
-    Route::resource('countries', CountriesController::class);
-    Route::get('/edit-country/{country:slug}', [CountriesController::class, 'editCountry'])->name('edit-country');
-    Route::put('/update-country/{country:slug}',[CountriesController::class, 'updateCountry'])->name('country.update');
-    Route::delete('/delete-country/{country:slug}',[CountriesController::class, 'destroyCountry'])->name('country.delete');
-
-    Route::resource('states', StatesController::class);
-    Route::get('/edit-state/{state:slug}', [StatesController::class, 'editState'])->name('edit-state');
-    Route::put('/update-state/{state:slug}',[StatesController::class, 'updateState'])->name('state.update');
-    Route::delete('/deleteState/{state:slug}',[StatesController::class, 'destroyState'])->name('state.delete');
-
-    Route::resource('cities', CitiesController::class);
-    // Route::get('/edit-city/{city:slug}', [CitiesController::class, 'editCity'])->name('edit-city');
-    // Route::put('/update-city/{city:slug}',[CitiesController::class, 'updateCity'])->name('city.update');
-    // Route::delete('/delete-city/{city:slug}',[CitiesController::class, 'destroyCity'])->name('city.delete');
-
+    Route::resource('countries', CountriesController::class);   
+    Route::resource('states', StatesController::class);    
+    Route::resource('cities', CitiesController::class);    
     Route::resource('genders', GendersController::class);
-    // Route::get('/edit-gender/{gender:slug}', [GendersController::class, 'editGender'])->name('edit-gender');
-    // Route::put('/update-gender/{gender:slug}',[GendersController::class, 'updateGender'])->name('gender.update');
-    // Route::delete('/delete-gender/{gender:slug}',[GendersController::class, 'destroyGender'])->name('gender.delete');
-
     Route::resource('ethnicities', EthnicitiesController::class);
-    Route::get('/edit-ethnicity/{ethnicity:slug}', [EthnicitiesController::class, 'editEthnicity'])->name('edit-ethnicity');
-    Route::put('/update-ethnicity/{ethnicity:slug}',[EthnicitiesController::class, 'updateEthnicity'])->name('ethnicity.update');
-    Route::delete('/delete-ethnicity/{ethnicity:slug}',[EthnicitiesController::class, 'destroyEthnicity'])->name('ethnicity.delete');
-
     Route::resource('hairs', HairsController::class);
     Route::resource('eyes', EyesController::class);
+    
     Route::resource('plans', PlansController::class);
 
     Route::get('/admin-dashboard', [AdminController::class, 'viewAdminDashboardPage'])->name('admin-dashboard');
     Route::get('/add-locations', [AdminController::class, 'viewAddLocationsPage'])->name('add-locations');
-    Route::get('/personal-attributes', [AdminController::class, 'viewpersonalAttributesPage'])->name('personal-attributes');
+    Route::get('/personal-attributes', [AdminController::class, 'viewPersonalAttributesPage'])->name('personal-attributes');
+    Route::get('/transaction-menu', [AdminController::class, 'viewTransactionMenuPage'])->name('transaction-menu');
 
 });
 

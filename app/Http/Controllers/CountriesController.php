@@ -71,14 +71,15 @@ class CountriesController extends Controller
     public function show(string $slug)
     {
         $country = Country::where('slug', $slug)->with(['states.cities', 'States.posts'])->firstOrFail();
+        $states = $country->states()->orderBy('name')->cursorPaginate(50);
 
-        return view('admin-pages.country-details')->with(compact('country'));
+        return view('admin-pages.country-details')->with(compact('country', 'states'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function editCountry(Country $country)
+    public function edit(Country $country)
     {
         $title = 'Edit Country';
         return view('admin-pages.edit-country')->with(compact('title', 'country'));
@@ -87,7 +88,7 @@ class CountriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateCountry(Request $request, Country $country)
+    public function update(Request $request, Country $country)
     {
         $this->validate($request, [
             'name' => 'required|unique:countries,name'            
@@ -109,7 +110,7 @@ class CountriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroyCountry(Country $country)
+    public function destroy(Country $country)
     {
         $country->delete();
         $alerted = Alert::success('Country Deleted', 'The country has been deleted'); 

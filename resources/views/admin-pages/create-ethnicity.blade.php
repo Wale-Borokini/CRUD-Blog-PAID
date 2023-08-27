@@ -24,7 +24,12 @@
                                     Ethnicity
                                     <span class="required">*</span>
                                 </label>
-                                <input name="name" id="name" type="text" class="form-input form-wide @error('name') is-invalid @enderror" value="{{ old('name') }}" autocomplete="name" autofocus required />
+                                <input name="name" id="name" type="text" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" autocomplete="name" autofocus required/>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <div class="col-lg-12 mt-2">
                                 <div>

@@ -16,7 +16,7 @@
                 <a href="{{route('add-locations')}}" class="btn btn-outline-dark btn-md">Locations</a>                
             </div>
             <div class="text-center mt-1">                
-                <a href="{{route('countries.create')}}" class="btn btn-outline-success btn-md">Add Countries</a>
+                <a href="{{route('countries.create')}}" class="btn btn-outline-success btn-md">Add Country</a>
             </div>  
         </div>
 
@@ -24,7 +24,7 @@
         <div class="container account-container custom-account-container">
             <div class="row">					
                 <div class="col-lg-12">
-                    <table class="table table-striped table-responsive">
+                    <table class="table text-center table-striped table-responsive">
                         <thead>
                             <tr>
                                 <th>Country</th>
@@ -46,9 +46,9 @@
                                     <td>{{$country->posts_count}}</td>									
                                     <td>{{$country->added_by}}</td>
                                     <td><a class="btn btn-success btn-sm" href="{{ route('countries.show', $country->slug) }}">Details</a></td>
-                                    <td><a class="btn btn-primary btn-sm" href="{{ route('edit-country', $country->slug) }}">Edit</a></td>
+                                    <td><a class="btn btn-primary btn-sm" href="{{ route('countries.edit', $country->slug) }}">Edit</a></td>
                                     <td>
-                                        <form class="delete-form" action="{{ route('country.delete', $country->slug) }}" method="post">
+                                        <form class="delete-form" action="{{ route('countries.destroy', $country->slug) }}" method="post">
                                             @csrf
                                             @method('DELETE')                                        
                                             <button type="submit" class="delete-button btn btn-danger btn-sm">Delete</button>

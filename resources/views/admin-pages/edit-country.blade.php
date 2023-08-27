@@ -4,8 +4,11 @@
     <main class="min-height-page main">	
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
-                <h1>Edit Country</h1>
+                <h1>Edit Country ({{$country->name}})</h1>
             </div>            
+            <div class="text-center mt-1">
+                <a href="{{route('add-locations')}}" class="btn btn-outline-dark btn-md">Locations</a>                
+            </div> 
             <div class="text-center mt-2">
                 <a href="{{route('countries.index')}}" class="btn btn-outline-success btn-md">All Country</a>
             </div>                           
@@ -14,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-12 mx-auto">                    
                     <div class="col-md-6">                            
-                        <form method="POST" action="{{route('country.update', $country->slug)}}">
+                        <form method="POST" action="{{route('countries.update', $country->slug)}}">
                             @csrf     
                             @method('PUT')                         
                             <div class="col-lg-12">

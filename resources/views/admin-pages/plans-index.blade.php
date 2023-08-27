@@ -10,13 +10,13 @@
     <main class="min-height-page main">
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
-                <h1>All Cities</h1>
+                <h1>All Posting Plans</h1>
             </div>
             <div class="text-center mt-1">
-                <a href="{{route('add-locations')}}" class="btn btn-outline-dark btn-md">Locations</a>                
+                <a href="{{route('transaction-menu')}}" class="btn btn-outline-dark btn-md">Transaction Menu</a>                
             </div> 
             <div class="text-center mt-1">                
-                <a href="{{route('cities.create')}}" class="btn btn-outline-success btn-md">Add City</a>
+                <a href="{{route('plans.create')}}" class="btn btn-outline-success btn-md">Add Posting Plan</a>
             </div>
         </div>
 
@@ -27,28 +27,26 @@
                     <table class="table text-center table-striped table-responsive">
                         <thead>
                             <tr>
-                                <th>City</th>
-                                <th>State</th>                               
-                                <th>Country</th>
-                                <th>Post Count</th>
+                                <th>Plan Type</th>  
+                                <th>Plan Price</th>                               
+                                <th>Plan Title</th>                                
+                                <th>Description</th>
                                 <th>Added By</th>
-                                <th>Details</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($cities as $city)
+                            @foreach($plans as $plan)
                                 <tr>
-                                    <td><strong>{{$city->name}}</strong></td>
-                                    <td>{{$city->state->name}}</td> 
-                                    <td>{{$city->country->name}}</td>                                    	                                    	
-                                    <td>{{$city->posts_count}}</td>									
-                                    <td>{{$city->added_by}}</td>
-                                    <td><a class="btn btn-success btn-sm" href="{{ route('cities.show', $city->slug) }}">Details</a></td>
-                                    <td><a class="btn btn-primary btn-sm" href="{{ route('cities.edit', $city->slug) }}">Edit</a></td>
+                                    <td><strong>{{$plan->plan_type}}</strong></td>    
+                                    <td><strong>{{$plan->price}}</strong></td>                                    								
+                                    <td>{{$plan->plan_title}}</td>  
+                                    <td>{{$plan->description}}</td>
+                                    <td>{{$plan->added_by}}</td>                                 
+                                    <td><a class="btn btn-primary btn-sm" href="{{ route('plans.edit', $plan->slug) }}">Edit</a></td>
                                     <td>
-                                        <form class="delete-form" action="{{ route('cities.destroy', $city->slug) }}" method="post">
+                                        <form class="delete-form" action="{{ route('plans.destroy', $plan->slug) }}" method="post">
                                             @csrf
                                             @method('DELETE')                                        
                                             <button type="submit" class="delete-button btn btn-danger btn-sm">Delete</button>
@@ -58,7 +56,6 @@
                             @endforeach         
                         </tbody>
                     </table>
-                    {{ $cities->links() }} 
                 </div>
             </div><!-- End .row -->
         </div><!-- End .container -->

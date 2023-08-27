@@ -5,7 +5,10 @@
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
                 <h1>{{$gender->name}}</h1>
-            </div>            
+            </div>       
+            <div class="text-center mt-1">
+                <a href="{{route('personal-attributes')}}" class="btn btn-outline-dark btn-md">Personal Atributes</a>                
+            </div>      
             <div class="text-center mt-2">
                 <a href="{{route('genders.index')}}" class="btn btn-outline-success btn-md">All Genders</a>
             </div>                           

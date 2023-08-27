@@ -10,13 +10,13 @@
     <main class="min-height-page main">
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
-                <h1>All Cities</h1>
+                <h1>All Eye Colors</h1>
             </div>
             <div class="text-center mt-1">
-                <a href="{{route('add-locations')}}" class="btn btn-outline-dark btn-md">Locations</a>                
+                <a href="{{route('personal-attributes')}}" class="btn btn-outline-dark btn-md">Personal Atributes</a>                
             </div> 
             <div class="text-center mt-1">                
-                <a href="{{route('cities.create')}}" class="btn btn-outline-success btn-md">Add City</a>
+                <a href="{{route('eyes.create')}}" class="btn btn-outline-success btn-md">Add Eye Color</a>
             </div>
         </div>
 
@@ -24,31 +24,23 @@
         <div class="container account-container custom-account-container">
             <div class="row">					
                 <div class="col-lg-12">
-                    <table class="table text-center table-striped table-responsive">
+                    <table class="table table-striped table-responsive">
                         <thead>
                             <tr>
-                                <th>City</th>
-                                <th>State</th>                               
-                                <th>Country</th>
-                                <th>Post Count</th>
-                                <th>Added By</th>
-                                <th>Details</th>
+                                <th>Eye Color</th>                                
+                                <th>Added By</th>                                
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($cities as $city)
+                            @foreach($eyes as $eye)
                                 <tr>
-                                    <td><strong>{{$city->name}}</strong></td>
-                                    <td>{{$city->state->name}}</td> 
-                                    <td>{{$city->country->name}}</td>                                    	                                    	
-                                    <td>{{$city->posts_count}}</td>									
-                                    <td>{{$city->added_by}}</td>
-                                    <td><a class="btn btn-success btn-sm" href="{{ route('cities.show', $city->slug) }}">Details</a></td>
-                                    <td><a class="btn btn-primary btn-sm" href="{{ route('cities.edit', $city->slug) }}">Edit</a></td>
+                                    <td><strong>{{$eye->name}}</strong></td>                                    								
+                                    <td>{{$eye->added_by}}</td>                                    
+                                    <td><a class="btn btn-primary btn-sm" href="{{ route('eyes.edit', $eye->slug) }}">Edit</a></td>
                                     <td>
-                                        <form class="delete-form" action="{{ route('cities.destroy', $city->slug) }}" method="post">
+                                        <form class="delete-form" action="{{ route('eyes.destroy', $eye->slug) }}" method="post">
                                             @csrf
                                             @method('DELETE')                                        
                                             <button type="submit" class="delete-button btn btn-danger btn-sm">Delete</button>
@@ -58,7 +50,6 @@
                             @endforeach         
                         </tbody>
                     </table>
-                    {{ $cities->links() }} 
                 </div>
             </div><!-- End .row -->
         </div><!-- End .container -->

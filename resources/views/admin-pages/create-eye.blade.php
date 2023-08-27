@@ -6,6 +6,12 @@
             <div class="container d-flex flex-column align-items-center">					
                 <h1>Add Eye Color</h1>
             </div>
+            <div class="text-center mt-1">
+                <a href="{{route('personal-attributes')}}" class="btn btn-outline-dark btn-md">Personal Atributes</a>                
+            </div> 
+            <div class="text-center mt-1">                
+                <a href="{{route('eyes.index')}}" class="btn btn-outline-success btn-md">All Eye colors</a>
+            </div>
         </div>		
         <div class="container login-container">
             <div class="row">
@@ -18,7 +24,12 @@
                                     Eye Color
                                     <span class="required">*</span>
                                 </label>
-                                <input name="name" id="name" type="text" class="form-input form-wide @error('name') is-invalid @enderror" value="{{ old('name') }}" autocomplete="name" autofocus required />
+                                <input name="name" id="name" type="text" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" autocomplete="name" autofocus required/>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <div class="col-lg-12 mt-2">
                                 <div>

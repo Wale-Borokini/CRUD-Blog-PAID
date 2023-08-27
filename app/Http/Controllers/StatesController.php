@@ -19,7 +19,7 @@ class StatesController extends Controller
     public function index()
     {
         $title = 'All States';
-        $states = State::orderBy('name')->withCount(['cities', 'posts'])->get()->unique('name');
+        $states = State::orderBy('name')->withCount(['cities', 'posts'])->cursorPaginate(50);
 
         return view('admin-pages.states-index')->with(compact('title', 'states'));
     }
@@ -76,7 +76,7 @@ class StatesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function editState(State $state)
+    public function edit(State $state)
     {
         $title = 'Edit State';
         return view('admin-pages.edit-state')->with(compact('title', 'state'));
@@ -85,7 +85,7 @@ class StatesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateState(Request $request, State $state)
+    public function update(Request $request, State $state)
     {
         $this->validate($request, [
             'name' => 'required|unique:states,name'            
@@ -107,7 +107,7 @@ class StatesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroyState(State $state)
+    public function destroy(State $state)
     {
         $state->delete();
         $alerted = Alert::success('State Deleted', 'The state has been deleted'); 

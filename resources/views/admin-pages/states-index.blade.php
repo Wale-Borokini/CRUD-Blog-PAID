@@ -24,9 +24,9 @@
         <div class="container account-container custom-account-container">
             <div class="row">					
                 <div class="col-lg-12">
-                    <table class="table table-striped table-responsive">
+                    <table class="table text-center table-striped table-responsive">
                         <thead>
-                            <tr>
+                            <tr>                                
                                 <th>State</th>
                                 <th>Country</th>                               
                                 <th>City Count</th>
@@ -37,29 +37,32 @@
                                 <th>Delete</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody>                                 
+                                                                            
+
                             @foreach($states as $state)
-                                <tr>
+                                <tr>                                    
                                     <td><strong>{{$state->name}}</strong></td> 
                                     <td>{{$state->country->name}}</td>                                    	
                                     <td>{{$state->cities_count}}</td>	
                                     <td>{{$state->posts_count}}</td>									
                                     <td>{{$state->added_by}}</td>
                                     <td><a class="btn btn-success btn-sm" href="{{ route('states.show', $state->slug) }}">Details</a></td>
-                                    <td><a class="btn btn-primary btn-sm" href="{{ route('edit-state', $state->slug) }}">Edit</a></td>
+                                    <td><a class="btn btn-primary btn-sm" href="{{ route('states.edit', $state->slug) }}">Edit</a></td>
                                     <td>
-                                        <form class="delete-form" action="{{ route('state.delete', $state->slug) }}" method="post">
+                                        <form class="delete-form" action="{{ route('states.destroy', $state->slug) }}" method="post">
                                             @csrf
                                             @method('DELETE')                                        
                                             <button type="submit" class="delete-button btn btn-danger btn-sm">Delete</button>
                                         </form> 
                                     </td>                         
                                 </tr>
-                            @endforeach         
+                            @endforeach                                                        
                         </tbody>
-                    </table>
-                </div>
-            </div><!-- End .row -->
+                    </table>                    
+                        {{ $states->links() }}                                     
+                </div>                            
+            </div><!-- End .row -->           
         </div><!-- End .container -->
         
     </main><!-- End .main -->

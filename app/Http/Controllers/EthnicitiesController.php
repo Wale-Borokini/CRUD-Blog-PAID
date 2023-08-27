@@ -64,7 +64,7 @@ class EthnicitiesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function editEthnicity(Ethnicity $ethnicity)
+    public function edit(Ethnicity $ethnicity)
     {
         $title = 'Edit Ethnicity';
         return view('admin-pages.edit-ethnicity')->with(compact('title', 'ethnicity'));
@@ -73,7 +73,7 @@ class EthnicitiesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateEthnicity(Request $request, Ethnicity $ethnicity)
+    public function update(Request $request, Ethnicity $ethnicity)
     {
         $this->validate($request, [
             'name' => 'required|unique:ethnicities,name'            
@@ -95,7 +95,7 @@ class EthnicitiesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroyEthnicity(Ethnicity $ethnicity)
+    public function destroy(Ethnicity $ethnicity)
     {
         $ethnicity->delete();        
         $alerted = Alert::success('Ethnicity Deleted', 'The ethnicity has been deleted'); 

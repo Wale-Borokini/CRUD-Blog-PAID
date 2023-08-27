@@ -12,43 +12,45 @@
             <div class="container d-flex flex-column align-items-center">					
                 <h1>Personal Attributes</h1>
             </div>
+			<div class="text-center mt-1">
+                <a href="{{route('admin-dashboard')}}" class="btn btn-outline-dark btn-md">Admin Dashboard</a>
+            </div>   
         </div>
-
         
-            <div class="section-elements" style="background: #f4f4f4;">
-				<div class="container">					
-					<div class="row justify-content-center">
-						<div class="col-sm-6 col-lg-4">
-							<a href="{{route('ethnicities.index')}}" class="icon-box">
-								<i class="fa fa-bars"></i>
-								<h5 class="porto-sicon-title">Ethnicities</h5>
-								<i class="fa fa-bars"></i>
-							</a>
-						</div>
-						<div class="col-sm-6 col-lg-4">
-							<a href="{{route('genders.index')}}" class="icon-box">
-								<i class="fa fa-exclamation-triangle"></i>
-								<h5 class="porto-sicon-title">Genders</h5>
-								<i class="fa fa-exclamation-triangle"></i>
-							</a>
-						</div>
-						<div class="col-sm-6 col-lg-4">
-							<a href="{{route('hairs.index')}}" class="icon-box">
-								<i class="fa fa-cart-arrow-down"></i>
-								<h5 class="porto-sicon-title">Hairs</h5>
-								<i class="fa fa-cart-arrow-down"></i>
-							</a>
-						</div>		
-                        <div class="col-sm-6 col-lg-4">
-							<a href="{{route('eyes.index')}}" class="icon-box">
-								<i class="fa fa-cart-arrow-down"></i>
-								<h5 class="porto-sicon-title">Eyes</h5>
-								<i class="fa fa-cart-arrow-down"></i>
-							</a>
-						</div>																					
+		<div class="section-elements" style="background: #f4f4f4;">
+			<div class="container">					
+				<div class="row justify-content-center">
+					<div class="col-sm-6 col-lg-4">
+						<a href="{{route('ethnicities.index')}}" class="icon-box">
+							<i class="fa fa-bars"></i>
+							<h5 class="porto-sicon-title">Ethnicities</h5>
+							<i class="fa fa-bars"></i>
+						</a>
 					</div>
+					<div class="col-sm-6 col-lg-4">
+						<a href="{{route('genders.index')}}" class="icon-box">
+							<i class="fa fa-exclamation-triangle"></i>
+							<h5 class="porto-sicon-title">Genders</h5>
+							<i class="fa fa-exclamation-triangle"></i>
+						</a>
+					</div>
+					<div class="col-sm-6 col-lg-4">
+						<a href="{{route('hairs.index')}}" class="icon-box">
+							<i class="fa fa-cart-arrow-down"></i>
+							<h5 class="porto-sicon-title">Hairs</h5>
+							<i class="fa fa-cart-arrow-down"></i>
+						</a>
+					</div>		
+					<div class="col-sm-6 col-lg-4">
+						<a href="{{route('eyes.index')}}" class="icon-box">
+							<i class="fa fa-cart-arrow-down"></i>
+							<h5 class="porto-sicon-title">Eyes</h5>
+							<i class="fa fa-cart-arrow-down"></i>
+						</a>
+					</div>																					
 				</div>
 			</div>
-        
+		</div>
+	
     </main><!-- End .main -->
 @endsection
