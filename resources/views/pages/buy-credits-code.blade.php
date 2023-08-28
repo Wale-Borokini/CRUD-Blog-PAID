@@ -83,7 +83,7 @@
                 icon: 'success',
                 title: 'Wallet Address Copied',
                 text: 'The wallet address has been copied to your clipboard.',
-                timer: 4000, // Set the duration in milliseconds (e.g., 2000 ms = 2 seconds)
+                timer: 4000,
                 showConfirmButton: true // Hide the "OK" button
             });
             
