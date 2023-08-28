@@ -1,0 +1,105 @@
+@extends('layouts.app')
+
+@section('content')
+
+<main class="min-height-page main">
+    <div class="page-header">
+        <div class="container d-flex flex-column align-items-center">					
+            <h1>Credit User</h1>
+        </div>
+        <div class="text-center mt-1">
+            <a href="{{route('admin-dashboard')}}" class="btn btn-outline-dark btn-md">Admin Dashboard</a>                
+        </div> 
+        <div class="text-center mt-1">
+            <a href="{{route('transaction-menu')}}" class="btn btn-outline-info btn-md">Transaction Menu</a>                
+        </div>              
+    </div>
+    <div class="container">                
+        <div class="product-single-container product-single-default mt-4 mb-2">                    
+            <div class="row">                        
+                <div class="col-lg-12 col-md-6 product-single-details">
+                    <div class="mt-2">
+                        <h4>Username: <span class="bg-light">{{$user->username}}</span></h4>
+                        <h4>Email: <span class="bg-light">{{$user->email}}</span></h4>
+                    </div>
+                    <div class="price-box">                                
+                        <h2>Balance: ${{$user->credit_balance}}</h2>
+                    </div>                            
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <button class="btn btn-success btn-ellipse btn-xs" disabled>Credit</button>
+                            </div>
+
+                            <form id="credit-form" method="POST" action="{{ route('admin.credit.user', $user->slug) }}">
+                                @csrf
+                                <label for="amount">
+                                    Enter an Amount
+                                    <span class="required">*</span>
+                                </label>
+                                <input name="amount" type="number" step="0.01"  class="form-control @error('amount') is-invalid @enderror" required/>
+                                @error('amount')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                <div class="mt-2">
+                                    <button type="submit" class="btn btn-info btn-lg">
+                                        Credit
+                                    </button>
+                                </div>									
+                            </form>
+                        </div>                              
+                    </div>
+                    <hr class="short-divider">
+                    <div class="mt-2">
+                        <div class="mt-0">
+                            <h3>Profile Summary</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <ul class="single-info-list">                                            
+                                    <li>
+                                        <strong>Number of Posts: </strong>{{$user->posts->count()}}
+                                    </li> 
+                                    <li>
+                                        <strong>Joined, </strong>{{$user->created_at->diffForHumans()}}
+                                    </li>                                            
+                                </ul>
+                            </div>                                                                       
+                        </div>                                                                              
+                    </div>                                                                                                   
+                    <hr class="divider mb-0 mt-0">                                                       
+                </div>                                                
+            </div>
+            <!-- End .row -->
+        </div>
+        <!-- End .product-single-container -->                                              
+    </div>
+    <!-- End .container -->
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const creditForm = document.getElementById('credit-form');
+                   
+        creditForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            Swal.fire({
+                title: 'Confirm Credit',
+                text: 'Are you sure you want to credit this user?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, credit!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form
+                    this.submit();
+                }
+            });
+        });
+    });
+</script>
+    
+@endsection

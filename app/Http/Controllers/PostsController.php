@@ -80,7 +80,7 @@ class PostsController extends Controller
             $post->gender_id = $request->gender_id;
             $post->ethnicity_id = $request->ethnicity_id;
             $post->hair_id = $request->hair_id;
-            $post->eyes_id = $request->eyes_id;
+            $post->eye_id = $request->eye_id;
             $post->height = $request->height;
             $post->availability = $request->availability;
             $post->availability_details = $request->availability_details;

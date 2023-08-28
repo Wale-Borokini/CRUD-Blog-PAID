@@ -22,7 +22,7 @@
                                 </h2>
                                 <div class="post-content">
                                     @foreach ($state->cities as $city)                                        
-                                        <a href="{{ route('city.show-posts', $city->name) }}"><p>{{$city->name}}</p></a> 
+                                        <a href="{{ route('city.show-posts', $city->slug) }}"><p>{{$city->name}}</p></a> 
                                     @endforeach                                       
                                 </div><!-- End .post-content -->								
                             </div><!-- End .post-body -->

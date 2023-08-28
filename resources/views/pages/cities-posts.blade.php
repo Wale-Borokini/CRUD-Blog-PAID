@@ -10,7 +10,26 @@
                         <h4 class="section-sub-title">Posts</h4>
                     </div>
                     @foreach ($city->posts as $post)
-                    <div class="product-reviews-content">
+                    <div class="col-12">
+                        <div class="testimonial testimonial-border testimonial-type4">     
+                            <a href="{{ route('post-details', $post->slug) }}">                       
+                            <div class="testimonial-owner">
+                                <figure class="max-width-none">
+                                    @if ($post->images->count() > 0) 
+                                        <img src="{{asset( $post->images->first()->image_url )}}" alt="post_image" width="40" height="40">
+                                    @endif
+                                </figure>
+                                <div>
+                                    <strong class="testimonial-title">{{$post->post_title}}</strong>
+                                    <span>{{str_limit(strip_tags($post->post_description), 30)}}</span>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+
+
+                    {{-- <div class="product-reviews-content">
                         <div class="comment-list">
                             <div class="comments">
                                 <figure class="img-thumbnail">
@@ -30,7 +49,7 @@
                                             </div>
                                             <!-- End .product-ratings -->
                                         </div> --}}
-
+{{-- 
                                         <span class="comment-by">
                                             <strong>{{$post->post_title}}</strong>
                                         </span>
@@ -42,7 +61,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}} 
                     @endforeach
                     
                         {{-- <div class="product-default left-details product-widget">

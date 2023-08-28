@@ -161,10 +161,10 @@
                             </select>			
                         </div>
                         <div class="col-lg-3">
-                            <label for="eyes_id">
+                            <label for="eye_id">
                                 Eyes									
                             </label>
-                            <select name="eyes_id" id="eyes_id" class="form-control @error('eyes_id') is-invalid @enderror" value="{{ old('eyes_id') }}" autocomplete="eyes_id" autofocus>
+                            <select name="eye_id" id="eye_id" class="form-control @error('eye_id') is-invalid @enderror" value="{{ old('eye_id') }}" autocomplete="eye_id" autofocus>
                                 <option value="" selected disabled>Select eye color</option>
                                 @foreach ($eyes as $eye)     
                                     <option value="{{$eye->id}}">{{$eye->name}}</option>

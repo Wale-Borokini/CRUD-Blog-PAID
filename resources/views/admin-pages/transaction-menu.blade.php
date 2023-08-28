@@ -29,14 +29,14 @@
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
-							<a href="#" class="icon-box">
+							<a href="{{route('credit-user')}}" class="icon-box">
 								<i class="fa fa-exclamation-triangle"></i>
 								<h5 class="porto-sicon-title">Credit User</h5>
 								<i class="fa fa-exclamation-triangle"></i>
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
-							<a href="#" class="icon-box">
+							<a href="{{route('debit-user')}}" class="icon-box">
 								<i class="fa fa-cart-arrow-down"></i>
 								<h5 class="porto-sicon-title">Debit User</h5>
 								<i class="fa fa-cart-arrow-down"></i>

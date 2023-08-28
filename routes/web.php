@@ -12,6 +12,7 @@ use App\Http\Controllers\EthnicitiesController;
 use App\Http\Controllers\HairsController;
 use App\Http\Controllers\EyesController;
 use App\Http\Controllers\PlansController;
+use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\FetchLocationsController;
 use App\Http\Controllers\AdminController;
 
@@ -38,7 +39,7 @@ use App\Http\Controllers\AdminController;
 
 
 //Show posts in cities
-Route::get('/city/{city}', [CitiesController::class, 'showPosts'])->name('city.show-posts');
+Route::get('/city/{city:slug}', [CitiesController::class, 'showPosts'])->name('city.show-posts');
 Route::get('/post-details/{slug}', [CitiesController::class, 'viewPostDetails'])->name('post-details');
 
 
@@ -73,8 +74,6 @@ Route::group([ 'middleware' => ['auth']], function() {
     Route::get('/get-states/{country_id}', [FetchLocationsController::class, 'getStateByCountry']);
     Route::get('/get-cities/{state_id}', [FetchLocationsController::class, 'getCitiesByState']);
 
-
-
     Route::get('/create-post', [PostsController::class, 'viewCreatePostPage'])->name('create-post');
     Route::post('/create-post', [PostsController::class, 'createPost'])->name('create.post');
 
@@ -87,7 +86,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Admin middleware
     Route::resource('countries', CountriesController::class);   
     Route::resource('states', StatesController::class);    
-    Route::resource('cities', CitiesController::class);    
+    Route::resource('cities', CitiesController::class); 
+
     Route::resource('genders', GendersController::class);
     Route::resource('ethnicities', EthnicitiesController::class);
     Route::resource('hairs', HairsController::class);
@@ -95,7 +95,21 @@ Route::middleware(['auth', 'admin'])->group(function () {
     
     Route::resource('plans', PlansController::class);
 
+    Route::resource('plans', TransactionsController::class);
+
     Route::get('/admin-dashboard', [AdminController::class, 'viewAdminDashboardPage'])->name('admin-dashboard');
+    //All Users
+    Route::get('/all-users', [AdminController::class, 'viewAllUsersPage'])->name('all-users');
+    Route::get('/user-details/{user:slug}', [AdminController::class, 'viewUserDetailsPage'])->name('user-details');
+    //Credit Users
+    Route::get('/credit-user', [AdminController::class, 'viewCreditUserPage'])->name('credit-user');    
+    Route::get('/credit-user-cash/{user:slug}', [AdminController::class, 'creditUserCashPage'])->name('credit.cash');
+    Route::post('credit-user-cash/{user:slug}', [AdminController::class, 'creditUserTransaction'])->name('admin.credit.user');
+    // Debit Users
+    Route::get('/debit-user', [AdminController::class, 'viewDebitUserPage'])->name('debit-user');    
+    Route::get('/debit-user-cash/{user:slug}', [AdminController::class, 'debitUserCashPage'])->name('debit.cash');
+    Route::post('debit-user-cash/{user:slug}', [AdminController::class, 'debitUserTransaction'])->name('admin.debit.user');
+
     Route::get('/add-locations', [AdminController::class, 'viewAddLocationsPage'])->name('add-locations');
     Route::get('/personal-attributes', [AdminController::class, 'viewPersonalAttributesPage'])->name('personal-attributes');
     Route::get('/transaction-menu', [AdminController::class, 'viewTransactionMenuPage'])->name('transaction-menu');

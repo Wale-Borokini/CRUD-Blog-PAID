@@ -21,7 +21,7 @@
                         <div class="prod-thumbnail owl-dots">
                             @foreach($post->images as  $postImage)
                                 <div class="owl-dot">
-                                    <img src="{{asset($postImage->image_url)}}" width="110" height="110" alt="product-thumbnail" />
+                                    <img src="{{asset($postImage->image_url)}}" width="100" height="100" alt="product-thumbnail" />
                                 </div>    
                             @endforeach                       
                         </div>
@@ -42,31 +42,31 @@
                                 <div class="col-lg-6">
                                     <ul class="single-info-list">                                            
                                         <li>
-                                            <strong>Gender: </strong>{{$post->gender->name}}
+                                            <strong>Gender: </strong>{{$post->gender->name ?? 'N/A'}}
                                         </li>
 
                                         <li>
-                                            <strong>Age: </strong>{{$post->age}}
+                                            <strong>Age: </strong>{{$post->age ?? 'N/A'}}
                                         </li>
 
                                         <li>
-                                            <strong>Height:</strong> {{$post->height}}
+                                            <strong>Height:</strong> {{$post->height ?? 'N/A'}}
                                         </li>
                                         <li>
-                                            <strong>Hair:</strong> {{$post->hair->name}}
+                                            <strong>Hair:</strong> {{$post->hair->name ?? 'N/A'}}
                                         </li>                                        
                                     </ul>
                                 </div>  
                                 <div class="col-lg-6">
                                     <ul class="single-info-list">
                                         <li>
-                                            <strong>Eyes:</strong> {{$post->eye->name}}
+                                            <strong>Eyes:</strong> {{$post->eye->name ?? 'N/A'}}
                                         </li>                                    
                                         <li>
-                                            <strong>Ethnicity:</strong> {{$post->ethnicity->name}}
+                                            <strong>Ethnicity:</strong> {{$post->ethnicity->name ?? 'N/A'}}
                                         </li>
                                         <li>
-                                            <strong>Availability:</strong> {{$post->availability}}
+                                            <strong>Availability:</strong> {{$post->availability ?? 'N/A'}}
                                         </li>                                        
                                     </ul>
                                 </div>                                    
@@ -75,7 +75,7 @@
 
                         <div class="product-desc">
                             <p>
-                                {{$post->post_description}}
+                                {{$post->post_description ?? 'N/A'}}
                             </p>
                         </div>
                         <!-- End .product-desc -->                                                 
@@ -87,20 +87,20 @@
                             <h3>Contact</h3>
                         </div>
                         <div class="mt-1">
-                            <button type="button" class="btn btn-dark">{{$post->phone_number}}</button>
+                            <button type="button" class="btn btn-dark">{{$post->phone_number ?? 'N/A'}}</button>
                         </div> 
                         <div class="mt-1">
-                            <button type="button" class="btn btn-dark">{{$post->email}}</button>
+                            <button type="button" class="btn btn-dark">{{$post->email ?? 'N/A'}}</button>
                         </div> 
                         <div class="mt-2">
                             <p> {{$post->address}}</p>
                         </div>                          
                         <div class="price-box mt-2">                                
                             <h3>Availability Details</h3>
-                            <p>{{$post->availability_details}}</p>
+                            <p>{{$post->availability_details ?? 'N/A'}}</p>
                         </div>
                         <div class="mt-3">                                                                
-                            <p>Posted on 24-09-2022</p>
+                            <p>Posted, {{$post->created_at->diffForHumans()}}</p>
                         </div>                 
                     </div> 
                     <!-- End .product-single-details -->

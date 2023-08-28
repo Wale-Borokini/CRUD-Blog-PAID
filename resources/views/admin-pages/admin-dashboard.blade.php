@@ -19,7 +19,7 @@
 				<div class="container">					
 					<div class="row justify-content-center">
 						<div class="col-sm-6 col-lg-4">
-							<a href="element-accordions.html" class="icon-box">
+							<a href="{{Route('all-users')}}" class="icon-box">
 								<i class="fa fa-bars"></i>
 								<h5 class="porto-sicon-title">All Users</h5>
 								<i class="fa fa-bars"></i>
