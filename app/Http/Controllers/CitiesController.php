@@ -127,10 +127,10 @@ class CitiesController extends Controller
     public function showPosts(string $slug)
     {
 
-        $city = City::where('slug', $slug)->firstOrFail();
-        $city->load('posts'); //post relationship in the City model
+        $city = City::where('slug', $slug)->with('state')->firstOrFail();
+        $posts = $city->posts()->orderBy('created_at', 'desc')->cursorPaginate(50);        
 
-        return view('pages.cities-posts', compact('city'));
+        return view('pages.cities-posts', compact('city', 'posts'));
     }
 
     public function viewPostDetails($slug)

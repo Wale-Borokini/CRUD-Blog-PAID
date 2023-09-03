@@ -29,7 +29,9 @@ class StorePostRequest extends FormRequest
             'post_description' => 'required',
             'name' => 'required',
             'age' => 'required',
-            'posting_plan_id' => 'required'
+            'posting_plan_id' => 'required',
+            'image_url' => 'array|max:4',
+            'image_url.*' => 'image|mimes:jpeg,png,jpg,gif|max:15048',
         ];
     }
     
@@ -40,7 +42,12 @@ class StorePostRequest extends FormRequest
             'country_id.required' => 'The Country field is required.',
             'state_id.required' => 'The State field is required.',
             'city_id.required' => 'The City field is required.',
-            'posting_plan_id.required' => 'The Posting Plan field is required.'
+            'posting_plan_id.required' => 'The Posting Plan field is required.',
+            'image_url.array' => 'Please upload images.',
+            'image_url.max' => 'You can upload a maximum of 4 images.',
+            'image_url.*.image' => 'Please upload a valid image.',
+            'image_url.*.mimes' => 'The image must be a JPEG, PNG, JPG, or GIF.',
+            'image_url.*.max' => 'The image size must not exceed 15 MB.',
                      
         ];
     }

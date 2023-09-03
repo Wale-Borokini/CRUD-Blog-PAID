@@ -2095,7 +2095,7 @@ aside .banner {
 
 .btn {
   transition: all 0.3s;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   padding: 1.9rem 4.8rem;
   border-radius: 0;
   font-size: 1.4rem;
@@ -7921,8 +7921,7 @@ a:focus {
 }
 
 .section-sub-title {
-  font-size: 1.6rem;
-  text-transform: uppercase;
+  font-size: 1.6rem;  
 }
 
 .text-transform-none {
@@ -10403,9 +10402,9 @@ footer .contact-info-label {
     padding: 0;
   }
 
-  .header-search {
+  /* .header-search {
     display: none;
-  }
+  } */
 }
 @media (max-width: 479px) {
   .header-icon:not(:last-child) {

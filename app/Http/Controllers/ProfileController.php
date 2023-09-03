@@ -21,7 +21,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $userPosts = auth()->user()->posts;
+        $userPosts = auth()->user()->posts()->orderBy('created_at', 'desc')->cursorPaginate(50);
         return view('pages.profile', compact('userPosts'));
     }
 

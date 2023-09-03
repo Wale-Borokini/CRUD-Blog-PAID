@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+
     <main class="min-height-page main">			
         <div class="container login-container">				
             <div class="col-lg-10 mx-auto">
@@ -68,7 +70,7 @@
                                 Advert Title
                                 <span class="required">*</span>
                             </label>
-                            <input name="post_title" id="post_title" type="text" class="form-control @error('post_title') is-invalid @enderror" value="{{ old('post_title') }}" autocomplete="post_title" autofocus required/>
+                            <textarea name="post_title" id="post_title" type="text"></textarea>
                             @error('post_title')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -80,7 +82,7 @@
                                 Description
                                 <span class="required">*</span>
                             </label>
-                            <textarea name="post_description" id="post_description" class="form-control @error('post_description') is-invalid @enderror" value="{{ old('post_description') }}" autocomplete="post_description" autofocus  rows="3" required></textarea>
+                            <textarea name="post_description" id="post_description"></textarea>
                             @error('post_description')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -195,17 +197,21 @@
                             <label for="availability_details">
                                 Rates and Availability Details								
                             </label>
-                            <textarea name="availability_details" id="availability_details" class="form-control @error('availability_details') is-invalid @enderror" value="{{ old('availability_details') }}" autocomplete="availability_details" autofocus  rows="3"></textarea>
+                            <textarea name="availability_details" id="availability_details"></textarea>
                         </div>							
                     </div>
                     <div class="mt-2">
                         <h4>Upload Your Images</h4>
+                        <p><i>Maximum number of images (4)</i></p>
                     </div>
                     <div class="row">
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="exampleFormControlFile1">Image(s)</label>
-                                <input name="image_url[]" type="file" id="files" class="form-control-file" multiple value="{{ old('image_url[]') }}">
+                                <input name="image_url[]" type="file" id="files" class="form-control-file" multiple value="{{ old('image_url[]') }}">                                
+                                @error('image_url')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>													
                         </div>																			
                     </div>
@@ -230,10 +236,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                        {{-- <div class="bg-danger">
-                            <p class="error-message" style="display: none; color: white;">Please select at least one posting plan.</p>
-                        </div> --}}                                													
+                        @endforeach                                                     													
                     </div>
                     <div class="error-message alert alert-rounded alert-danger" id="posting-plan-error" style="display: none;">
                         <i class="fa fa-exclamation-circle" style="color: #ef8495;"></i>
@@ -263,8 +266,69 @@
             </div>				
         </div>
     </main><!-- End .main -->
-
+    
+    {{-- CKeditor --}}
+    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/44.0.0/classic/ckeditor.js"></script> --}}
+    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script> --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
     <script>
+        ClassicEditor
+            .create(document.querySelector('#post_title'), {
+                toolbar: []
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#post_description'), {
+                toolbar: []
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#availability_details'), {
+                toolbar: []
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputElement = document.getElementById("files");
+            
+            inputElement.addEventListener("change", function() {
+                const files = inputElement.files;
+                let valid = true;
+                
+                if (files.length > 4) {
+                    valid = false;
+                }
+                
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    
+                    if (!file.type.match(/image\/jpeg|image\/jpg|image\/png/) || file.size > 15000000) {
+                        valid = false;
+                        break;
+                    }
+                }
+                
+                if (!valid) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Please make sure you upload a maximum of 4 JPEG, JPG, or PNG images and each image size is less than 15MB.",
+                    });
+                    // Clear the input
+                    inputElement.value = "";
+                }
+            });
+        });
+
+
         const getElementById = id => document.getElementById(id);
     
         const countrySelect = getElementById('country_id');

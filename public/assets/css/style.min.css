@@ -2969,7 +2969,7 @@ aside .banner {
 
 .btn {
     transition: all 0.3s;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     padding: 1em 1.6em;
     border-radius: 0;
     font-size: 1.4rem;
@@ -11324,7 +11324,7 @@ a:hover {
 
 .section-sub-title {
     font-size: 1.6rem;
-    text-transform: uppercase
+    
 }
 
 @media (min-width:768px) {
@@ -14302,9 +14302,9 @@ footer .contact-info-label {
         padding: 0
     }
 
-    .header-search {
+    /* .header-search {
         display: none
-    }
+    } */
 }
 
 @media (max-width:479px) {
@@ -22173,7 +22173,7 @@ p {
 
 .testimonial-type4 .testimonial-owner {
     align-items: center;
-    margin: 12px 0 15px 30px
+    margin: 12px 0 15px 10px
 }
 
 .testimonial-type4 .testimonial-owner figure {

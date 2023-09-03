@@ -5,33 +5,35 @@
         <div class="container">                
             <div class="product-single-container product-single-default mt-4 mb-2">                    
                 <div class="row">
+                   
                     <div class="col-lg-4 col-md-6 product-single-gallery">
-                        <div class="product-slider-container">                             
-                            <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
-                                @foreach($post->images as  $postImage)
-                                    <div class="product-item">
-                                        <img class="product-single-image" src="{{asset($postImage->image_url)}}" width="468" height="468" alt="product" />
-                                    </div>
-                                @endforeach
+                        @if ($post->images->count() > 0) 
+                            <div class="product-slider-container">                             
+                                <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
+                                    @foreach($post->images as  $postImage)
+                                        <div class="product-item">
+                                            <img style="max-height:600px;" class="product-single-image" src="{{asset($postImage->image_url)}}" width="468" height="468" alt="product" />
+                                        </div>
+                                    @endforeach
+                                </div>                                                               
                             </div>
-                            <!-- End .product-single-carousel -->
-                            
-                        </div>
 
-                        <div class="prod-thumbnail owl-dots">
-                            @foreach($post->images as  $postImage)
-                                <div class="owl-dot">
-                                    <img src="{{asset($postImage->image_url)}}" width="100" height="100" alt="product-thumbnail" />
-                                </div>    
-                            @endforeach                       
-                        </div>
+                            <div class="prod-thumbnail owl-dots">
+                                @foreach($post->images as  $postImage)
+                                    <div class="owl-dot">
+                                        <img style="height:100px;" src="{{asset($postImage->image_url)}}" width="100" height="100" alt="product-thumbnail" />
+                                    </div>    
+                                @endforeach                       
+                            </div>
+                        @elseif($post->images->count() < 1)
+                            <h3 class="product-title"><i>No Images</i></h3> 
+                        @endif  
                     </div>
-                    <!-- End .product-single-gallery -->
-
+                                    
                     <div class="col-lg-5 col-md-6 product-single-details">
                         <h1 class="product-title">{{$post->name}}</h1>                                                                                
                         <div class="price-box">                                
-                            <span class="new-price">{{$post->city->name}}, {{$post->state->name}}</span>
+                            <a href="{{ route('city.show-posts', $post->city->slug) }}"><span class="new-price">{{$post->city->name}}, {{$post->state->name}}</span></a>
                         </div>
                         <hr class="short-divider">
                         <div class="mt-2">
@@ -73,9 +75,10 @@
                             </div>                                                                              
                         </div>
 
-                        <div class="product-desc">
+                        <div class="price-box">
+                            <h4 class="text-warning">{!! strip_tags($post->post_title) !!}</h4>
                             <p>
-                                {{$post->post_description ?? 'N/A'}}
+                                {!! $post->post_description ?? 'N/A' !!}
                             </p>
                         </div>
                         <!-- End .product-desc -->                                                 
@@ -97,7 +100,9 @@
                         </div>                          
                         <div class="price-box mt-2">                                
                             <h3>Availability Details</h3>
-                            <p>{{$post->availability_details ?? 'N/A'}}</p>
+                            <p>
+                                {!! $post->availability_details ?? 'N/A' !!}
+                            </p>
                         </div>
                         <div class="mt-3">                                                                
                             <p>Posted, {{$post->created_at->diffForHumans()}}</p>

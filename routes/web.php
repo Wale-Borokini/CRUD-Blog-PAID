@@ -77,6 +77,17 @@ Route::group([ 'middleware' => ['auth']], function() {
     Route::get('/create-post', [PostsController::class, 'viewCreatePostPage'])->name('create-post');
     Route::post('/create-post', [PostsController::class, 'createPost'])->name('create.post');
 
+    Route::get('/edit-post/{post:slug}', [PostsController::class, 'edit'])->name('post.edit');
+    Route::put('/edit-post/{post:slug}', [PostsController::class, 'update'])->name('post.update');
+    
+    Route::get('/add-delete-post-image/{post:slug}', [PostsController::class, 'addDeletePostImage'])->name('add-delete-post-image');
+    Route::post('/upload-image-edit', [PostsController::class, 'uploadImageEdit'])->name('upload-image-edit');
+
+    Route::delete('/delete-post/{post:slug}', [PostsController::class, 'delete'])->name('post.delete');
+
+    Route::get('/delete-post-image/{image}', [PostsController::class, 'deletePostImage'])->name('delete-post-image');
+
+
     
                
 });

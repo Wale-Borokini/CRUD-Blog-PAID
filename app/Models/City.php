@@ -64,4 +64,9 @@ class City extends Model
         return $this->belongsTo(State::class);
     }
 
+    public function siblingCities()
+    {
+        return $this->state->cities()->where('id', '<>', $this->id);
+    }
+
 }
