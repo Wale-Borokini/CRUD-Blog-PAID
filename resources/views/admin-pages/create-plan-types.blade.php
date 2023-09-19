@@ -57,6 +57,31 @@
                                 @enderror
                             </div>
                             <div class="col-lg-12">
+                                <label for="duration">
+                                    Duration(Number of days)
+                                    <span class="required">*</span>
+                                </label>
+                                <input placeholder="7" name="duration" id="duration" type="number" class="form-control @error('duration') is-invalid @enderror" value="{{ old('duration') }}" autocomplete="duration" autofocus required/>
+                                @error('duration')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div> 
+                            <div class="col-lg-12">
+                                <label for="priority">
+                                    Priority
+                                    <span class="required">*</span>
+                                </label>
+                                <input placeholder="50" name="priority" id="priority" type="number" class="form-control @error('priority') is-invalid @enderror" value="{{ old('priority') }}" autocomplete="priority" autofocus required/>
+                                @error('priority')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="col-lg-12">
                                 <label for="description">
                                     Description
                                     <span class="required">*</span>

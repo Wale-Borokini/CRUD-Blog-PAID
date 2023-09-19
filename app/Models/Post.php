@@ -14,6 +14,7 @@ use App\Models\Gender;
 use App\Models\Ethnicity;
 use App\Models\Hair;
 use App\Models\Eye;
+use App\Models\Plan;
 
 class Post extends Model
 {
@@ -47,6 +48,11 @@ class Post extends Model
         }
 
         return $slug;
+    }
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class, 'posting_plan_id');
     }
 
 

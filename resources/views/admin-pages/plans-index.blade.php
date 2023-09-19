@@ -10,7 +10,7 @@
     <main class="min-height-page main">
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
-                <h1>All Posting Plans</h1>
+                <h1>All Posting Plans ({{ $plans->count() }})</h1>
             </div>
             <div class="text-center mt-1">
                 <a href="{{route('transaction-menu')}}" class="btn btn-outline-dark btn-md">Transaction Menu</a>                
@@ -28,7 +28,9 @@
                         <thead>
                             <tr>
                                 <th>Plan Type</th>  
-                                <th>Plan Price</th>                               
+                                <th>Plan Price</th>
+                                <th>Duration in days</th> 
+                                <th>Priority</th>                               
                                 <th>Plan Title</th>                                
                                 <th>Description</th>
                                 <th>Added By</th>
@@ -40,7 +42,9 @@
                             @foreach($plans as $plan)
                                 <tr>
                                     <td><strong>{{$plan->plan_type}}</strong></td>    
-                                    <td><strong>{{$plan->price}}</strong></td>                                    								
+                                    <td><strong>{{$plan->price}}</strong></td> 
+                                    <td><strong>{{$plan->duration}}</strong></td>   
+                                    <td><strong>{{$plan->priority}}</strong></td>                                    								
                                     <td>{{$plan->plan_title}}</td>  
                                     <td>{{$plan->description}}</td>
                                     <td>{{$plan->added_by}}</td>                                 

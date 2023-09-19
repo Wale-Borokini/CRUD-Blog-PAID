@@ -37,7 +37,14 @@
                                     </figure>
                                     <div>
                                         <strong class="testimonial-title">{{str_limit(strip_tags($post->post_title), 30)}}</strong>
-                                        <span>{{str_limit(strip_tags($post->post_description), 30)}}</span>
+                                        <span>{{str_limit(strip_tags($post->post_description), 30)}}</span>       
+                                        @if($post->post_priority == 1)                                 
+                                            <span class="mt-1"><i><small>Posted, {{$post->created_at->diffForHumans()}}</small></i></span>
+                                        @else
+                                            <span class="d-inline"><i class="icon-star"></i></span>
+                                            <span class="d-inline"><i class="icon-star"></i></span>
+                                            <span class="d-inline"><i class="icon-star"></i></span>
+                                        @endif
                                     </div>
                                 </div>
                                 </a>

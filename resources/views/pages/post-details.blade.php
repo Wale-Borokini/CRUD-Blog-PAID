@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .hover-red:hover {
+    color: red; 
+    cursor: pointer;
+}
+</style>
     <main class="min-height-page main">
         <div class="container">                
             <div class="product-single-container product-single-default mt-4 mb-2">                    
@@ -33,7 +39,7 @@
                     <div class="col-lg-5 col-md-6 product-single-details">
                         <h1 class="product-title">{{$post->name}}</h1>                                                                                
                         <div class="price-box">                                
-                            <a href="{{ route('city.show-posts', $post->city->slug) }}"><span class="new-price">{{$post->city->name}}, {{$post->state->name}}</span></a>
+                            <a class="hover-red" href="{{ route('city.show-posts', $post->city->slug) }}"><span class="new-price text-warning">{{$post->city->name}}, {{$post->state->name}}</span></a>
                         </div>
                         <hr class="short-divider">
                         <div class="mt-2">
@@ -90,10 +96,10 @@
                             <h3>Contact</h3>
                         </div>
                         <div class="mt-1">
-                            <button type="button" class="btn btn-dark">{{$post->phone_number ?? 'N/A'}}</button>
+                            <a href="tel:{{$post->phone_number}}" class="btn btn-dark text-white">{{$post->phone_number ?? 'N/A'}}</a>
                         </div> 
-                        <div class="mt-1">
-                            <button type="button" class="btn btn-dark">{{$post->email ?? 'N/A'}}</button>
+                        <div class="mt-1">                            
+                            <h5 class="bg-dark text-white p-2">{{$post->email ?? 'N/A'}}</h5>
                         </div> 
                         <div class="mt-2">
                             <p> {{$post->address}}</p>
@@ -104,8 +110,14 @@
                                 {!! $post->availability_details ?? 'N/A' !!}
                             </p>
                         </div>
-                        <div class="mt-3">                                                                
-                            <p>Posted, {{$post->created_at->diffForHumans()}}</p>
+                        <div class="mt-3">  
+                            @if($post->post_priority == 1)                                                              
+                                <p>Posted, {{$post->created_at->diffForHumans()}}</p>
+                            @else
+                            <span class="d-inline"><i class="icon-star"></i></span>
+                            <span class="d-inline"><i class="icon-star"></i></span>
+                            <span class="d-inline"><i class="icon-star"></i></span>
+                            @endif
                         </div>                 
                     </div> 
                     <!-- End .product-single-details -->

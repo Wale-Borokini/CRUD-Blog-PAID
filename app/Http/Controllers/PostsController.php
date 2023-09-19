@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\Image;
 use App\Models\Country;
@@ -20,20 +23,13 @@ use App\Models\Hair;
 use App\Models\Eye;
 use App\Models\Plan;
 use Purifier;
-use Illuminate\Support\Str;
 use Auth;
 use DB;
-Use Alert;
+use Alert;
 use File;
 
 class PostsController extends Controller
 {
-
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    //     // $this->middleware('my-middleware')->only(['index', 'create', 'store']);
-    // }
     
     public function viewCreatePostPage()
     {
@@ -55,97 +51,81 @@ class PostsController extends Controller
     public function createPost(StorePostRequest $request)
     {
         $request->validated();
-               
-        // Get the logged-in user
+
         $user = Auth::user();
-
         $postingPlanId = $request->input('posting_plan_id');
-        $postingPlanPrice = Plan::find($postingPlanId)->price;
+        $modelAge = $request->input('age');
 
-        if ($user->credit_balance >= $postingPlanPrice) {
-            // Deduct the posting plan price from the credit balance
-            $user->credit_balance -= $postingPlanPrice;
-            $user->save();
-        
-            
+        $plan = Plan::find($postingPlanId);
 
-            // $adminName = Auth::user()->name;
-            $userId = Auth::user()->id;
-            $post = new Post;
-            $post->user_id = $userId;
-            $post->country_id = $request->country_id;
-            // $post->body = Purifier::clean($request->body);
-            $post->state_id = $request->state_id;
-            $post->city_id = $request->city_id;
-            $post->post_title = Purifier::clean($request->post_title);
-            $post->post_description = Purifier::clean($request->post_description);
-            $post->age = $request->age;
-            $post->name = $request->name;
-            $post->phone_number = $request->phone_number;
-            $post->email = $request->email;
-            $post->gender_id = $request->gender_id;
-            $post->ethnicity_id = $request->ethnicity_id;
-            $post->hair_id = $request->hair_id;
-            $post->eye_id = $request->eye_id;
-            $post->height = $request->height;
-            $post->availability = $request->availability;
-            $post->availability_details = Purifier::clean($request->availability_details);
-            $post->address = $request->address;
-            $post->posting_plan_id = $request->posting_plan_id;
-            $post->valid_till = "2021-06-28 22:05:13";
-
-            $post->save();
-
-            if($request->hasfile('image_url'))
-            {  
-                // $this->validate($request, [
-                
-                //     'image_url.*' => ['mimes:jpeg,png,jpg,gif,svg|max:2048']
-                // ]);
-                                        
-                $imageNumbers = count($request->file('image_url'));
-                if( $imageNumbers > 4){
-                    return redirect()->back()->with('error', 'You can only upload a maximum of 4 images');
-                }
-
-
-                foreach ($request->file('image_url') as $imagefile) {
-                    $image = new Image;
-                
-                    $filenameWithExtPr = $imagefile->getClientOriginalName();
-                    // Get just filename
-                    $filenamePr = pathinfo($filenameWithExtPr, PATHINFO_FILENAME);
-                    // Get just ext
-                    $extensionPr = $imagefile->getClientOriginalExtension();
-                    // Filename to store
-                    $fileNameToStorePr= $filenamePr.'_'.time().'.'.$extensionPr;
-                    // Upload path
-                    $upload_path = 'post_images/';
-                    // Upload Image
-                    $path_url = $upload_path . $fileNameToStorePr;
-
-                    $success = $imagefile->move($upload_path, $fileNameToStorePr);
-
-                    $image->image_url = $path_url;
-                    $image->user_id = $userId;
-                    $image->post_id = $post->id;
-                    $image->save();
-                    
-                }
-
-            }
-                    
-            //$alerted = toast('Post Added', 'success');        
-            $alerted = Alert::success('Post Added', 'Your post has been added');   
-
-            return redirect()->back()->with('alerted');
-        }else{
-            $alerted = Alert::error('Insufficient Credit Balance', 'Your Credit Balance is too low to make this post');
-
+        if (!$plan) {
+            $alerted = Alert::error('Invalid Posting Plan', 'The selected posting plan does not exist.');
             return redirect()->back()->with('alerted');
         }
-        
 
+        if ($modelAge < 18) {
+            $alerted = Alert::error('You can\'t make this post', 'Escort must be 18 years or older.');
+            return redirect()->back()->with('alerted');
+        }
+
+        $postingPlanPrice = $plan->price;
+        $postingPlanDuration = $plan->duration;
+        $postingPlanPriority = $plan->priority;
+
+        if ($user->credit_balance < $postingPlanPrice) {
+            $alerted = Alert::error('Insufficient Credit Balance', 'Your Credit Balance is too low to make this post');
+            return redirect()->back()->with('alerted');
+        }
+
+        // Deduct the posting plan price from the credit balance
+        $user->credit_balance -= $postingPlanPrice;
+        $user->save();
+
+        $postFields = $request->only([
+            'country_id', 'state_id', 'city_id', 'post_title', 'post_description', 'age', 'name',
+            'phone_number', 'email', 'gender_id', 'ethnicity_id', 'hair_id', 'eye_id', 'height',
+            'availability', 'availability_details', 'address', 'posting_plan_id',
+        ]);
+
+        $postFields['user_id'] = $user->id;
+        $postFields['post_title'] = Purifier::clean($postFields['post_title']);
+        $postFields['post_description'] = Purifier::clean($postFields['post_description']);
+        $postFields['availability_details'] = Purifier::clean($postFields['availability_details']);
+        $postFields['post_priority'] = $postingPlanPriority;
+
+        if ($postingPlanDuration > 0) {
+            $postFields['expiration_date'] = now()->addDays($postingPlanDuration);
+        }
+
+        $post = Post::create($postFields);
+
+        if ($request->hasFile('image_url')) {
+            $imageNumbers = count($request->file('image_url'));
+            if ($imageNumbers > 4) {
+                $alerted = Alert::error('Error', 'You can only upload a maximum of 4 images');
+                return redirect()->back()->with('alerted');
+            }
+
+            foreach ($request->file('image_url') as $imagefile) {
+                $filenameWithExt = $imagefile->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $imagefile->getClientOriginalExtension();
+                $randSlug = Str::random(50);
+                $fileNameToStore = "{$randSlug}_" . time() . ".{$extension}";
+                $path_url = $imagefile->storeAs('public/images/post_images', $fileNameToStore);
+                $completeUrl = Storage::url($path_url);
+
+                $image = new Image([
+                    'image_url' => $completeUrl,
+                    'user_id' => $user->id,                
+                ]);
+
+                $post->images()->save($image);
+            }
+        }
+
+        $alerted =  Alert::success('Post Added', 'Your post has been added');
+        return redirect()->back()->with('alerted');
     }
 
     public function edit(Post $post)
@@ -158,140 +138,63 @@ class PostsController extends Controller
         $hairs = Hair::orderBy('name')->get()->unique('name');
         $eyes = Eye::orderBy('name')->get()->unique('name');
 
-        //return $post;
         return view('pages.edit-post')->with(compact('title', 'post', 'genders','ethnicities', 'hairs', 'eyes'));
 
-    }
+    }    
 
     public function update(Request $request, Post $post)
     {
-        // $request->validated();
-
-        $post->post_title = $request->post_title;
-        $post->post_description = $request->post_description;
-        $post->age = $request->age;
-        $post->name = $request->name;
-        $post->phone_number = $request->phone_number;
-        $post->email = $request->email;
-        $post->gender_id = $request->gender_id;
-        $post->ethnicity_id = $request->ethnicity_id;
-        $post->hair_id = $request->hair_id;
-        $post->eye_id = $request->eye_id;
-        $post->height = $request->height;
-        $post->availability = $request->availability;
-        $post->availability_details = $request->availability_details;
-        $post->address = $request->address;     
-
-        $post->save();
-
-        $alerted = Alert::success('Post Edited', 'Your post has been edited'); 
-
-        return redirect()->back()->with('alerted');
-        
-    }
-
-    public function addDeletePostImage(Post $post)
-    {
         $this->authorize('update-post', $post);
-       
-        $title = 'Add/Delete Image';       
-        
-        return view('pages.add-delete-post-image')->with(compact('post'));
 
-    }
+        $post->post_title = Purifier::clean($request->post_title);
+        $post->post_description = Purifier::clean($request->post_description);
+        $post->availability_details = Purifier::clean($request->availability_details);
 
-    public function uploadImageEdit(Request $request)
-    {                     
+        $fieldsToUpdate = $request->only([
+            'age', 'name', 'phone_number', 'email', 'gender_id','ethnicity_id', 'hair_id',
+            'eye_id', 'height', 'availability', 'address',
+        ]);
 
-        try {
-            $uploadedImages = [];
-            $userId = Auth::user()->id;
-            $postSlug = $request->post_slug; // Get the post slug from the request
-
-            // Retrieve the Post model based on the post slug
-            $post = Post::where('slug', $postSlug)->first();
-
-            if (!$post) {
-                return response()->json(['message' => 'Post not found'], 404);
-            }
-
-            // Check the total number of images associated with the post
-            $totalImagesCount = $post->images()->count(); // Count the images associated with the post
-
-            if ($totalImagesCount + count($request->file('images')) > 4) {
-                return response()->json(['message' => 'Maximum image limit exceeded'], 400);
-            }
-            
-
-            if ($request->hasFile('images') && $userId && $post) {
-                foreach ($request->file('images') as $imagefile) {
-                    if ($imagefile->isValid()) {
-                        $image = new Image;
-
-                        $filenameWithExt = $imagefile->getClientOriginalName();
-                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                        $extension = $imagefile->getClientOriginalExtension();
-                        $fileNameToStore = $filename.'_'.time().'.'.$extension;
-                        $upload_path = 'post_images/';
-                        $path_url = $upload_path . $fileNameToStore;
-
-                        $success = $imagefile->move($upload_path, $fileNameToStore);
-
-                        $image->image_url = $path_url;
-                        $image->user_id = $userId;
-                        $image->post_id = $post->id;
-                        $image->save(); // Save the image record in the database
-
-                        $uploadedImages[] = $image; // Add the uploaded image to the array
-                    }
-                }
-
-                // Prepare the image URLs array for the response
-                $imageUrls = [];
-                foreach ($uploadedImages as $image) {
-                    $imageUrls[] = asset($image->image_url);
-                }
-
-                return response()->json([
-                    'message' => 'Images uploaded successfully',
-                    'imageUrls' => $imageUrls,
-                ]);
-            } else {
-                return response()->json(['message' => 'Invalid request'], 400);
-            }
-        } catch (\Exception $e) {
-            Log::error('Image upload error: ' . $e->getMessage());
-
-            return response()->json(['message' => 'Error uploading images'], 500);
+        $modelAge = $request->input('age');
+        if ($modelAge < 18) {
+            $alerted = Alert::error('You can\'t make this post', 'Escort must be 18 years or older.');
+            return redirect()->back()->with('alerted');
         }
 
-    }
+        $post->fill($fieldsToUpdate)->save();
 
-    public function deletePostImage(Image $image)
-    {      
+        $alerted = Alert::success('Post Edited', 'Your post has been edited');
 
-        // Delete the image file from storage
-        File::delete($image->path);
-
-        // Delete the image record from the database
-        $image->delete();
-
-        // $alerted = Alert::success('Image Deleted', 'Your Image has been deleted'); 
-        // return redirect()->back()->with('alerted');
-        return response()->json(['message' => 'Image deleted successfully']);
-
-
+        return redirect()->back()->with('alerted');
     }
 
     public function delete(Post $post)
     {
+        $this->authorize('delete-post', $post);
+        // Delete the images from storage
+        foreach ($post->images as $image) {
+            $this->deleteImageFromStorage($image->image_url);
+        }
 
+        // Delete the post and its associated images from the database
+        $post->images()->delete();
         $post->delete();
-        $alerted = Alert::success('Post Deleted', 'Your post has been deleted'); 
+
+        $alerted = Alert::success('Post Deleted', 'Your post has been deleted');
         return redirect()->back()->with('alerted');
 
     }
        
+    private function deleteImageFromStorage($image_url)
+    {
+        // Get the path of the image file from the URL
+        $path = str_replace('/storage', 'public', $image_url);
+
+        // Check if the file exists in storage
+        if (Storage::exists($path)) {
+            Storage::delete($path);
+        }
+    }
    
 
 }

@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
 use App\Models\Image;
 use App\Models\Post;
+use App\Models\Transaction;
 
 class User extends Authenticatable
 {
@@ -84,10 +85,20 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function performedTransactions()
+    {
+        return $this->hasMany(Transaction::class, 'performed_by')
+                    ->where('is_admin', 0); // Assuming 'is_admin' is the column indicating admins
+    }
 
     public function isAdmin() {
         
         return $this->is_admin;
+    }
+
+    public function isSuperAdmin() {
+        
+        return $this->is_super_admin;
     }
 
 }

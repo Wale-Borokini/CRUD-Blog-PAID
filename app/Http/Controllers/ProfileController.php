@@ -4,15 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Models\Pagelog;
+use App\Models\Walletadress;
 
 class ProfileController extends Controller
 {
-    
-
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
 
     /**
      * Show the application dashboard.
@@ -29,8 +25,9 @@ class ProfileController extends Controller
     {
 
         $title = 'Buy Credits Code';
+        $wallet = Walletadress::where('title', 'Post')->first();
                
-        return view('pages.buy-credits-code')->with(compact('title'));
+        return view('pages.buy-credits-code')->with(compact('title', 'wallet'));
 
     }
 
@@ -42,5 +39,6 @@ class ProfileController extends Controller
         return view('pages.buy-credits')->with(compact('title'));
 
     }
-    
+
+   
 }

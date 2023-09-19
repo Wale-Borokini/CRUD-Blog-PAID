@@ -13,7 +13,12 @@
                             <div class="col-md-3">                                                          
                                 <img style="height:350px;" src="{{asset($postImage->image_url)}}" alt="Post Image">
                                 <div class="mt-1 mb-1 text-center">                                    
-                                    <a href="{{ route('delete-post-image', ['image' => $postImage->id]) }}" class="delete-link btn btn-outline-danger btn-xs" data-image-id="{{ $postImage->id }}">Delete</a>
+                                    {{-- <a href="{{ route('delete-post-image', ['image' => $postImage->id]) }}" class="delete-link btn btn-outline-danger btn-xs" data-image-id="{{ $postImage->id }}">Delete</a> --}}
+                                    <form class="delete-form" action="{{ route('delete-post-image', $postImage->slug) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')                                        
+                                        <button type="submit" class="delete-button btn btn-outline-danger btn-xs">Delete</button>
+                                    </form> 
                                 </div>												
                             </div>
                         @endforeach																			
@@ -33,39 +38,67 @@
 
     <script>       
         
-        document.addEventListener("DOMContentLoaded", function() {
-            const deleteLinks = document.querySelectorAll('.delete-link');
+        // document.addEventListener("DOMContentLoaded", function() {
+        //     const deleteLinks = document.querySelectorAll('.delete-link');
 
-            deleteLinks.forEach(link => {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default link behavior
+        //     deleteLinks.forEach(link => {
+        //         link.addEventListener('click', function(event) {
+        //             event.preventDefault(); // Prevent the default link behavior
 
-                    const imageId = link.getAttribute('data-image-id');
-                    const url = `/delete-post-image/${imageId}`;
+        //             const imageId = link.getAttribute('data-image-id');
+        //             const url = `/delete-post-image/${imageId}`;
 
-                    // Show SweetAlert confirmation
+        //             // Show SweetAlert confirmation
+        //             Swal.fire({
+        //                 title: 'Are you sure?',
+        //                 text: 'You will not be able to recover this image!',
+        //                 icon: 'warning',
+        //                 showCancelButton: true,
+        //                 confirmButtonColor: '#3085d6',
+        //                 cancelButtonColor: '#d33',
+        //                 confirmButtonText: 'Yes, delete it!',
+        //             }).then((result) => {
+        //                 if (result.isConfirmed) {
+        //                     fetch(url, {
+        //                         method: 'GET',
+        //                         headers: {
+        //                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        //                             'Accept': 'application/json'
+        //                         }
+        //                     })
+        //                     .then(response => response.json())
+        //                     .then(data => {                               
+        //                         location.reload();
+        //                     })
+        //                     .catch(error => console.error('Error:', error));
+        //                 }
+        //             });
+        //         });
+        //     });
+        // });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteForms = document.querySelectorAll('.delete-form');
+
+            deleteForms.forEach(deleteForm => {
+                const deleteButton = deleteForm.querySelector('.delete-button');
+                const confirmMessage = deleteButton.getAttribute('data-confirm');
+
+                deleteForm.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent the default form submission
+
                     Swal.fire({
-                        title: 'Are you sure?',
-                        text: 'You will not be able to recover this image!',
+                        title: 'Confirm Deletion',
+                        text: confirmMessage,
                         icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!',
-                    }).then((result) => {
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Delete'
+                    }).then(result => {
                         if (result.isConfirmed) {
-                            fetch(url, {
-                                method: 'GET',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                    'Accept': 'application/json'
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {                               
-                                location.reload();
-                            })
-                            .catch(error => console.error('Error:', error));
+                            // Proceed with form submission
+                            this.submit();
                         }
                     });
                 });

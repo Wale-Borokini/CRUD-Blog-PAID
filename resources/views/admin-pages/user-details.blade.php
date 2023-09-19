@@ -5,7 +5,7 @@
 <main class="min-height-page main">
     <div class="page-header">
         <div class="container d-flex flex-column align-items-center">					
-            <h1>Credit User</h1>
+            <h1>User Details</h1>
         </div>
         <div class="text-center mt-1">
             <a href="{{route('admin-dashboard')}}" class="btn btn-outline-dark btn-md">Admin Dashboard</a>                
@@ -41,7 +41,13 @@
                                     </li>                                            
                                 </ul>
                                 <div class="col-12 mt-2 mb-2">
-                                    <a class="btn btn-info btn-lg" href="{{ route('user-details', $user->slug) }}">View Posts</a>
+                                    <a class="btn btn-info btn-lg" href="{{ route('users-posts', $user->slug) }}">View Posts</a>
+                                </div>
+                                <div class="col-12 mt-5 mb-2">
+                                    <a class="btn btn-success btn-lg" href="{{ route('credit.cash', $user->slug) }}">Credit User</a>
+                                </div>
+                                <div class="col-12 mt-2 mb-2">
+                                    <a class="btn btn-danger btn-lg" href="{{ route('debit.cash', $user->slug) }}">Debit User</a>
                                 </div>
                             </div>                                                                       
                         </div>                                                                              

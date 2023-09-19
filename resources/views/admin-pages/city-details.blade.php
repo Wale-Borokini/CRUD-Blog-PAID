@@ -27,63 +27,33 @@
                         <h3>Posts in {{$city->name}}, {{$city->state->name}}, {{$city->country->name}}</h3>
                         <h5>Number of Posts ({{$city->posts->count()}})</h5>
                     </div>
-                    @foreach ($city->posts as $post)
-                    <div class="product-reviews-content">
-                        <div class="comment-list">
-                            <div class="comments">
-                                <figure class="img-thumbnail">
-                                    @if ($post->images->count() > 0) 
-                                        <img src="{{asset( $post->images->first()->image_url )}}" alt="author" width="80" height="80">
-                                    @endif
-                                    </figure>                               
-                                <div class="comment-block">
-                                    <div class="comment-header">
-                                        <div class="comment-arrow"></div>
-
-                                        {{-- <div class="ratings-container float-sm-right">
-                                            <div class="product-ratings">
-                                                <span class="ratings" style="width:60%"></span>
-                                                <!-- End .ratings -->
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <!-- End .product-ratings -->
-                                        </div> --}}
-
-                                        <span class="comment-by">
-                                            <strong>{{$post->post_title}}</strong>
-                                        </span>
-                                    </div>
-
-                                    <div class="comment-content">
-                                        <p>{{$post->post_description}}</p>
+                    @foreach ($posts as $post)
+                        <div class="col-12">
+                            <div class="testimonial testimonial-border testimonial-type4">     
+                                <a href="{{ route('post-details', $post->slug) }}">                       
+                                <div class="testimonial-owner">
+                                    <figure class="max-width-none">
+                                        @if ($post->images->count() > 0) 
+                                            <img style="max-height:60px; width:60px;" src="{{asset( $post->images->first()->image_url )}}" alt="post_image">
+                                        @elseif($post->images->count() < 1) 
+                                            <img style="max-height:60px; width:60px;" src="{{asset('images/no-image.jpg')}}" alt="no-image">
+                                        @endif
+                                    </figure>
+                                    <div>
+                                        <strong class="testimonial-title">{{str_limit(strip_tags($post->post_title), 30)}}</strong>
+                                        <span>{{str_limit(strip_tags($post->post_description), 30)}}</span>       
+                                        @if($post->post_priority == 1)                                 
+                                            <span class="mt-1"><i><small>Posted, {{$post->created_at->diffForHumans()}}</small></i></span>
+                                        @else
+                                            <span><i class="icon-star"></i></span>
+                                        @endif
                                     </div>
                                 </div>
+                                </a>
                             </div>
-                        </div>
-                    </div>
+                        </div>                   
                     @endforeach
-                    {{-- <table class="table table-striped table-responsive">
-                        <thead>
-                            <tr>
-                                <th>City</th> 
-                                <th>State</th> 
-                                <th>Country</th>                                                               
-                                <th>Post Count</th>
-                                <th>Details</th>
-                            </tr>
-                        </thead>
-                        {{-- <tbody> 
-                            @foreach($city->posts as $cityPosts)                          
-                                <tr>
-                                    <td><strong>{{$cityPosts->name}}</strong></td>
-                                    <td>{{$cityPosts->name}}</td>                                     
-                                    <td>{{$cityPosts->country->name}}</td>                                     
-                                    <td>{{$cityPosts->posts->count()}}</td>
-                                    <td><a class="btn btn-success btn-sm" href="#">Details</a></td>                          	                                                   
-                                </tr>
-                            @endforeach                                  
-                        </tbody> --}}
-                    </table> --}}
+                    {{ $posts->links() }}                    
                 </div>
             </div><!-- End .row -->
         </div><!-- End .container -->

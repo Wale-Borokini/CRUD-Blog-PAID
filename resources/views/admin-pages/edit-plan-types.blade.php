@@ -50,8 +50,32 @@
                                     Price
                                     <span class="required">*</span>
                                 </label>
-                                <input placeholder="20" value="{{$plan->price}}" name="price" id="price" type="number" class="form-control @error('price') is-invalid @enderror" value="{{ old('price') }}" autocomplete="price" autofocus required/>
+                                <input placeholder="20" value="{{$plan->price}}" name="price" id="price" type="number" class="form-control @error('price') is-invalid @enderror" autocomplete="price" autofocus required/>
                                 @error('price')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="duration">
+                                    Duration(Number of days)
+                                    <span class="required">*</span>
+                                </label>
+                                <input placeholder="7" value="{{$plan->duration}}" name="duration" id="duration" type="number" class="form-control @error('duration') is-invalid @enderror" value="{{ old('duration') }}" autocomplete="duration" autofocus required/>
+                                @error('duration')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="priority">
+                                    Priority
+                                    <span class="required">*</span>
+                                </label>
+                                <input placeholder="50" value="{{ $plan->priority }}" name="priority" id="priority" type="number" class="form-control @error('priority') is-invalid @enderror" autocomplete="priority" autofocus required/>
+                                @error('priority')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -62,8 +86,7 @@
                                     Description
                                     <span class="required">*</span>
                                 </label>
-                                <textarea placeholder="Move my Add to the top of the list for a week" name="description" id="description" type="text" class="form-control @error('description') is-invalid @enderror" autocomplete="description" autofocus rows="2" cols="50" required>
-                                    {{ old('description') }}
+                                <textarea placeholder="Move my Add to the top of the list for a week" name="description" id="description" type="text" class="form-control @error('description') is-invalid @enderror" autocomplete="description" autofocus rows="2" cols="50" required>                                    
                                     {{$plan->description}}
                                 </textarea>
                                 @error('description')
@@ -76,7 +99,7 @@
                             <div class="col-lg-12 mt-3">
                                 <div>
                                     <button type="submit" class="btn btn-dark btn-md w-100">
-                                        Add Posting Plan
+                                        Edit Posting Plan
                                     </button>
                                 </div>
                             </div>

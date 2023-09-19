@@ -48,7 +48,7 @@
                                         @endif
                                     </td>									
                                     <td>                                    
-                                        <a href="{{ route('credit.cash', $user->slug) }}" class="btn btn-info btn-ellipse btn-xs" disabled>Credit User</a>                                        
+                                        <a href="{{ route('credit.cash', $user->slug) }}" class="btn btn-info btn-ellipse btn-xs" disabled>Credit User</a>
                                     </td>                                                          
                                 </tr>
                             @endforeach         

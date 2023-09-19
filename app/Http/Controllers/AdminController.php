@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Pagelog;
 use App\Models\Transaction;
 use Alert;
 use Auth;
@@ -16,163 +17,115 @@ class AdminController extends Controller
 
     public function viewAdminDashboardPage()
     {
-
-        $title = 'Admin Dashboard';
-               
+        $title = 'Admin Dashboard';               
         return view('admin-pages.admin-dashboard')->with(compact('title'));
-
     }    
     
     public function viewAddLocationsPage()
     {
-
-        $title = 'Add Locations';
-               
+        $title = 'Add Locations';          
         return view('admin-pages.add-locations')->with(compact('title'));
-
     }
 
     public function viewPersonalAttributesPage()
     {
-
-        $title = 'Personal Attributes';
-               
+        $title = 'Personal Attributes';          
         return view('admin-pages.personal-attributes')->with(compact('title'));
-
     }
     
     public function viewTransactionMenuPage()
     {
-
-        $title = 'Transaction Menu';
-               
+        $title = 'Transaction Menu';          
         return view('admin-pages.transaction-menu')->with(compact('title'));
-
     }
 
     public function viewAllUsersPage()
     {
-
-        $title = 'All Users';
-        
+        $title = 'All Users';   
         $users = User::orderBy('created_at', 'desc')->cursorPaginate(50);
-               
         return view('admin-pages.all-users')->with(compact('title', 'users'));
+    }
 
+    public function searchUsers(Request $request)
+    {
+        $title = 'Search Results';
+        $searchTerm = $request->input('search');
+
+        // Query the users table to search for users
+        $users = User::where('username', 'LIKE', "%$searchTerm%")
+        ->orWhere('email', 'LIKE', "%$searchTerm%")
+        ->orWhere('credit_balance', 'LIKE', "%$searchTerm%")
+        ->paginate(50);
+
+        return view('admin-pages.all-users')->with(compact('title', 'users', 'searchTerm'));
+    }
+
+    public function viewAdminRoles()
+    {
+        $title = 'Admin Roles';   
+        $users = User::orderBy('created_at', 'desc')->cursorPaginate(50);
+        return view('admin-pages.admin-roles')->with(compact('title', 'users'));
+    }
+
+    public function updateAdminRole(Request $request, User $user)
+    {
+        $user->update([
+            'is_admin' => $request->input('is_admin'),
+        ]);
+
+        $alerted = Alert::success('Admin Role Given', 'You have given this user a new role'); 
+        return redirect()->back()->with('alerted');
+    }
+
+    public function viewUsersPosts(string $slug)
+    {
+        $title = 'Users Posts';   
+        $user = User::where('slug', $slug)->with('posts')->firstOrFail();        
+        $userPosts = $user->posts()->orderBy('created_at', 'desc')->cursorPaginate(50);
+        return view('admin-pages.users-posts')->with(compact('title', 'userPosts'));
+    }
+
+    public function viewAllPosts()
+    {
+        $title = 'All Posts';
+        $posts = Post::orderBy('created_at', 'desc')->cursorPaginate(50);
+        return view('admin-pages.all-posts')->with(compact('title', 'posts'));
     }
 
     public function viewUserDetailsPage(string $slug)
     {
-
-        $title = 'User Details';
-        
+        $title = 'User Details';   
         $user = User::where('slug', $slug)->withCount(['posts'])->firstOrFail();
-               
         return view('admin-pages.user-details')->with(compact('title', 'user'));
-
     }
 
-    public function viewCreditUserPage()
+    public function logPageVisit(Request $request)
     {
+        // Get the user details
+        $user = auth()->user();
+        // Create a new page log entry
+        $pageLog = new Pagelog([
+            'user_id' => $user->id,
+            'slug' => $user->slug,
+            'username' => $user->username,
+            'email' => $user->email,
+            'copied_text' => $request->input('copied_text'),
+            'visited_at' => now(),
+        ]);
+        // Save the page log entry
+        $pageLog->save();
 
-        $title = 'Credit Users';
-        
-        $users = User::orderBy('created_at', 'desc')->cursorPaginate(50);
-               
-        return view('admin-pages.credit-user')->with(compact('title', 'users'));
-
+        return response()->json(['message' => 'Page visit logged successfully']);
     }
 
-    public function viewDebitUserPage()
+    public function viewBuyCreditsPageLogs()
     {
-
-        $title = 'Debit Users';
-        
-        $users = User::orderBy('created_at', 'desc')->cursorPaginate(50);
+        $title = 'Buy Credits Page Logs';
+        $pageLogs = Pagelog::orderBy('created_at', 'desc')->cursorPaginate(50);
                
-        return view('admin-pages.debit-user')->with(compact('title', 'users'));
+        return view('admin-pages.buy-credits-page-logs')->with(compact('title', 'pageLogs'));
 
     }
     
-    public function creditUserCashPage(string $slug)
-    {
-
-        $title = 'Credit User';
-        
-        $user = User::where('slug', $slug)->withCount(['posts'])->firstOrFail();
-               
-        return view('admin-pages.credit-user-cash')->with(compact('title', 'user'));
-
-    }
-
-    public function debitUserCashPage(string $slug)
-    {
-
-        $title = 'Debit User';
-        
-        $user = User::where('slug', $slug)->withCount(['posts'])->firstOrFail();
-               
-        return view('admin-pages.debit-user-cash')->with(compact('title', 'user'));
-
-    }
-
-    public function creditUserTransaction(Request $request, User $user)
-    {
-        $this->validate($request, [
-            'amount' => 'required'            
-        ]); 
-
-        $amount = $request->amount;
-        $userId = $user->id;
-        $userEmail = $user->email;
-        $adminId = Auth::user()->id;
-        
-        $user->credit_balance += $amount;
-        $user->save();
-
-        $transaction = new Transaction([
-            'user_id' => $userId,
-            'email' => $userEmail,
-            'transaction_amount' => $amount,
-            'transaction_type' => 'credit',
-            'performed_by' => $adminId,
-        ]);
-        $transaction->save();
-
-        $alerted = Alert::success('Transaction Successful', 'You have credited this user'); 
-
-        return redirect()->back()->with('alerted');
-
-    }
-
-    public function debitUserTransaction(Request $request, User $user)
-    {
-        $this->validate($request, [
-            'amount' => 'required'            
-        ]); 
-
-        $amount = $request->amount;
-        $userId = $user->id;
-        $userEmail = $user->email;
-        $adminId = Auth::user()->id;
-        
-        $user->credit_balance -= $amount;
-        $user->save();
-
-        $transaction = new Transaction([
-            'user_id' => $userId,
-            'email' => $userEmail,
-            'transaction_amount' => $amount,
-            'transaction_type' => 'debit',
-            'performed_by' => $adminId,
-        ]);
-        $transaction->save();
-
-        $alerted = Alert::success('Debit Successful', 'You have Debited this user'); 
-
-        return redirect()->back()->with('alerted');
-       
-
-    }
 
 }

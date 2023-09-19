@@ -41,6 +41,27 @@
 								<h5 class="porto-sicon-title">Debit User</h5>
 								<i class="fa fa-cart-arrow-down"></i>
 							</a>
+						</div>	
+						<div class="col-sm-6 col-lg-4">
+							<a href="{{route('transaction-history')}}" class="icon-box">
+								<i class="fa fa-cart-arrow-down"></i>
+								<h5 class="porto-sicon-title">Transaction History</h5>
+								<i class="fa fa-cart-arrow-down"></i>
+							</a>
+						</div>
+						<div class="col-sm-6 col-lg-4">
+							<a href="{{route('buy-credits-page-log')}}" class="icon-box">
+								<i class="fa fa-cart-arrow-down"></i>
+								<h5 class="porto-sicon-title">Page Logs</h5>
+								<i class="fa fa-cart-arrow-down"></i>
+							</a>
+						</div>	
+						<div class="col-sm-6 col-lg-4">
+							<a href="{{route('wallets.index')}}" class="icon-box">
+								<i class="fa fa-cart-arrow-down"></i>
+								<h5 class="porto-sicon-title">Wallet Address</h5>
+								<i class="fa fa-cart-arrow-down"></i>
+							</a>
 						</div>																					
 					</div>
 				</div>

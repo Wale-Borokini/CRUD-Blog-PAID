@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\State;
 use App\Models\Country;
 use App\Models\Post;
@@ -13,7 +14,7 @@ use App\Models\Ethnicity;
 use App\Models\Hair;
 use App\Models\Eye;
 use Auth;
-Use Alert;
+use Alert;
 
 class CitiesController extends Controller
 {
@@ -68,7 +69,6 @@ class CitiesController extends Controller
         $city->save();
 
         $alerted = Alert::success('City Added', 'You have added a new city'); 
-
         return redirect()->back()->with('alerted');
     }
 
@@ -77,9 +77,12 @@ class CitiesController extends Controller
      */
     public function show(string $slug)
     {
-        $city = City::where('slug', $slug)->with(['posts', 'country', 'state'])->firstOrFail();
+        $currentDate = Carbon::now();
 
-        return view('admin-pages.city-details')->with(compact('city'));
+        $city = City::where('slug', $slug)->with('state')->firstOrFail();
+        $posts = $city->posts()->orderBy('post_priority', 'desc')->orderBy('created_at', 'desc')->cursorPaginate(50);
+        
+        return view('admin-pages.city-details')->with(compact('city', 'posts'));
     }
 
     /**
@@ -104,7 +107,6 @@ class CitiesController extends Controller
             'name.unique' => 'The city name must be unique.'           
         ]);   
 
-       
         $city->name = $request->name;           
         $city->save();
 
@@ -126,9 +128,10 @@ class CitiesController extends Controller
 
     public function showPosts(string $slug)
     {
+        $currentDate = Carbon::now();
 
         $city = City::where('slug', $slug)->with('state')->firstOrFail();
-        $posts = $city->posts()->orderBy('created_at', 'desc')->cursorPaginate(50);        
+        $posts = $city->posts()->orderBy('post_priority', 'desc')->orderBy('created_at', 'desc')->cursorPaginate(50);
 
         return view('pages.cities-posts', compact('city', 'posts'));
     }

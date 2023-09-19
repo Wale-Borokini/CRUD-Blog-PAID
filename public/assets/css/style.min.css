@@ -16034,8 +16034,7 @@ main .sticky-header .product-ratings:before {
     padding: 0;
     font-size: 1.2rem;
     line-height: 1.5;
-    letter-spacing: 0.005em;
-    text-transform: uppercase
+    letter-spacing: 0.005em;    
 }
 
 .single-info-list li {

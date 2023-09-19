@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\Post;
 
 class Plan extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
 
     public function getRouteKeyName()
     {
@@ -51,8 +54,11 @@ class Plan extends Model
     public function setDescriptionAttribute($value)
     {
         $this->attributes['description'] = ucfirst($value);
-    }
+    }    
 
-    protected $guarded = [];
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'posting_plan_id');
+    }
     
 }

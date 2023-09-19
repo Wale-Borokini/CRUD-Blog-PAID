@@ -10,7 +10,7 @@
     <main class="min-height-page main">
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
-                <h1>All Cities</h1>
+                <h1>All Cities ({{ $cities->count() }})</h1>
             </div>
             <div class="text-center mt-1">
                 <a href="{{route('add-locations')}}" class="btn btn-outline-dark btn-md">Locations</a>                

@@ -19,14 +19,14 @@
 				<div class="container">					
 					<div class="row justify-content-center">
 						<div class="col-sm-6 col-lg-4">
-							<a href="{{Route('all-users')}}" class="icon-box">
+							<a href="{{ route('all-users') }}" class="icon-box">
 								<i class="fa fa-bars"></i>
 								<h5 class="porto-sicon-title">All Users</h5>
 								<i class="fa fa-bars"></i>
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
-							<a href="element-alerts.html" class="icon-box">
+							<a href="{{ route('all-posts') }}" class="icon-box">
 								<i class="fa fa-exclamation-triangle"></i>
 								<h5 class="porto-sicon-title">All Posts</h5>
 								<i class="fa fa-exclamation-triangle"></i>
@@ -54,19 +54,21 @@
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
-							<a href="element-animations.html" class="icon-box">
+							<a href="{{ route('adverts.index') }}" class="icon-box">
 								<i class="fa fa-asterisk"></i>
-								<h5 class="porto-sicon-title">Account Statements</h5>
+								<h5 class="porto-sicon-title">Adverts</h5>
 								<i class="fa fa-asterisk"></i>
 							</a>
 						</div>
-						<div class="col-sm-6 col-lg-4">
-							<a href="element-buttons.html" class="icon-box">
-								<i class="fa fa-minus"></i>
-								<h5 class="porto-sicon-title"></h5>
-								<i class="fa fa-minus"></i>
-							</a>
-						</div>																
+						@can('viewAdminRoles', Auth::user())
+							<div class="col-sm-6 col-lg-4">
+								<a href="{{ route('admin-roles') }}" class="icon-box">
+									<i class="fa fa-asterisk"></i>
+									<h5 class="porto-sicon-title">Admin Roles</h5>
+									<i class="fa fa-asterisk"></i>
+								</a>
+							</div>
+						@endcan																			
 					</div>
 				</div>
 			</div>

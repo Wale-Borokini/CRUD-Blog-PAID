@@ -10,7 +10,7 @@
     <main class="min-height-page main">
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
-                <h1>All Users</h1>
+                <h1>All Users ({{$users->count()}})</h1>
             </div>
             <div class="text-center mt-1">
                 <a href="{{route('admin-dashboard')}}" class="btn btn-outline-dark btn-md">Admin Dashboard</a>                
@@ -21,6 +21,18 @@
         <div class="container account-container custom-account-container">
             <div class="row">					
                 <div class="col-lg-12">
+                    <div class="col-lg-3">
+                        <form action="{{ route('search-users') }}" method="GET">
+                            <div class="form-group">
+                                <input type="text" name="search" class="form-control" placeholder="Search users...">
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
+                            @if(isset($searchTerm))
+                                <a href="{{ route('all-users') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
+                            @endif
+                        </form>                        
+                    </div>
+                                        
                     <table class="table text-center table-striped table-responsive">
                         <thead>
                             <tr>
@@ -28,7 +40,9 @@
                                 <th>Email</th>
                                 <th>Credit Balance</th>
                                 <th>Admin</th>
-                                <th>Super Admin</th>                               
+                                <th>Super Admin</th> 
+                                <th>Details</th>
+                                <th>Date Joined</th>                                
                             </tr>
                         </thead>
                         <tbody>
@@ -51,7 +65,8 @@
                                         <button class="btn btn-default btn-ellipse btn-xs" disabled>No</button>
                                         @endif
                                     </td>
-                                    <td><td><a class="btn btn-success btn-sm" href="{{ route('user-details', $user->slug) }}">Details</a></td></td>                                                        
+                                    <td><a class="btn btn-success btn-sm" href="{{ route('user-details', $user->slug) }}">Details</a></td> 
+                                    <td>{{$user->created_at->diffForHumans()}}</td>
                                 </tr>
                             @endforeach         
                         </tbody>
@@ -63,33 +78,4 @@
         
     </main><!-- End .main -->
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const deleteForms = document.querySelectorAll('.delete-form');
-
-            deleteForms.forEach(deleteForm => {
-                const deleteButton = deleteForm.querySelector('.delete-button');
-                const confirmMessage = deleteButton.getAttribute('data-confirm');
-
-                deleteForm.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent the default form submission
-
-                    Swal.fire({
-                        title: 'Confirm Deletion',
-                        text: confirmMessage,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Delete'
-                    }).then(result => {
-                        if (result.isConfirmed) {
-                            // Proceed with form submission
-                            this.submit();
-                        }
-                    });
-                });
-            });
-        });
-    </script>
 @endsection

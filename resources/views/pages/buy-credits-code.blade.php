@@ -17,7 +17,7 @@
                             <div class="">
                                 <p class="text-danger">
                                     <strong>
-                                        Important! The minimum payment is 0.0025BTC. Anything below 0.0025BTC won't be credited to your account. Please check Bitcoin address every time when buying credits as address is changed sometimes.
+                                        Important! The minimum payment is {{number_format($wallet->amount, 4)}}BTC. Anything below 0.0025BTC won't be credited to your account. Please check Bitcoin address every time when buying credits as address is changed sometimes.
                                     </strong>
                                 </p>                               
                                 <p>
@@ -41,7 +41,7 @@
                                     </strong>
                                 </p>
                                 <div class="mt-0 mb-2 col-12">
-                                    <input type="text" value="1NfUeivEByUB3PFDdpFN6wB1kYNQawe3344" class="col-9 dicabled-input" id="copyText" readonly>
+                                    <input type="text" value="{{$wallet->btc_address}}" class="col-9 dicabled-input" id="copyText" readonly>
                                     <button class="btn btn-sm btn-success" onclick="copyToClipboard()">Copy</button>
                                 </div>
 
@@ -86,8 +86,34 @@
                 timer: 4000,
                 showConfirmButton: true // Hide the "OK" button
             });
+
+            
+            trackPageVisitAndButtonClicked('Yes');
             
         }
+
+         // Function to track the page visit and button click
+        function trackPageVisitAndButtonClicked(copiedTextValue) {
+            // Generate the URL for the named route using route() helper
+            const url = "{{ route('log-page-visit') }}";
+
+            // Send an HTTP request to the generated URL
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Replace with your CSRF token
+                },
+                body: JSON.stringify({ copied_text: copiedTextValue }),
+            });
+        }
+
+        // Track the page visit when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Assume the user did not click the button by default
+            trackPageVisitAndButtonClicked('No');
+        });
+
+        
     </script>
 @endsection
-       

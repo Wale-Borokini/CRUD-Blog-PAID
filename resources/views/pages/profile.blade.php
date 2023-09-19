@@ -24,7 +24,7 @@
                                                 @if ($post->images->count() > 0) 
                                                     <img style="max-height:60px; width:60px;" src="{{asset( $post->images->first()->image_url )}}" alt="post_image">
                                                 @elseif($post->images->count() < 1) 
-                                                    <img style="max-height:60px; width:60px;" src="{{asset('images/no-image.jpg')}}" alt="no-image">
+                                                    <img style="max-height:60px; width:60px;" src="{{asset('storage/images/no-image.jpg')}}" alt="no-image">
                                                 @endif
                                             </figure>
                                             <div>
@@ -38,7 +38,7 @@
                                                         <button type="submit" class="delete-button btn btn-outline-danger btn-xs">Delete</button>
                                                     </form> 
                                                 </div>
-                                                <span class="mt-1">Posted, {{$post->created_at->diffForHumans()}}</span>
+                                                <span class="mt-1"><i><small>Posted, {{$post->created_at->diffForHumans()}}</small></i></span>
                                             </div>                                            
                                         </div>                                      
                                     </div>

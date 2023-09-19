@@ -39,6 +39,8 @@ class PlansController extends Controller
             'plan_type' => 'required|unique:plans,plan_type',
             'plan_title' => 'required',
             'price' => 'required',
+            'priority' => 'required',
+            'duration' => 'required',
             'description' => 'required',
                           
         ]);   
@@ -49,6 +51,8 @@ class PlansController extends Controller
         $plan = new Plan;
         $plan->price = $formattedPrice;
         $plan->plan_type = $request->plan_type;
+        $plan->priority = $request->priority;
+        $plan->duration = $request->duration;
         $plan->plan_title = $request->plan_title;
         $plan->description = $request->description;
         $plan->added_by =   $adminName;    
@@ -85,7 +89,9 @@ class PlansController extends Controller
         $this->validate($request, [
             'plan_type' => 'required|unique:plans,plan_type',
             'plan_title' => 'required',
+            'priority' => 'required',
             'price' => 'required',
+            'duration' => 'required',
             'description' => 'required',
                           
         ]);  
@@ -93,8 +99,10 @@ class PlansController extends Controller
         $formattedPrice = number_format($request->input('price'), 2, '.', '');   
         
         $plan->plan_type = $request->plan_type;
+        $plan->priority = $request->priority;
         $plan->plan_title = $request->plan_title;
         $plan->price = $formattedPrice;
+        $plan->duration = $request->duration;
         $plan->description = $request->description;           
         $plan->save();
 

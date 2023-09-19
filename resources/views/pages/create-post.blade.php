@@ -9,7 +9,7 @@
                 <div class="heading mb-1">
                     <h2>Create Post</h2>
                 </div>													
-                <form id="planForm" method="POST" action="{{route('create.post')}}" enctype="multipart/form-data">
+                <form id="createPostForm" method="POST" action="{{route('create.post')}}" enctype="multipart/form-data">
                 @csrf
                     <div>
                         <h4>Region</h4>
@@ -238,11 +238,19 @@
                             </div>
                         @endforeach                                                     													
                     </div>
-                    <div class="error-message alert alert-rounded alert-danger" id="posting-plan-error" style="display: none;">
+                    <div class="error-message alert alert-rounded alert-sm alert-danger" id="titleError" style="display: none;">
+                        <i class="fa fa-exclamation-circle" style="color: #ef8495;"></i>
+                        <span><strong>Please enter an ad title.</strong></span>
+                    </div>
+                    <div class="error-message alert alert-rounded alert-sm alert-danger" id="descriptionError" style="display: none;">
+                        <i class="fa fa-exclamation-circle" style="color: #ef8495;"></i>
+                        <span><strong> Please enter an ad description.</strong></span>
+                    </div>
+                    <div class="error-message alert alert-rounded alert-sm alert-danger" id="posting-plan-error" style="display: none;">
                         <i class="fa fa-exclamation-circle" style="color: #ef8495;"></i>
                         <span><strong> Please select at least one posting plan.</strong></span>
                     </div>
-                    <div class="error-message alert alert-rounded alert-danger" id="terms-error" style="display: none;">
+                    <div class="error-message alert alert-rounded alert-sm alert-danger" id="terms-error" style="display: none;">
                         <i class="fa fa-exclamation-circle" style="color: #ef8495;"></i>
                         <span><strong> You must agree to the terms and conditions.</strong></span>                            
                     </div>
@@ -266,11 +274,7 @@
             </div>				
         </div>
     </main><!-- End .main -->
-    
-    {{-- CKeditor --}}
-    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/44.0.0/classic/ckeditor.js"></script> --}}
-    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script> --}}
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
+        
     <script>
         ClassicEditor
             .create(document.querySelector('#post_title'), {
@@ -407,10 +411,28 @@
     
         const agreeTermsCheckbox = getElementById('agree-terms');
         const termsError = getElementById('terms-error');
+        const titleError = document.getElementById("titleError");
+        const descriptionError = document.getElementById("descriptionError");
     
-        getElementById('planForm').addEventListener('submit', event => {
+        getElementById('createPostForm').addEventListener('submit', event => {
             const checkboxes = document.querySelectorAll('input[name="posting_plan_id"]');
             const atLeastOneChecked = [...checkboxes].some(checkbox => checkbox.checked);
+
+            const postTitle = document.getElementById("post_title").value.trim();
+            const postDescription = document.getElementById("post_description").value.trim();
+
+            if (postTitle === "") {
+                titleError.style.display = "block";
+                descriptionError.style.display = "none";
+                event.preventDefault();
+            } else if (postDescription === "") {
+                titleError.style.display = "none";
+                descriptionError.style.display = "block";
+                event.preventDefault();
+            } else {
+                titleError.style.display = "none";
+                descriptionError.style.display = "none";
+            }
     
             if (!atLeastOneChecked) {
                 event.preventDefault();
