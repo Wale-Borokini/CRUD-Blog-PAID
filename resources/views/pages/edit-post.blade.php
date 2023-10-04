@@ -42,10 +42,9 @@
                     <div class="row">
                         <div class="col-lg-3">
                             <label for="name">
-                                Name
-                                <span class="required">*</span>
+                                Name                                
                             </label>
-                            <input name="name" value="{{$post->name}}" id="name" type="text" class="form-control @error('name') is-invalid @enderror" autocomplete="name" autofocus required/>
+                            <input name="name" value="{{$post->name}}" id="name" type="text" class="form-control @error('name') is-invalid @enderror" autocomplete="name" autofocus/>
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

@@ -15,4 +15,9 @@ class UserPolicy
         return $user->isSuperAdmin();
     }
 
+    public function viewAdminDashboard(User $user)
+    {
+        return $user->isAdmin();
+    }
+
 }

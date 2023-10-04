@@ -32,8 +32,8 @@
                                         @if ($post->images->count() > 0) 
                                             <img style="max-height:60px; width:60px;" src="{{asset( $post->images->first()->image_url )}}" alt="post_image">
                                         @elseif($post->images->count() < 1) 
-                                            <img style="max-height:60px; width:60px;" src="{{asset('images/no-image.jpg')}}" alt="no-image">
-                                        @endif
+                                            <img style="max-height:60px; width:60px;" src="{{asset('storage/images/no-image.jpg')}}" alt="no-image">
+                                        @endif                                        
                                     </figure>
                                     <div>
                                         <strong class="testimonial-title">{{str_limit(strip_tags($post->post_title), 30)}}</strong>
@@ -58,33 +58,21 @@
                     <div class="sidebar-wrapper" data-sticky-sidebar-options='{"offsetTop": 72}'>							
                         <div class="widget mt-4">								
                             <ul class="simple-post-list">
-                                <li>
-                                    <div class="post-media">
-                                        <a href="single.html">
-                                            <img src="assets/images/blog/widget/post-1.jpg" alt="Post">
-                                        </a>
-                                    </div><!-- End .post-media -->
-                                    <div class="post-info">
-                                        <a href="single.html">Post Format - Video</a>
-                                        <div class="post-meta">
-                                            April 08, 2018
-                                        </div><!-- End .post-meta -->
-                                    </div><!-- End .post-info -->
-                                </li>
-
-                                <li>
-                                    <div class="post-media">
-                                        <a href="single.html">
-                                            <img src="assets/images/blog/widget/post-2.jpg" alt="Post">
-                                        </a>
-                                    </div><!-- End .post-media -->
-                                    <div class="post-info">
-                                        <a href="single.html">Post Format - Image</a>
-                                        <div class="post-meta">
-                                            March 23, 2016
-                                        </div><!-- End .post-meta -->
-                                    </div><!-- End .post-info -->
-                                </li>
+                                @foreach($adverts as $advert)
+                                    <li>
+                                        <div class="post-media">
+                                            <a href="{{ $advert->advert_url }}" target="_blank">
+                                                <img style="height:50px;" src="{{ asset($advert->image_url) }}" alt="Post">
+                                            </a>
+                                        </div><!-- End .post-media -->
+                                        <div class="post-info">
+                                            <a href="{{ $advert->advert_url }}" target="_blank">{{ $advert->title }}</a>
+                                            <div class="post-meta">
+                                                {{ $advert->description }}
+                                            </div><!-- End .post-meta -->
+                                        </div><!-- End .post-info -->
+                                    </li>   
+                                @endforeach
                             </ul>
                         </div><!-- End .widget -->							
                     </div><!-- End .sidebar-wrapper -->

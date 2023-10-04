@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
+use App\Rules\UniqueStateNameInCountry;
 use Illuminate\Http\Request;
 use App\Models\City;
 use App\Models\State;
@@ -19,8 +20,9 @@ class StatesController extends Controller
     {
         $title = 'All States';
         $states = State::orderBy('name')->withCount(['cities', 'posts'])->cursorPaginate(50);
+        $totalStateCount = State::count();
 
-        return view('admin-pages.states-index')->with(compact('title', 'states'));
+        return view('admin-pages.states-index')->with(compact('title', 'states', 'totalStateCount'));
     }
 
     /**
@@ -29,7 +31,7 @@ class StatesController extends Controller
     public function create()
     {
         $title = 'Add State';
-        $countries = Country::orderBy('name', 'desc')->get();
+        $countries = Country::orderBy('name')->get();
                
         return view('admin-pages.create-states')->with(compact('title', 'countries'));
     }
@@ -42,12 +44,14 @@ class StatesController extends Controller
 
         $this->validate($request, [
             'country_id' => 'required',
-            'name' => 'required|unique:countries,name'            
+            'name' => [
+                'required',
+                new UniqueStateNameInCountry($request->input('country_id')),
+            ],             
         ],
         [
             'country_id.required' => 'The Country field is required.',
-            'name.required' => 'The State name field is required.',
-            'name.unique' => 'The State name must be unique.'                      
+            'name.required' => 'The State name field is required.',                                  
         ]);   
 
         $adminName = Auth::user()->username;
@@ -87,11 +91,13 @@ class StatesController extends Controller
     public function update(Request $request, State $state)
     {
         $this->validate($request, [
-            'name' => 'required|unique:states,name'            
+            'name' => [
+                'required',
+                new UniqueStateNameInCountry($state->country_id, $state->id),
+            ],               
         ],
         [
-            'name.required' => 'The state name field is required.', 
-            'name.unique' => 'The state name must be unique.'           
+            'name.required' => 'The state name field is required.',             
         ]);   
 
        

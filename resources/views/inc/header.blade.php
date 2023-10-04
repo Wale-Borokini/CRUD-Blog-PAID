@@ -45,11 +45,11 @@
                     <li>
                         <a href="{{ route('create-post') }}">Post Ad</a>
                     </li>                    
-                    @if (Auth::check() && Auth::user()->isAdmin())
+                    @can('viewAdminDashboard', Auth::user())
                         <li>
                             <a href="{{ route('admin-dashboard') }}">Admin Dashboard</a>
                         </li>
-                    @endif                        
+                    @endcan                       
                     {{-- Right side of Nav --}}
                     @guest
                         @if (Route::has('login'))

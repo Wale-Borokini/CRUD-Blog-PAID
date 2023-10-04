@@ -23,30 +23,30 @@
 					<div class="row justify-content-center">
 						<div class="col-sm-6 col-lg-4">
 							<a href="{{route('plans.index')}}" class="icon-box">
-								<i class="fa fa-bars"></i>
+								<i class="fa fa-dollar-sign"></i>
 								<h5 class="porto-sicon-title">Post Plans</h5>
-								<i class="fa fa-bars"></i>
+								<i class="fa fa-dollar-sign"></i>
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
 							<a href="{{route('credit-user')}}" class="icon-box">
-								<i class="fa fa-exclamation-triangle"></i>
+								<i class="fa fa-plus-square"></i>
 								<h5 class="porto-sicon-title">Credit User</h5>
-								<i class="fa fa-exclamation-triangle"></i>
+								<i class="fa fa-plus-square"></i>
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
 							<a href="{{route('debit-user')}}" class="icon-box">
-								<i class="fa fa-cart-arrow-down"></i>
+								<i class="fa fa-minus-square"></i>
 								<h5 class="porto-sicon-title">Debit User</h5>
-								<i class="fa fa-cart-arrow-down"></i>
+								<i class="fa fa-minus-square"></i>
 							</a>
 						</div>	
 						<div class="col-sm-6 col-lg-4">
 							<a href="{{route('transaction-history')}}" class="icon-box">
-								<i class="fa fa-cart-arrow-down"></i>
+								<i class="fa fa-tasks"></i>
 								<h5 class="porto-sicon-title">Transaction History</h5>
-								<i class="fa fa-cart-arrow-down"></i>
+								<i class="fa fa-tasks"></i>
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
@@ -58,9 +58,9 @@
 						</div>	
 						<div class="col-sm-6 col-lg-4">
 							<a href="{{route('wallets.index')}}" class="icon-box">
-								<i class="fa fa-cart-arrow-down"></i>
+								<i class="fa fa-wallet"></i>
 								<h5 class="porto-sicon-title">Wallet Address</h5>
-								<i class="fa fa-cart-arrow-down"></i>
+								<i class="fa fa-wallet"></i>
 							</a>
 						</div>																					
 					</div>

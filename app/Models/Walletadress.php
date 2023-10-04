@@ -11,5 +11,16 @@ class Walletadress extends Model
 
     protected $guarded = [];
 
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = ucwords($value);
+    }
+
+    public function setBtcServiceAttribute($value)
+    {
+        $this->attributes['btc_service'] = ucwords($value);
+    }
+
    
 }

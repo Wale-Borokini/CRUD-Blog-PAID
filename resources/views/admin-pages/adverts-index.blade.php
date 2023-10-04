@@ -5,7 +5,7 @@
     <main class="min-height-page main">
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
-                <h1>Adverts</h1>
+                <h1>Adverts ({{$adverts->count()}})</h1>
             </div>
             <div class="text-center mt-1">
                 <a href="{{route('admin-dashboard')}}" class="btn btn-outline-dark btn-md">Admin Dashboard</a>                
@@ -40,8 +40,8 @@
                                     </td>
                                     <td>{{ $advert->title }}</td>	
                                     <td>{{ $advert->description }}</td>	
-                                    <td>{{ $advert->brand }}</td>									
-                                    <td>{{ $advert->advert_url }}</td>
+                                    <td>{{ $advert->brand }}</td>	                                    							
+                                    <td>{{ str_limit(strip_tags($advert->advert_url), 50)	 }}</td>
                                     <td>{{ $advert->added_by }}</td>
                                     <td><a class="btn btn-primary btn-sm" href="{{ route('adverts.edit', $advert->id) }}">Edit</a></td>
                                     <td>

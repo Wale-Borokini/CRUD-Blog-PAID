@@ -51,6 +51,18 @@
                     </label>
                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">                            
 
+                    {{-- <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+                        <label class="col-md-4 control-label"></label>
+                        <div class="col-md-6">
+                            {!! app('captcha')->display() !!}
+                            @if ($errors->has('g-recaptcha-response'))
+                                <span class="help-block">
+                                    <strong class="text-danger">{{ $errors->first('g-recaptcha-response') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div> --}}
+
                     <div class="mb-2">
                         <button type="submit" class="btn btn-dark btn-md w-100 mr-0">
                             Register

@@ -39,6 +39,14 @@ class AdvertsController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5048',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'brand' => 'required|string',
+            'advert_url' => 'required|url',
+        ]);
+
         $completeUrl = $this->uploadImage($request->file('image_url'));
 
         $data = $request->only(['title', 'description', 'brand', 'advert_url']);
@@ -64,6 +72,14 @@ class AdvertsController extends Controller
      */
     public function update(Request $request, Advert $advert)
     {
+        $validatedData = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'brand' => 'required|string',
+            'advert_url' => 'required|url',
+            'image_url' => 'sometimes|image|mimes:jpeg,png,jpg,gif,webp|max:5048'
+        ]);
+
         if ($request->hasFile('image_url')) {
             $this->deleteImageFromStorage($advert->image_url);
             $advert->image_url = $this->uploadImage($request->file('image_url'));

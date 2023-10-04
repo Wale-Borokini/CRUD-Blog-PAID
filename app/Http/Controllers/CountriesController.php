@@ -19,8 +19,9 @@ class CountriesController extends Controller
     {
         $title = 'All Countries';
         $countries = Country::orderBy('name')->withCount(['states', 'cities', 'posts'])->get()->unique('name');
+        $totalCountriesCount = Country::count();
 
-        return view('admin-pages.countries-index')->with(compact('title', 'countries'));
+        return view('admin-pages.countries-index')->with(compact('title', 'countries', 'totalCountriesCount'));
 
     }
 
@@ -70,7 +71,7 @@ class CountriesController extends Controller
      */
     public function show(string $slug)
     {
-        $country = Country::where('slug', $slug)->with(['states.cities', 'States.posts'])->firstOrFail();
+        $country = Country::where('slug', $slug)->with(['states.cities', 'States.posts'])->withCount('states')->firstOrFail();
         $states = $country->states()->orderBy('name')->cursorPaginate(50);
 
         return view('admin-pages.country-details')->with(compact('country', 'states'));

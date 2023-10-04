@@ -39,8 +39,7 @@
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Credit Balance</th>
-                                <th>Admin</th>
-                                <th>Super Admin</th> 
+                                <th>Admin</th>                                
                                 <th>Details</th>
                                 <th>Date Joined</th>                                
                             </tr>
@@ -57,14 +56,7 @@
                                         @else
                                         <button class="btn btn-default btn-ellipse btn-xs" disabled>No</button>
                                         @endif
-                                    </td>									
-                                    <td>
-                                        @if ($user->is_super_admin)
-                                            <button class="btn btn-success btn-ellipse btn-xs" disabled>Yes</button>
-                                        @else
-                                        <button class="btn btn-default btn-ellipse btn-xs" disabled>No</button>
-                                        @endif
-                                    </td>
+                                    </td>									                                    
                                     <td><a class="btn btn-success btn-sm" href="{{ route('user-details', $user->slug) }}">Details</a></td> 
                                     <td>{{$user->created_at->diffForHumans()}}</td>
                                 </tr>

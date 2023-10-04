@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
+use App\Rules\UniqueCityNameInState;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\State;
@@ -13,6 +14,7 @@ use App\Models\Gender;
 use App\Models\Ethnicity;
 use App\Models\Hair;
 use App\Models\Eye;
+use App\Models\Advert;
 use Auth;
 use Alert;
 
@@ -21,12 +23,22 @@ class CitiesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $title = 'All Cities';
-        $cities = City::orderBy('name')->withCount(['posts'])->cursorPaginate(50);
+        
+        $search = $request->input('search');
+        // Query the cities based on the search query (if provided)
+        $citiesQuery = City::orderBy('name');
 
-        return view('admin-pages.cities-index')->with(compact('title', 'cities'));
+        if ($search) {
+            $citiesQuery->where('name', 'like', '%' . $search . '%');
+        }
+
+        $cities = $citiesQuery->withCount(['posts'])->cursorPaginate(50);
+        $totalCitiesCount = City::count();
+
+        return view('admin-pages.cities-index')->with(compact('title', 'cities', 'totalCitiesCount', 'search'));
     }
 
     /**
@@ -51,8 +63,10 @@ class CitiesController extends Controller
         $this->validate($request, [
             'country_id' => 'required',
             'state_id' => 'required',
-            'name' => 'required|unique:cities,name',
-            'name.unique' => 'The City name must be unique.',           
+            'name' => [
+                'required',
+                new UniqueCityNameInState($request->input('state_id')),
+            ],          
         ],
         [
             'name.required' => 'The City name field is required.',
@@ -100,11 +114,13 @@ class CitiesController extends Controller
     public function update(Request $request, City $city)
     {
         $this->validate($request, [
-            'name' => 'required|unique:cities,name'            
+            'name' => [
+                'required',
+                new UniqueCityNameInState($city->state_id,  $city->id),
+            ],            
         ],
         [
-            'name.required' => 'The city name field is required.', 
-            'name.unique' => 'The city name must be unique.'           
+            'name.required' => 'The city name field is required.',                       
         ]);   
 
         $city->name = $request->name;           
@@ -132,14 +148,16 @@ class CitiesController extends Controller
 
         $city = City::where('slug', $slug)->with('state')->firstOrFail();
         $posts = $city->posts()->orderBy('post_priority', 'desc')->orderBy('created_at', 'desc')->cursorPaginate(50);
+        $adverts = Advert::inRandomOrder()->take(3)->get();
 
-        return view('pages.cities-posts', compact('city', 'posts'));
+        return view('pages.cities-posts', compact('city', 'posts', 'adverts'));
     }
 
     public function viewPostDetails($slug)
     {
         $post = Post::where('slug', $slug)->with('country', 'state', 'city', 'gender', 'eye', 'ethnicity', 'hair')->firstOrFail();
-        return view('pages.post-details', compact('post'));
+        $title = str_limit(strip_tags($post->post_title), 50);
+        return view('pages.post-details')->with(compact('post', 'title'));
 
     }
 

@@ -20,16 +20,22 @@ class PagesController extends Controller
 
     }
 
-    public function viewStatesPage()
+    public function viewPrivacyPage()
     {
-
-        $title = 'Patron Castle!';
-        // $countries = Country::orderBy('name')->get()->unique('name');
-        $countries = Country::with('states.cities')->get()->unique('name');
-               
-        return view('pages.index')->with(compact('title', 'countries'));
-
+        $title = 'Patron Castle';                       
+        return view('pages.privacy')->with(compact('title'));
     }
-
+    
+    public function viewTermsPage()
+    {
+        $title = 'Patron Castle';                       
+        return view('pages.terms')->with(compact('title'));
+    }
+    
+    public function viewReportCasePage()
+    {
+        $title = 'Patron Castle';                       
+        return view('pages.report-case')->with(compact('title'));
+    }
 
 }

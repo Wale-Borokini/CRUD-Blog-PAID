@@ -24,6 +24,17 @@
         <div class="container account-container custom-account-container">
             <div class="row">					
                 <div class="col-lg-12">
+                    <div class="col-lg-3">
+                        <form action="{{ route('search-page-logs') }}" method="GET">
+                            <div class="form-group">
+                                <input type="text" name="search" class="form-control" placeholder="Search logs...">
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
+                            @if(isset($search))
+                                <a href="{{ route('buy-credits-page-log') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
+                            @endif
+                        </form>  
+                    </div>  
                     <table class="table text-center table-striped table-responsive">
                         <thead>
                             <tr>

@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<title>Patron Castle</title>
+	<title>{{$title ?? 'Patron Castle'}}</title>
 
 	<meta name="keywords" content="HTML5 Template" />
 	<meta name="description" content="Porto - Bootstrap eCommerce Template">
@@ -20,9 +20,12 @@
 	 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
 	<!-- CKEditor -->
 	 <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
+
+	 <!-- recaptcha -->
+	 {!! NoCaptcha::renderJs() !!}
+	 
+
 	
-
-
 	<script>
 		WebFontConfig = {
 			google: { families: [ 'Open+Sans:300,400,600,700,800', 'Poppins:300,400,500,600,700', 'Shadows+Into+Light:400' ] }
@@ -101,6 +104,12 @@
 
 					@endif
 
+					@can('viewAdminDashboard', Auth::user())
+						<li>
+							<a href="{{ route('admin-dashboard') }}">Admin Dashboard</a>
+						</li>
+					@endcan
+					
 					@guest
                         @if (Route::has('login'))
 							<li>

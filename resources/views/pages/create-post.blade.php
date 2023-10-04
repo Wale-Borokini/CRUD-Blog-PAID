@@ -64,7 +64,7 @@
                     <div class="mt-2">
                         <h4>Description and Contact Details</h4>
                     </div>
-                    <div class="row">
+                    <div class="row mt-1">
                         <div class="col-lg-12">
                             <label for="post_title">
                                 Advert Title
@@ -90,13 +90,12 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-1">
                         <div class="col-lg-3">
                             <label for="name">
-                                Name
-                                <span class="required">*</span>
+                                Name                
                             </label>
-                            <input name="name" id="name" type="text" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" autocomplete="name" autofocus required/>
+                            <input name="name" id="name" type="text" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" autocomplete="name" autofocus/>
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -128,7 +127,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-1">
                         <div class="col-lg-3">
                             <label for="gender_id">
                                 Gender									
@@ -174,7 +173,7 @@
                             </select>		
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-1">
                         <div class="col-lg-3">
                             <label for="height">
                                 Height									
@@ -189,7 +188,7 @@
                         </div>
                         <div class="col-lg-6">
                             <label for="address">
-                                Address									
+                                Location									
                             </label>
                             <input name="address" id="address" type="text" class="form-control @error('address') is-invalid @enderror" value="{{ old('address') }}" autocomplete="address" autofocus/>
                         </div>
@@ -205,10 +204,13 @@
                         <p><i>Maximum number of images (4)</i></p>
                     </div>
                     <div class="row">
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <label for="exampleFormControlFile1">Image(s)</label>
-                                <input name="image_url[]" type="file" id="files" class="form-control-file" multiple value="{{ old('image_url[]') }}">                                
+                        <div class="col-lg-12">
+                            <div class="form-group">                                                                                                
+                                <a href="#" class="btn btn-outline-info btn-md hide-on-max-images mb-1" id="addImageBtn">Add Image</a>
+                                <input name="image_url[]" type="file" id="files" style="display: none;" multiple value="{{ old('image_url[]') }}">
+                                <input type="hidden" name="image_urls" id="imageUrls" value="{{ old('image_urls') }}"> <!-- Use a unique ID for this input -->
+                                <div class="row" id="imagePreview"></div>
+                                
                                 @error('image_url')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -231,7 +233,7 @@
                                     <div class="form-group mt-2 mb-0">
                                         <div class="custom-control custom-checkbox">
                                             <input name="posting_plan_id" type="checkbox" value="{{$plan->id}}" class="form-check-input plan-checkbox">
-                                            <label class="form-check-label ml-2" for="exampleCheck1">Select This Plan</label>
+                                            <label class="form-check-label ml-2 ml-sm-2" for="exampleCheck1">Select This Plan</label>
                                         </div>
                                     </div>
                                 </div>
@@ -261,12 +263,24 @@
                     <div class="form-group mt-3">
                         <div class="custom-control custom-checkbox">
                             <input name="agree_terms" type="checkbox" class="form-check-input" id="agree-terms">
-                            <label class="form-check-label" for="agree-terms">I agree to the terms and conditions</label>
+                            <label class="form-check-label ml-2 ml-sm-2" for="agree-terms">I agree to the terms and conditions</label>
                         </div>                        
                     </div>
 
+                    <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+                        <label class="col-md-4 control-label"></label>
+                        <div class="col-md-6">
+                            {!! app('captcha')->display() !!}
+                            @if ($errors->has('g-recaptcha-response'))
+                                <span class="help-block">
+                                    <strong class="text-danger">{{ $errors->first('g-recaptcha-response') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
                     <div class="form-footer mb-2">
-                        <button type="submit" class="btn btn-dark btn-md w-100 mr-0">
+                        <button type="submit" id="submit-button" class="btn btn-dark btn-md w-100 mr-0">
                             Post
                         </button>
                     </div>
@@ -276,6 +290,22 @@
     </main><!-- End .main -->
         
     <script>
+         // Function to disable the submit button
+        function disableSubmitButton() {
+            const submitButton = document.getElementById('submit-button');
+            if (submitButton) {
+                submitButton.disabled = true;
+            }
+        }
+
+        // Function to re-enable the submit button after form submission
+        function enableSubmitButton() {
+            const submitButton = document.getElementById('submit-button');
+            if (submitButton) {
+                submitButton.disabled = false;
+            }
+        }
+
         ClassicEditor
             .create(document.querySelector('#post_title'), {
                 toolbar: []
@@ -301,6 +331,106 @@
             });
 
         document.addEventListener("DOMContentLoaded", function() {
+     
+            // Get references to the link, file input, and the row where images will be displayed
+            var addImageBtn = document.getElementById("addImageBtn");
+            var imageInput = document.getElementById("files");
+            var imagePreview = document.getElementById("imagePreview");
+            var imageUrlsInput = document.getElementById("imageUrls"); // Reference the hidden input
+
+            // Keep track of selected image files and their URLs
+            var selectedImages = [];
+            var imageUrls = [];
+            var selectedFileNames = []; // To track selected file names
+
+            // Function to create a remove button for each image
+            function createRemoveButton(file, colDiv) {
+                // Create a Bootstrap column div for the image and button container
+                var imgDiv = document.createElement("div");
+                imgDiv.className = "d-flex flex-column align-items-center"; // Center the button below the image
+
+                // Create an image element for each selected file
+                var img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                img.className = "img-fluid"; // Make the image responsive        
+                img.style.height = "400px"; // Set the height to 100 pixels
+
+                // Create a remove button for the image
+                var removeBtn = document.createElement("button");
+                removeBtn.textContent = "Remove";
+                removeBtn.className = "btn btn-outline-danger btn-xs mb-1"; // Bootstrap button styling
+                removeBtn.addEventListener("click", function() {
+                    // Remove the associated file from the selectedImages and imageUrls arrays
+                    var index = selectedImages.indexOf(file);
+                    if (index !== -1) {
+                        selectedImages.splice(index, 1);
+                        imageUrls.splice(index, 1);
+                        selectedFileNames.splice(index, 1); // Remove the file name
+                    }
+
+                    // Remove the parent column when the remove button is clicked
+                    var columnToRemove = this.parentElement;
+                    columnToRemove.parentElement.removeChild(columnToRemove);
+
+                    // Update the image_urls input
+                    updateImageUrls();
+                });
+
+                // Append the image and remove button to the image and button container
+                imgDiv.appendChild(img);
+                imgDiv.appendChild(removeBtn);
+
+                // Append the image and button container to the column div
+                colDiv.appendChild(imgDiv);
+            }
+
+            // Function to update the image_urls hidden input
+            function updateImageUrls() {
+                // Update the value of the hidden input with the updated image URLs
+                imageUrlsInput.value = imageUrls.join(',');
+            }
+
+            // When a file is selected
+            imageInput.addEventListener("change", function() {
+                // Clear the existing images, selectedImages, and imageUrls arrays
+                imagePreview.innerHTML = '';
+                selectedImages = [];
+                imageUrls = [];
+                selectedFileNames = []; // Clear the file names array
+
+                // Loop through the selected files and create Bootstrap columns for each image
+                for (var i = 0; i < imageInput.files.length; i++) {
+                    var file = imageInput.files[i];
+
+                    // Add the file and its URL to the respective arrays
+                    selectedImages.push(file);
+                    imageUrls.push(URL.createObjectURL(file));
+                    selectedFileNames.push(file.name); // Track the selected file name
+
+                    // Create a Bootstrap column div
+                    var colDiv = document.createElement("div");
+                    colDiv.className = "col-md-3 col-xs-3"; // 4 columns on medium and 2 columns on small screens
+
+                    // Create a remove button for the image
+                    createRemoveButton(file, colDiv);
+
+                    // Append the column to the row
+                    imagePreview.appendChild(colDiv);
+                }
+
+                // Update the image_urls input
+                updateImageUrls();
+            });
+
+            // When the "Add Image" link is clicked
+            addImageBtn.addEventListener("click", function(e) {
+                e.preventDefault(); // Prevent the default link behavior
+
+                // Trigger a click event on the hidden file input element
+                imageInput.click();
+            });
+
+
             const inputElement = document.getElementById("files");
             
             inputElement.addEventListener("change", function() {
@@ -314,7 +444,7 @@
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
                     
-                    if (!file.type.match(/image\/jpeg|image\/jpg|image\/png/) || file.size > 15000000) {
+                    if (!file.type.match(/image\/jpeg|image\/jpg|image\/webp|image\/png/) || file.size > 15000000) {
                         valid = false;
                         break;
                     }
@@ -415,6 +545,8 @@
         const descriptionError = document.getElementById("descriptionError");
     
         getElementById('createPostForm').addEventListener('submit', event => {
+            disableSubmitButton(); // Disable the submit button when the form is submitted
+
             const checkboxes = document.querySelectorAll('input[name="posting_plan_id"]');
             const atLeastOneChecked = [...checkboxes].some(checkbox => checkbox.checked);
 
@@ -445,6 +577,9 @@
             } else {
                 showError(termsError, false);
             }
+
+            setTimeout(enableSubmitButton, 2000);
+            
         });
     
         agreeTermsCheckbox.addEventListener('change', () => {

@@ -22,13 +22,13 @@
             <div class="row">					
                 <div class="col-lg-12">
                     <div class="col-lg-3">
-                        <form action="{{ route('search-users') }}" method="GET">
+                        <form action="{{ route('search-users-roles') }}" method="GET">
                             <div class="form-group">
                                 <input type="text" name="search" class="form-control" placeholder="Search users...">
                             </div>
                             <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
                             @if(isset($searchTerm))
-                                <a href="{{ route('all-users') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
+                                <a href="{{ route('admin-roles') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
                             @endif
                         </form>                        
                     </div>
@@ -62,9 +62,9 @@
                                     </td>									
                                     <td>
                                         @if ($user->is_super_admin)
-                                            <a href="#" class="btn btn-success btn-ellipse btn-xs">Yes</a>
+                                            <button href="#" class="btn btn-success btn-ellipse btn-xs" disabled>Yes</button>
                                         @else
-                                            <a href="#" class="btn btn-default btn-ellipse btn-xs">No</a>
+                                            <button href="#" class="btn btn-default btn-ellipse btn-xs" disabled>No</button>
                                         @endif
                                     </td>
                                     <td><a class="btn btn-info btn-xs" href="{{ route('user-details', $user->slug) }}">Details</a></td> 

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ImagesController;
@@ -18,6 +19,9 @@ use App\Http\Controllers\WalletadressController;
 use App\Http\Controllers\AdvertsController;
 use App\Http\Controllers\FetchLocationsController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\AutomatePostsController;
+
 
 
 
@@ -34,7 +38,11 @@ use App\Http\Controllers\AdminController;
 
 //Show posts in cities
 Route::get('/', [PagesController::class, 'viewIndexPage'])->name('index');
-Route::get('/view-states', [PagesController::class, 'viewStatesPage'])->name('view-states');
+Route::get('/contact', [ContactController::class, 'viewContactPage'])->name('contact');
+Route::post('/contact', [ContactController::class, 'sendContactForm'])->name('contact.submit');
+Route::get('/privacy', [PagesController::class, 'viewPrivacyPage'])->name('privacy');
+Route::get('/terms', [PagesController::class, 'viewTermsPage'])->name('terms');
+Route::get('/report-case', [PagesController::class, 'viewReportCasePage'])->name('report-case');
 
 Route::get('/city/{city:slug}', [CitiesController::class, 'showPosts'])->name('city.show-posts');
 Route::get('/post-details/{slug}', [CitiesController::class, 'viewPostDetails'])->name('post-details');
@@ -83,9 +91,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin-dashboard', [AdminController::class, 'viewAdminDashboardPage'])->name('admin-dashboard');
     //All Users
-    Route::get('/all-users', [AdminController::class, 'viewAllUsersPage'])->name('all-users'); 
-    Route::get('/search-users', [AdminController::class, 'searchUsers'])->name('search-users');   
+    Route::get('/all-users', [AdminController::class, 'viewAllUsersPage'])->name('all-users');   
     Route::get('/users-posts/{user:slug}', [AdminController::class, 'viewUsersPosts'])->name('users-posts');    
+    //Search
+    Route::get('/search-users', [SearchController::class, 'searchUsers'])->name('search-users');
+    Route::get('/search-users-roles', [SearchController::class, 'searchUsersRoles'])->name('search-users-roles');
+    Route::get('/credit-users-search', [SearchController::class, 'creditUsersSearch'])->name('credit-users-search');
+    Route::get('/debit-users-search', [SearchController::class, 'debitUsersSearch'])->name('debit-users-search');
+    Route::get('/search-transactions', [SearchController::class, 'searchTransactions'])->name('search-transactions');
+    Route::get('/search-page-logs', [SearchController::class, 'searchPageLogs'])->name('search-page-logs');
+    Route::get('/search-posts', [SearchController::class, 'searchPosts'])->name('search-posts');
+
+
     //All Posts
     Route::get('/all-posts', [AdminController::class, 'viewAllPosts'])->name('all-posts');
     Route::get('/user-details/{user:slug}', [AdminController::class, 'viewUserDetailsPage'])->name('user-details');
@@ -105,19 +122,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/personal-attributes', [AdminController::class, 'viewPersonalAttributesPage'])->name('personal-attributes');
     Route::get('/transaction-menu', [AdminController::class, 'viewTransactionMenuPage'])->name('transaction-menu'); 
     
-    
+    Route::get('/replicate-post/{postId}', [AutomatePostsController::class, 'replicatePost'])->name('replicate-post'); 
+
+    Route::get('/delete-posts-new', [AutomatePostsController::class, 'deletePostsNew'])->name('delete-posts-new');
+
 });
 
+
 Route::middleware(['auth', 'super.admin'])->group(function () {
+
     Route::get('/admin-roles', [AdminController::class, 'viewAdminRoles'])->name('admin-roles');
     Route::put('/update-admin-role/{user:slug}', [AdminController::class, 'updateAdminRole'])->name('update-admin-role');
 
 });
 
-
-
-
 Auth::routes();
-
-// Route::get('/profile', [App\Http\Controllers\HomeController::class, 'index'])->name('profile');
-

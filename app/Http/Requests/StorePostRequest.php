@@ -26,12 +26,11 @@ class StorePostRequest extends FormRequest
             'state_id' => 'required',
             'city_id' => 'required',
             'post_title' => 'required',
-            'post_description' => 'required',
-            'name' => 'required',
+            'post_description' => 'required',            
             'age' => 'required',
             'posting_plan_id' => 'required',
             'image_url' => 'array|max:4',
-            'image_url.*' => 'image|mimes:jpeg,png,jpg,gif|max:15048',
+            'image_url.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:15048',            
         ];
     }
     

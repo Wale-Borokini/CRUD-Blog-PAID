@@ -22,30 +22,30 @@
 				<div class="row justify-content-center">
 					<div class="col-sm-6 col-lg-4">
 						<a href="{{route('ethnicities.index')}}" class="icon-box">
-							<i class="fa fa-bars"></i>
+							<i class="fa fa-flag-checkered"></i>
 							<h5 class="porto-sicon-title">Ethnicities</h5>
 							<i class="fa fa-bars"></i>
 						</a>
 					</div>
 					<div class="col-sm-6 col-lg-4">
 						<a href="{{route('genders.index')}}" class="icon-box">
-							<i class="fa fa-exclamation-triangle"></i>
+							<i class="fa fa-restroom"></i>
 							<h5 class="porto-sicon-title">Genders</h5>
-							<i class="fa fa-exclamation-triangle"></i>
+							<i class="fa fa-restroom"></i>
 						</a>
 					</div>
 					<div class="col-sm-6 col-lg-4">
 						<a href="{{route('hairs.index')}}" class="icon-box">
-							<i class="fa fa-cart-arrow-down"></i>
-							<h5 class="porto-sicon-title">Hairs</h5>
-							<i class="fa fa-cart-arrow-down"></i>
+							<i class="fa fa-user-alt"></i>
+							<h5 class="porto-sicon-title">Hair Color</h5>
+							<i class="fa fa-user-alt"></i>
 						</a>
 					</div>		
 					<div class="col-sm-6 col-lg-4">
 						<a href="{{route('eyes.index')}}" class="icon-box">
-							<i class="fa fa-cart-arrow-down"></i>
-							<h5 class="porto-sicon-title">Eyes</h5>
-							<i class="fa fa-cart-arrow-down"></i>
+							<i class="fa fa-eye"></i>
+							<h5 class="porto-sicon-title">Eye Color</h5>
+							<i class="fa fa-eye"></i>
 						</a>
 					</div>																					
 				</div>

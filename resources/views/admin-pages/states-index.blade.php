@@ -10,7 +10,7 @@
     <main class="min-height-page main">
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
-                <h1>All States ({{ $states->count() }})</h1>
+                <h1>All States ({{ $totalStateCount }})</h1>
             </div>
             <div class="text-center mt-1">
                 <a href="{{route('add-locations')}}" class="btn btn-outline-dark btn-md">Locations</a>                
@@ -50,7 +50,7 @@
                                     <td><a class="btn btn-success btn-sm" href="{{ route('states.show', $state->slug) }}">Details</a></td>
                                     <td><a class="btn btn-primary btn-sm" href="{{ route('states.edit', $state->slug) }}">Edit</a></td>
                                     <td>
-                                        <form class="delete-form" action="{{ route('states.destroy', $state->slug) }}" method="post">
+                                        <form class="delete-form d-inline" action="{{ route('states.destroy', $state->slug) }}" method="post">
                                             @csrf
                                             @method('DELETE')                                        
                                             <button type="submit" class="delete-button btn btn-danger btn-sm">Delete</button>

@@ -6,6 +6,11 @@
     color: red; 
     cursor: pointer;
 }
+
+.custom-light-text {
+    font-weight: 200;
+}
+
 </style>
     <main class="min-height-page main">
         <div class="container">                
@@ -44,7 +49,7 @@
                         <hr class="short-divider">
                         <div class="mt-2">
                             <div class="mt-0">
-                                <h3 class="">Profile Summary</h3>
+                                <h3>Profile Summary</h3>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
@@ -81,7 +86,7 @@
                             </div>                                                                              
                         </div>
 
-                        <div class="price-box">
+                        <div>
                             <h4 class="text-warning">{!! strip_tags($post->post_title) !!}</h4>
                             <p>
                                 {!! $post->post_description ?? 'N/A' !!}
@@ -104,7 +109,7 @@
                         <div class="mt-2">
                             <p> {{$post->address}}</p>
                         </div>                          
-                        <div class="price-box mt-2">                                
+                        <div class="mt-2">                                
                             <h3>Availability Details</h3>
                             <p>
                                 {!! $post->availability_details ?? 'N/A' !!}

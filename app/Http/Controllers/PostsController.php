@@ -125,7 +125,7 @@ class PostsController extends Controller
         }
 
         $alerted =  Alert::success('Post Added', 'Your post has been added');
-        return redirect()->back()->with('alerted');
+        return redirect()->route('profile')->with('alerted');
     }
 
     public function edit(Post $post)
@@ -142,7 +142,7 @@ class PostsController extends Controller
 
     }    
 
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
         $this->authorize('update-post', $post);
 
@@ -167,6 +167,12 @@ class PostsController extends Controller
 
         return redirect()->back()->with('alerted');
     }
+    
+    
+
+
+
+    
 
     public function delete(Post $post)
     {

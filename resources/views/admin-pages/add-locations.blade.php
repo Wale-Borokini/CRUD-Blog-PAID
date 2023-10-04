@@ -23,23 +23,23 @@
 					<div class="row justify-content-center">
 						<div class="col-sm-6 col-lg-4">
 							<a href="{{route('countries.index')}}" class="icon-box">
-								<i class="fa fa-bars"></i>
+								<i class="fa fa-flag"></i>
 								<h5 class="porto-sicon-title">Countries</h5>
-								<i class="fa fa-bars"></i>
+								<i class="fa fa-flag"></i>
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
 							<a href="{{route('states.index')}}" class="icon-box">
-								<i class="fa fa-exclamation-triangle"></i>
+								<i class="fa fa-landmark"></i>
 								<h5 class="porto-sicon-title">States</h5>
-								<i class="fa fa-exclamation-triangle"></i>
+								<i class="fa fa-landmark"></i>
 							</a>
 						</div>
 						<div class="col-sm-6 col-lg-4">
 							<a href="{{route('cities.index')}}" class="icon-box">
-								<i class="fa fa-cart-arrow-down"></i>
+								<i class="fa fa-city"></i>
 								<h5 class="porto-sicon-title">Cities</h5>
-								<i class="fa fa-cart-arrow-down"></i>
+								<i class="fa fa-city"></i>
 							</a>
 						</div>																					
 					</div>

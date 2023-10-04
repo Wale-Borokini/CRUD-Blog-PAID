@@ -46,20 +46,6 @@ class AdminController extends Controller
         return view('admin-pages.all-users')->with(compact('title', 'users'));
     }
 
-    public function searchUsers(Request $request)
-    {
-        $title = 'Search Results';
-        $searchTerm = $request->input('search');
-
-        // Query the users table to search for users
-        $users = User::where('username', 'LIKE', "%$searchTerm%")
-        ->orWhere('email', 'LIKE', "%$searchTerm%")
-        ->orWhere('credit_balance', 'LIKE', "%$searchTerm%")
-        ->paginate(50);
-
-        return view('admin-pages.all-users')->with(compact('title', 'users', 'searchTerm'));
-    }
-
     public function viewAdminRoles()
     {
         $title = 'Admin Roles';   
@@ -89,7 +75,8 @@ class AdminController extends Controller
     {
         $title = 'All Posts';
         $posts = Post::orderBy('created_at', 'desc')->cursorPaginate(50);
-        return view('admin-pages.all-posts')->with(compact('title', 'posts'));
+        $totalPostsCount = Post::count();
+        return view('admin-pages.all-posts')->with(compact('title', 'posts', 'totalPostsCount'));
     }
 
     public function viewUserDetailsPage(string $slug)
@@ -125,6 +112,20 @@ class AdminController extends Controller
                
         return view('admin-pages.buy-credits-page-logs')->with(compact('title', 'pageLogs'));
 
+    }
+
+    private function searchUsersCommon(Request $request, $viewName)
+    {
+        $title = 'Search Results';
+        $searchTerm = $request->input('search');
+
+        // Query the users table to search for users
+        $users = User::where('username', 'LIKE', "%$searchTerm%")
+            ->orWhere('email', 'LIKE', "%$searchTerm%")
+            ->orWhere('credit_balance', 'LIKE', "%$searchTerm%")
+            ->paginate(50);
+
+        return view($viewName)->with(compact('title', 'users', 'searchTerm'));
     }
     
 

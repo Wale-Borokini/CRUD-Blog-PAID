@@ -10,7 +10,11 @@
     <main class="min-height-page main">
         <div class="page-header">
             <div class="container d-flex flex-column align-items-center">					
-                <h1>All Cities ({{ $cities->count() }})</h1>
+                @if($search)
+                    <h1>Search Result ({{$cities->count() }})</h1>
+                @else
+                    <h1>All Cities ({{ $totalCitiesCount}})</h1>
+                @endif
             </div>
             <div class="text-center mt-1">
                 <a href="{{route('add-locations')}}" class="btn btn-outline-dark btn-md">Locations</a>                
@@ -24,6 +28,17 @@
         <div class="container account-container custom-account-container">
             <div class="row">					
                 <div class="col-lg-12">
+                    <div class="col-lg-3">
+                        <form action="{{ route('cities.index') }}" method="GET">
+                            <div class="form-group">
+                                <input type="text" name="search" class="form-control" placeholder="Search users...">
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
+                            @if(isset($search))
+                                <a href="{{ route('cities.index') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
+                            @endif
+                        </form>                        
+                    </div>
                     <table class="table text-center table-striped table-responsive">
                         <thead>
                             <tr>
@@ -48,7 +63,7 @@
                                     <td><a class="btn btn-success btn-sm" href="{{ route('cities.show', $city->slug) }}">Details</a></td>
                                     <td><a class="btn btn-primary btn-sm" href="{{ route('cities.edit', $city->slug) }}">Edit</a></td>
                                     <td>
-                                        <form class="delete-form" action="{{ route('cities.destroy', $city->slug) }}" method="post">
+                                        <form class="delete-form d-inline" action="{{ route('cities.destroy', $city->slug) }}" method="post">
                                             @csrf
                                             @method('DELETE')                                        
                                             <button type="submit" class="delete-button btn btn-danger btn-sm">Delete</button>
