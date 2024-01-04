@@ -20,7 +20,6 @@ class WalletadressController extends Controller
     {
         $title = 'Wallet Addresses';
         $walletaddresses = Walletadress::orderBy('title')->get();
-
         return view('admin-pages.wallet-address-index')->with(compact('title', 'walletaddresses'));
     }
 

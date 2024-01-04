@@ -60,12 +60,17 @@
                             <div class="col-lg-12">
                                 <ul class="single-info-list">                                            
                                     <li>
-                                        <strong>Number of Posts: </strong>{{$user->posts->count()}}
+                                        <strong>Number of Posts: </strong>{{$user->posts_count}}
                                     </li> 
                                     <li>
                                         <strong>Joined, </strong>{{$user->created_at->diffForHumans()}}
                                     </li>                                            
                                 </ul>
+                                @if($user->posts_count > 0)
+                                    <div class="col-12 mt-2 mb-2">
+                                        <a class="btn btn-dark btn-lg" href="{{ route('users-posts', $user->slug) }}">View Posts</a>
+                                    </div>
+                                @endif
                             </div>                                                                       
                         </div>                                                                              
                     </div>                                                                                                   

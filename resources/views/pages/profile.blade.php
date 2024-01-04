@@ -13,39 +13,46 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="product-widgets-container row pb-2 mt-4">									
-                        <div class="col-lg-12 col-sm-6 pb-5 pb-md-0">
-                            <h4 class="section-sub-title">Posts</h4>
-                            @foreach ($userPosts as $post)
-                                <div class="col-lg-8">
-                                    <a href="{{ route('post-details', $post->slug) }}">  
-                                    <div class="testimonial testimonial-border testimonial-type4">                                                                  
-                                        <div class="testimonial-owner">
-                                            <figure class="max-width-none">
-                                                @if ($post->images->count() > 0) 
-                                                    <img style="max-height:60px; width:60px;" src="{{asset( $post->images->first()->image_url )}}" alt="post_image">
-                                                @elseif($post->images->count() < 1) 
-                                                    <img style="max-height:60px; width:60px;" src="{{asset('storage/images/no-image.jpg')}}" alt="no-image">
-                                                @endif
-                                            </figure>
-                                            <div>
-                                                <strong class="testimonial-title">{!! str_limit(strip_tags($post->post_title), 30) !!}</strong>
-                                                <span>{{str_limit(strip_tags($post->post_description), 30)}}</span>
-                                                <div class="mt-1">
-                                                    <a href="{{route('post.edit', $post->slug)}}" class="btn btn-outline-primary btn-xs">Edit</a>
-                                                    <form class="delete-form d-inline" action="{{ route('post.delete', $post->slug) }}" method="post">
-                                                        @csrf
-                                                        @method('DELETE')                                        
-                                                        <button type="submit" class="delete-button btn btn-outline-danger btn-xs">Delete</button>
-                                                    </form> 
-                                                </div>
-                                                <span class="mt-1"><i><small>Posted, {{$post->created_at->diffForHumans()}}</small></i></span>
-                                            </div>                                            
-                                        </div>                                      
-                                    </div>
-                                     </a>
-                                </div> 
-                            @endforeach  
-                            {{ $userPosts->links() }}            
+                        <div class="col-lg-12 col-sm-6 pb-5 pb-md-0">                            
+                            @if ($userPosts->count() > 0)
+                                <h4 class="section-sub-title">My Posts</h4>
+                                    @foreach ($userPosts as $post)
+                                        <div class="col-lg-8">
+                                            <a href="{{ route('post-details', $post->slug) }}" target="_blank">  
+                                            <div class="testimonial testimonial-border testimonial-type4">                                                                  
+                                                <div class="testimonial-owner">
+                                                    <figure class="max-width-none">
+                                                        @if ($post->images->count() > 0) 
+                                                            <img style="max-height:60px; width:60px;" src="{{asset( $post->images->first()->image_url )}}" alt="post_image" loading="lazy">
+                                                        @elseif($post->images->count() < 1) 
+                                                            <img style="max-height:60px; width:60px;" src="{{asset('storage/images/no-image.jpg')}}" alt="no-image" loading="lazy">
+                                                        @endif
+                                                    </figure>
+                                                    <div>
+                                                        <strong class="testimonial-title">{!! str_limit(strip_tags($post->post_title), 30) !!}</strong>
+                                                        <span>{{str_limit(strip_tags($post->post_description), 30)}}</span>                                                
+                                                        <span class="mt-1"><i><small>Posted, {{$post->created_at->diffForHumans()}}</small></i></span>
+                                                        <div class="mt-1">
+                                                            <a href="{{route('post.edit', $post->slug)}}" class="btn btn-outline-primary btn-xs">Edit</a>
+                                                            <form class="delete-form d-inline" action="{{ route('post.delete', $post->slug) }}" method="post">
+                                                                @csrf
+                                                                @method('DELETE')                                        
+                                                                <button type="submit" class="delete-button btn btn-outline-danger btn-xs">Delete</button>
+                                                            </form> 
+                                                        </div>
+                                                    </div>                                            
+                                                </div>                                      
+                                            </div>
+                                            </a>
+                                        </div> 
+                                    @endforeach  
+                                {{ $userPosts->links() }}  
+                            @else
+                                <div class="text-center">
+                                    <h5>You have not made any post</h5>
+                                    <a href="{{route('create-post')}}" class="btn btn-primary btn-lg">Post Ad</a>
+                                </div>
+                            @endif       
                         </div>									
                     </div>
                 </div><!-- End .col-lg-8 -->					
@@ -66,7 +73,7 @@
                     if (!target.classList.contains('btn')) {
                         const link = div.querySelector('a');
                         if (link) {
-                            window.location.href = link.getAttribute('href');
+                            window.open(link.getAttribute('href'), '_blank');
                         }
                     }
                 });
@@ -103,4 +110,3 @@
         });
     </script>
 @endsection
-       

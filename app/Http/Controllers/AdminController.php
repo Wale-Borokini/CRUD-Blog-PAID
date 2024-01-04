@@ -65,19 +65,49 @@ class AdminController extends Controller
 
     public function viewUsersPosts(string $slug)
     {
-        $title = 'Users Posts';   
+        $title = 'Users Posts';           
+
         $user = User::where('slug', $slug)->with('posts')->firstOrFail();        
-        $userPosts = $user->posts()->orderBy('created_at', 'desc')->cursorPaginate(50);
+        $userPosts = $user->posts()->with('images')->orderBy('created_at', 'desc')->cursorPaginate(50);
+
         return view('admin-pages.users-posts')->with(compact('title', 'userPosts'));
     }
 
-    public function viewAllPosts()
+    // public function viewAllPosts()
+    // {
+    //     $title = 'All Posts';
+    //     $posts = Post::orderBy('created_at', 'desc')->with('images')->cursorPaginate(50);
+    //     $totalPostsCount = Post::count();
+    //     return view('admin-pages.all-posts')->with(compact('title', 'posts', 'totalPostsCount'));
+    // }
+
+    public function viewAllPosts(Request $request)
     {
         $title = 'All Posts';
-        $posts = Post::orderBy('created_at', 'desc')->cursorPaginate(50);
-        $totalPostsCount = Post::count();
-        return view('admin-pages.all-posts')->with(compact('title', 'posts', 'totalPostsCount'));
+        $searchQuery = $request->input('search');
+
+        // Query the database for posts based on the search query, if provided
+        $posts = Post::orderBy('created_at', 'desc')
+            ->with('images');
+
+        if (!empty($searchQuery)) {
+            $posts->where(function ($query) use ($searchQuery) {
+                $query->where('post_title', 'LIKE', "%$searchQuery%")
+                    ->orWhere('post_description', 'LIKE', "%$searchQuery%")
+                    ->orWhere('height', 'LIKE', "%$searchQuery%")
+                    ->orWhere('name', 'LIKE', "%$searchQuery%")
+                    ->orWhere('phone_number', 'LIKE', "%$searchQuery%")
+                    ->orWhere('email', 'LIKE', "%$searchQuery%");
+            });
+        }
+
+        $totalPostsCount = $posts->count();
+        $posts = $posts->cursorPaginate(50);
+
+
+        return view('admin-pages.all-posts')->with(compact('title', 'posts', 'totalPostsCount', 'searchQuery'));
     }
+
 
     public function viewUserDetailsPage(string $slug)
     {

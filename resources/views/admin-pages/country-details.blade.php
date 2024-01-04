@@ -40,8 +40,8 @@
                             @foreach($states as $countryState)                          
                                 <tr>
                                     <td><a href="{{ route('states.show', $countryState->slug) }}">{{$countryState->name}}</a></td> 
-                                    <td>{{ $countryState->cities->count() }}</td> 
-                                    <td>{{$countryState->posts->count()}}</td>
+                                    <td>{{ $countryState->cities_count }}</td> 
+                                    <td>{{ $countryState->posts_count }}</td>
                                     <td><a class="btn btn-success btn-sm" href="{{ route('states.show', $countryState->slug) }}">Details</a></td>                          	                                                   
                                 </tr>
                             @endforeach                                  

@@ -24,7 +24,17 @@ class UpdatePostRequest extends FormRequest
         return [           
             'post_title' => 'required',
             'post_description' => 'required',            
-            'age' => 'required',            
+            'age' => 'required|integer',    
+            'name' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'email' => 'nullable|string|max:255',
+            'gender_id' => 'nullable|integer|max:20',
+            'ethnicity_id' => 'nullable|integer|max:20',
+            'hair_id' => 'nullable|integer|max:20',
+            'eye_id' => 'nullable|integer|max:20',
+            'height' => 'nullable|string|max:255',
+            'availability' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',        
         ];
     }
     

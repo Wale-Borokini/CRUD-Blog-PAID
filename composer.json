@@ -16,7 +16,7 @@
         "mews/purifier": "^3.4",
         "realrashid/sweet-alert": "^7.1"
     },
-    "require-dev": {
+    "require-dev": {        
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",

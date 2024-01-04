@@ -70,8 +70,7 @@ class SearchController extends Controller
 
         $pageLogs = Pagelog::where(function ($query) use ($search) {
             $query->where('username', 'LIKE', "%$search%")
-                ->orWhere('email', 'LIKE', "%$search%")
-                ->orWhere('copied_text', 'LIKE', "%$search%");
+                ->orWhere('email', 'LIKE', "%$search%");
         })
         ->orderBy('created_at', 'desc')
         ->cursorPaginate(50);

@@ -38,6 +38,7 @@
                             <tr>
                                 <th>Username</th>
                                 <th>Email</th>
+                                <th>Email Verified</th>
                                 <th>Credit Balance</th>
                                 <th>Admin</th>                                
                                 <th>Details</th>
@@ -48,13 +49,20 @@
                             @foreach($users as $user)
                                 <tr>
                                     <td><strong>{{$user->username}}</strong></td>
-                                    <td>{{$user->email}}</td>	
+                                    <td>{{$user->email}}</td>
+                                    <td>
+                                        @if ($user->email_verified_at)
+                                            <button class="btn btn-success btn-ellipse btn-xs" disabled>Yes</button>
+                                        @else
+                                            <button class="btn btn-default btn-ellipse btn-xs" disabled>No</button>
+                                        @endif
+                                    </td>	
                                     <td>{{$user->credit_balance}}</td>	
                                     <td>
                                         @if ($user->is_admin)
                                             <button class="btn btn-success btn-ellipse btn-xs" disabled>Yes</button>
                                         @else
-                                        <button class="btn btn-default btn-ellipse btn-xs" disabled>No</button>
+                                            <button class="btn btn-default btn-ellipse btn-xs" disabled>No</button>
                                         @endif
                                     </td>									                                    
                                     <td><a class="btn btn-success btn-sm" href="{{ route('user-details', $user->slug) }}">Details</a></td> 

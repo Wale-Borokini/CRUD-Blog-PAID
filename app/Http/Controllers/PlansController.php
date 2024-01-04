@@ -16,7 +16,6 @@ class PlansController extends Controller
     {
         $title = 'All Posting Plans';
         $plans = Plan::orderBy('price')->get()->unique('plan_type');
-
         return view('admin-pages.plans-index')->with(compact('title', 'plans'));
     }
 

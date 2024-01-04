@@ -19,7 +19,7 @@ class StatesController extends Controller
     public function index()
     {
         $title = 'All States';
-        $states = State::orderBy('name')->withCount(['cities', 'posts'])->cursorPaginate(50);
+        $states = State::withCount(['cities', 'posts'])->with(['country'])->orderBy('name')->cursorPaginate(50);
         $totalStateCount = State::count();
 
         return view('admin-pages.states-index')->with(compact('title', 'states', 'totalStateCount'));
@@ -31,8 +31,7 @@ class StatesController extends Controller
     public function create()
     {
         $title = 'Add State';
-        $countries = Country::orderBy('name')->get();
-               
+        $countries = Country::orderBy('name')->get();               
         return view('admin-pages.create-states')->with(compact('title', 'countries'));
     }
 
@@ -69,11 +68,11 @@ class StatesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $slug)
-    {
-        $state = State::where('slug', $slug)->with(['cities.posts', 'country'])->firstOrFail();
-
-        return view('admin-pages.state-details')->with(compact('state'));
+    public function show(State $state)
+    {        
+        $state->loadCount(['cities']);
+        $stateCities = $state->cities()->withCount(['posts'])->orderBy('name')->cursorPaginate(50);        
+        return view('admin-pages.state-details')->with(compact('state', 'stateCities'));
     }
 
     /**

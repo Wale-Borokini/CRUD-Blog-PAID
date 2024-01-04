@@ -37,7 +37,7 @@
                         </li>
 
                         <li>
-                            <a href="#">Change Password</a>
+                            <a href="{{ route('password.request') }}">Change Password</a>
                         </li>
 
                     @endif

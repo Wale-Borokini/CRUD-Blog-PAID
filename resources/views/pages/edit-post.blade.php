@@ -19,7 +19,7 @@
                                 Advert Title
                                 <span class="required">*</span>
                             </label>
-                            <textarea name="post_title" id="post_title" type="text">{!! $post->post_title !!}</textarea>
+                            <textarea name="post_title" id="post_title" class="form-control">{!! $post->post_title !!}</textarea>
                             @error('post_title')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -31,7 +31,7 @@
                                 Description
                                 <span class="required">*</span>
                             </label>
-                            <textarea name="post_description" id="post_description">{!! $post->post_description !!}</textarea>
+                            <textarea name="post_description" id="post_description" class="form-control">{!! $post->post_description !!}</textarea>
                             @error('post_description')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -56,12 +56,22 @@
                                 Phone Number                                
                             </label>
                             <input name="phone_number" value="{{$post->phone_number}}" id="phone_number" type="text" class="form-control @error('phone_number') is-invalid @enderror" autocomplete="phone_number" autofocus/>
+                            @error('phone_number')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="col-lg-3">
                             <label for="email">
                                 Email                                
                             </label>
                             <input name="email" value="{{$post->email}}" id="email" type="text" class="form-control @error('email') is-invalid @enderror" autocomplete="email" autofocus />
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="col-lg-3">
                             <label for="age">
@@ -144,18 +154,33 @@
                                 Height									
                             </label>
                             <input name="height" value="{{$post->height}}" id="height" type="text" class="form-control @error('height') is-invalid @enderror" autocomplete="height" autofocus/>													
+                            @error('height')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="col-lg-3">
                             <label for="availability">
                                 Availability									
                             </label>
                             <input name="availability" value="{{$post->availability}}" id="availability" type="text" class="form-control @error('availability') is-invalid @enderror" autocomplete="availability" autofocus/>
+                            @error('availability')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="col-lg-6">
                             <label for="address">
                                 Address									
                             </label>
                             <input name="address" value="{{$post->address}}" id="address" type="text" class="form-control @error('address') is-invalid @enderror" autocomplete="address" autofocus/>
+                            @error('address')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="col-lg-12">
                             <label for="availability_details">
@@ -165,7 +190,7 @@
                         </div>							
                     </div>
                     <div class="mt-2">
-                        <h4>Add/delete Your Images</h4>
+                        <h4>Add/delete Post Images</h4>
                     </div>
                     <div class="mb-5">
                         <a href="{{route('add-delete-post-image', $post->slug)}}" class="btn btn-outline-warning btn-xs">Add/Delete Images</a>

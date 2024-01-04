@@ -100,7 +100,7 @@
 
                         for (var i = 0; i < this.files.length; i++) {
                             var file = this.files[i];
-                            var allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/jpg_small"];
+                            var allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/heif", "image/webp", "image/jpg_small"];
                             var maxFileSize = 15 * 1024 * 1024; // 15MB in bytes
 
                             if (allowedTypes.includes(file.type) && file.size <= maxFileSize) {
@@ -109,7 +109,7 @@
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Error',
-                                    text: 'Invalid file type or size. Only JPG, JPEG, Webp, and PNG files up to 5MB are allowed.',
+                                    text: 'Invalid file type or size. Only JPG, JPEG, Webp, and PNG files up to 15MB are allowed.',
                                 });
                                 return; // Prevent the fetch request
                             }

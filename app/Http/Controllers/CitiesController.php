@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cache;
 use App\Rules\UniqueCityNameInState;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -35,7 +36,8 @@ class CitiesController extends Controller
             $citiesQuery->where('name', 'like', '%' . $search . '%');
         }
 
-        $cities = $citiesQuery->withCount(['posts'])->cursorPaginate(50);
+        $cities = $citiesQuery->withCount(['posts'])->with(['state', 'country'])->orderBy('name') ->cursorPaginate(50);        
+        
         $totalCitiesCount = City::count();
 
         return view('admin-pages.cities-index')->with(compact('title', 'cities', 'totalCitiesCount', 'search'));
@@ -51,7 +53,6 @@ class CitiesController extends Controller
         $states = State::orderBy('name')->get();
                
         return view('admin-pages.create-cities')->with(compact('title', 'countries', 'states'));
-
     }
 
     /**
@@ -89,14 +90,16 @@ class CitiesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $slug)
-    {
-        $currentDate = Carbon::now();
+    public function show(City $city)
+    {   
+        $title = 'Escorts in '.$city->name; 
+        $city->loadCount(['posts']);            
+        // $posts = $city->posts()->with('images')
+        // ->orderBy('post_priority', 'desc')->orderBy('created_at', 'desc')->cursorPaginate(100); 
+        $posts = $city->posts()->with('images')
+        ->latest('post_priority')->latest('created_at')->cursorPaginate(50);
 
-        $city = City::where('slug', $slug)->with('state')->firstOrFail();
-        $posts = $city->posts()->orderBy('post_priority', 'desc')->orderBy('created_at', 'desc')->cursorPaginate(50);
-        
-        return view('admin-pages.city-details')->with(compact('city', 'posts'));
+        return view('admin-pages.city-details')->with(compact('title', 'city', 'posts'));
     }
 
     /**
@@ -141,17 +144,15 @@ class CitiesController extends Controller
         return redirect()->back()->with('alerted');
     }
     
-
-    public function showPosts(string $slug)
-    {
-        $currentDate = Carbon::now();
-
-        $city = City::where('slug', $slug)->with('state')->firstOrFail();
-        $posts = $city->posts()->orderBy('post_priority', 'desc')->orderBy('created_at', 'desc')->cursorPaginate(50);
+    public function showPosts(City $city)
+    {                
+        $title = 'Escorts in '.$city->name;        
+        $posts = $city->posts()->with('images')
+        ->latest('post_priority')->latest('created_at')->cursorPaginate(50);
         $adverts = Advert::inRandomOrder()->take(3)->get();
 
-        return view('pages.cities-posts', compact('city', 'posts', 'adverts'));
-    }
+        return view('pages.cities-posts', compact('title', 'city', 'posts', 'adverts'));
+    }        
 
     public function viewPostDetails($slug)
     {

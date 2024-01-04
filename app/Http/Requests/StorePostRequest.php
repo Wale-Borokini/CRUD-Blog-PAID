@@ -27,10 +27,20 @@ class StorePostRequest extends FormRequest
             'city_id' => 'required',
             'post_title' => 'required',
             'post_description' => 'required',            
-            'age' => 'required',
+            'age' => 'required|integer',
+            'name' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'email' => 'nullable|string|max:255',
+            'gender_id' => 'nullable|integer|max:20',
+            'ethnicity_id' => 'nullable|integer|max:20',
+            'hair_id' => 'nullable|integer|max:20',
+            'eye_id' => 'nullable|integer|max:20',
+            'height' => 'nullable|string|max:255',
+            'availability' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
             'posting_plan_id' => 'required',
             'image_url' => 'array|max:4',
-            'image_url.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:15048',            
+            'image_url.*' => 'image|mimes:jpeg,png,jpg,gif,heif,webp|max:15048'       
         ];
     }
     
@@ -45,7 +55,7 @@ class StorePostRequest extends FormRequest
             'image_url.array' => 'Please upload images.',
             'image_url.max' => 'You can upload a maximum of 4 images.',
             'image_url.*.image' => 'Please upload a valid image.',
-            'image_url.*.mimes' => 'The image must be a JPEG, PNG, JPG, or GIF.',
+            'image_url.*.mimes' => 'The image must be a JPEG, PNG, WEBP, HEIF, JPG, or GIF.',
             'image_url.*.max' => 'The image size must not exceed 15 MB.',
                      
         ];

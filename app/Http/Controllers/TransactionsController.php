@@ -112,5 +112,4 @@ class TransactionsController extends Controller
         return view('admin-pages.transaction-history')->with(compact('title', 'transactions', 'debitTotal', 'creditTotal'));
     }
 
-
 }

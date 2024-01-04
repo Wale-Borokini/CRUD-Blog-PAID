@@ -16,7 +16,6 @@ class HairsController extends Controller
     {
         $title = 'All Hair Colors';
         $hairs = Hair::orderBy('name')->get()->unique('name');
-
         return view('admin-pages.hairs-index')->with(compact('title', 'hairs'));
     }
 

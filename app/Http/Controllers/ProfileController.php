@@ -17,28 +17,32 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $userPosts = auth()->user()->posts()->orderBy('created_at', 'desc')->cursorPaginate(50);
+        // $userPosts = auth()->user()->posts()->with('images')->orderBy('created_at', 'desc')->cursorPaginate(50);
+        // return view('pages.profile', compact('userPosts'));
+        $user = auth()->user();
+    
+        // Check if the user has posts
+        if ($user->posts->count() > 0) {
+            $userPosts = $user->posts()->with('images')->orderBy('created_at', 'desc')->cursorPaginate(50);
+        } else {
+            // User has no posts, so no need to execute the query
+            $userPosts = collect();
+        }
+        
         return view('pages.profile', compact('userPosts'));
     }
 
     public function viewBuyCreditsCodePage()
     {
-
         $title = 'Buy Credits Code';
-        $wallet = Walletadress::where('title', 'Post')->first();
-               
+        $wallet = Walletadress::where('title', 'Post')->first();          
         return view('pages.buy-credits-code')->with(compact('title', 'wallet'));
-
     }
 
     public function viewBuyCreditsPage()
     {
-
-        $title = 'Buy Credits';
-               
+        $title = 'Buy Credits';               
         return view('pages.buy-credits')->with(compact('title'));
-
     }
 
-   
 }

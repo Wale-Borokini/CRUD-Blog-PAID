@@ -168,12 +168,6 @@ class PostsController extends Controller
         return redirect()->back()->with('alerted');
     }
     
-    
-
-
-
-    
-
     public function delete(Post $post)
     {
         $this->authorize('delete-post', $post);
@@ -200,7 +194,6 @@ class PostsController extends Controller
         if (Storage::exists($path)) {
             Storage::delete($path);
         }
-    }
-   
+    }   
 
 }

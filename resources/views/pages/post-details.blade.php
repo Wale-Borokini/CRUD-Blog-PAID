@@ -20,22 +20,14 @@
                     <div class="col-lg-4 col-md-6 product-single-gallery">
                         @if ($post->images->count() > 0) 
                             <div class="product-slider-container">                             
-                                <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
+                                <div class="owl-carousel owl-theme show-nav-hover">
                                     @foreach($post->images as  $postImage)
                                         <div class="product-item">
-                                            <img style="max-height:600px;" class="product-single-image" src="{{asset($postImage->image_url)}}" width="468" height="468" alt="product" />
+                                            <img style="max-height:500px;" class="product-single-image" src="{{asset($postImage->image_url)}}" width="468" height="468" alt="Model-picture" />
                                         </div>
                                     @endforeach
                                 </div>                                                               
-                            </div>
-
-                            <div class="prod-thumbnail owl-dots">
-                                @foreach($post->images as  $postImage)
-                                    <div class="owl-dot">
-                                        <img style="height:100px;" src="{{asset($postImage->image_url)}}" width="100" height="100" alt="product-thumbnail" />
-                                    </div>    
-                                @endforeach                       
-                            </div>
+                            </div>                           
                         @elseif($post->images->count() < 1)
                             <h3 class="product-title"><i>No Images</i></h3> 
                         @endif  
@@ -103,8 +95,8 @@
                         <div class="mt-1">
                             <a href="tel:{{$post->phone_number}}" class="btn btn-dark text-white">{{$post->phone_number ?? 'N/A'}}</a>
                         </div> 
-                        <div class="mt-1">                            
-                            <h5 class="bg-dark text-white p-2">{{$post->email ?? 'N/A'}}</h5>
+                        <div class="mt-1">                                                        
+                            <a class="btn btn-dark text-white" href="mailto:{{$post->email}}">{{$post->email ?? 'N/A'}}</a>
                         </div> 
                         <div class="mt-2">
                             <p> {{$post->address}}</p>
@@ -133,5 +125,4 @@
         </div>
         <!-- End .container -->
     </main>
-@endsection
-       
+@endsection       

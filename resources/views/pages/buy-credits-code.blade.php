@@ -6,6 +6,16 @@
         background-color: #f5f5f5; /* Apply a disabled background color */
         pointer-events: none; /* Disable pointer events to prevent interactions */
     }
+    
+    ol {
+        list-style-type: numbers;
+        margin-left: 20px;
+    }
+
+    li {
+        margin-bottom: 5px;
+    }
+    
 </style>
     <main class="min-height-page main main-test">
         <div class="container checkout-container mt-4">                               
@@ -17,12 +27,23 @@
                             <div class="">
                                 <p class="text-danger">
                                     <strong>
-                                        Important! The minimum payment is {{number_format($wallet->amount, 4)}}BTC. Anything below 0.0025BTC won't be credited to your account. Please check Bitcoin address every time when buying credits as address is changed sometimes.
+                                        Important Notice: The minimum payment requirement is {{number_format($wallet->amount, 4)}} BTC. Any amount below this threshold will not be credited to your account. It is crucial to verify your Bitcoin address each time you purchase credits, as the address may undergo changes.                                        
                                     </strong>
-                                </p>                               
+                                </p>         
+                                
+                                <p>
+                                    <strong>After payment has been made, send an email to <span class="text-danger">payment@patroncastle.com</span> with the below details:</strong>
+                                </p>
+                                <ol>                                
+                                    <li><strong>Your Username</strong></li>                                    
+                                    <li><strong>Credit Amount Purchased</strong></li>
+                                    <li><strong>Screenshot of Payment on your BTC App</strong></li>                                       
+                                </ol>                    
+                                
+                                
                                 <p>
                                     <strong>
-                                        Your credits will be credited once the transaction is confirmed by our Bitcoin system. It usually takes several minutes, but can take up to an hour. The current market BTC to USD conversion rate will be used. We don't charge any fees.
+                                        Your credits will be added to your account after the Bitcoin transaction is confirmed by our system. Typically, this process takes a few minutes, although it may extend up to an hour. The prevailing market conversion rate from BTC to USD will be applied, and please note that we do not impose any fees.
                                     </strong>
                                 </p>                                
                             </div>
@@ -37,19 +58,24 @@
                             <div class="">
                                 <p>
                                     <strong>
-                                        Please send only Bitcoin to the address below, other cryptocurrency is not accepted
+                                        Kindly remit Bitcoin (BTC) exclusively to the provided address; we do not accept any other forms of cryptocurrency.
                                     </strong>
                                 </p>
                                 <div class="mt-0 mb-2 col-12">
                                     <input type="text" value="{{$wallet->btc_address}}" class="col-9 dicabled-input" id="copyText" readonly>
                                     <button class="btn btn-sm btn-success" onclick="copyToClipboard()">Copy</button>
+                                    <p class="mt-1">{{ $wallet->btc_address }}</p>
                                 </div>
 
                                 <p>
                                     <strong>
-                                        Scan the below QR code with your wallet app or print this code to use at the ATM/Exchange
+                                        Or You can scan the QR code below using your wallet application.
                                     </strong>
-                                </p>
+                                </p><img style="height:200px;" src="{{asset($wallet->image_url)}}" width="200" alt="bar-code" />
+
+                                <div>
+
+                                </div>
                                                                                                            
                             </div>
                         </div>                        

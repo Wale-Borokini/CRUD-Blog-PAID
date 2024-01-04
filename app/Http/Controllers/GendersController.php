@@ -16,7 +16,6 @@ class GendersController extends Controller
     {
         $title = 'All Genders';
         $genders = Gender::orderBy('name')->get()->unique('name');
-
         return view('admin-pages.genders-index')->with(compact('title', 'genders'));
     }
 

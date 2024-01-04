@@ -24,19 +24,18 @@
             <div class="row">					
                 <div class="col-md-12">
                     <div class="mt-3">
-                        <h3>Posts in {{$city->name}}, {{$city->state->name}}, {{$city->country->name}}</h3>
-                        <h5>Number of Posts ({{$city->posts->count()}})</h5>
+                        <h3>Posts in {{$city->name}}, {{$city->state->name}}, {{$city->country->name}}</h3>                        
                     </div>
                     @foreach ($posts as $post)
                         <div class="col-12">
                             <div class="testimonial testimonial-border testimonial-type4">     
                                 <a href="{{ route('post-details', $post->slug) }}">                       
                                 <div class="testimonial-owner">
-                                    <figure class="max-width-none">
-                                        @if ($post->images->count() > 0) 
-                                            <img style="max-height:60px; width:60px;" src="{{asset( $post->images->first()->image_url )}}" alt="post_image">
-                                        @elseif($post->images->count() < 1) 
-                                            <img style="max-height:60px; width:60px;" src="{{asset('images/no-image.jpg')}}" alt="no-image">
+                                    <figure class="max-width-none">                                       
+                                        @if ($post->images->count() > 0)
+                                            <img style="max-height:60px; width:60px;" src="{{ asset($post->images->first()->image_url) }}" alt="post_image" loading="lazy">
+                                        @else
+                                            <img style="max-height:60px; width:60px;" src="{{ asset('storage/images/no-image.jpg') }}" alt="no-image" loading="lazy">
                                         @endif
                                     </figure>
                                     <div>

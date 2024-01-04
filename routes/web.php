@@ -22,9 +22,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AutomatePostsController;
 
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,7 +45,7 @@ Route::get('/city/{city:slug}', [CitiesController::class, 'showPosts'])->name('c
 Route::get('/post-details/{slug}', [CitiesController::class, 'viewPostDetails'])->name('post-details');
 
 // Authenticated Users
-Route::group([ 'middleware' => ['auth']], function() {
+Route::group([ 'middleware' => ['auth', 'verified']], function() {
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/buy-credits-code', [ProfileController::class, 'viewBuyCreditsCodePage'])->name('buy-credits-code');
@@ -86,8 +83,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('eyes', EyesController::class);
     
     Route::resource('plans', PlansController::class);
-    Route::resource('adverts', AdvertsController::class);
-    Route::resource('wallets', WalletadressController::class);
+    Route::resource('adverts', AdvertsController::class);    
 
     Route::get('/admin-dashboard', [AdminController::class, 'viewAdminDashboardPage'])->name('admin-dashboard');
     //All Users
@@ -134,6 +130,9 @@ Route::middleware(['auth', 'super.admin'])->group(function () {
     Route::get('/admin-roles', [AdminController::class, 'viewAdminRoles'])->name('admin-roles');
     Route::put('/update-admin-role/{user:slug}', [AdminController::class, 'updateAdminRole'])->name('update-admin-role');
 
+    Route::resource('wallets', WalletadressController::class);
+
 });
 
-Auth::routes();
+// Auth::routes();
+Auth::routes(['verify' => true]);

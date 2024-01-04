@@ -31,7 +31,7 @@
                     <div class="col-lg-3">
                         <form action="{{ route('cities.index') }}" method="GET">
                             <div class="form-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search users...">
+                                <input type="text" name="search" class="form-control" placeholder="Search cities...">
                             </div>
                             <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
                             @if(isset($search))

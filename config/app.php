@@ -159,7 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,      
 
         /*
          * Application Service Providers...

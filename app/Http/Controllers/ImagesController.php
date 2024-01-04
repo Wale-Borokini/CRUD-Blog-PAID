@@ -30,7 +30,22 @@ class ImagesController extends Controller
     }
 
     public function uploadImageEdit(Request $request)
-    {                     
+    {   
+        $rules = [            
+            'image_url.*' => 'image|mimes:jpeg,png,jpg,gif,heif,webp|max:15048', 
+        ];
+    
+        $messages = [
+            'image_url.*.image' => 'Uploaded file is not an image.',
+            'image_url.*.mimes' => 'Only JPEG, PNG, Webp, and GIF files are allowed.',
+            'image_url.*.max' => 'Image size should not exceed 15MB.',
+        ];
+    
+        $validator = Validator::make($request->only('image_url'), $rules, $messages);
+    
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()->first()], 400);
+        }                  
 
         try {
             $uploadedImages = [];
@@ -44,7 +59,7 @@ class ImagesController extends Controller
                 return response()->json(['message' => 'Post not found'], 404);
             }
 
-            if ($userId !== $post->user_id) {
+            if ((int)$userId !== (int)$post->user_id) {
                 return response()->json(['message' => 'Unauthorized'], 401);
             }
 

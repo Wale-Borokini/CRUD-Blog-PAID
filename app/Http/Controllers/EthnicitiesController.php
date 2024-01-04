@@ -16,7 +16,6 @@ class EthnicitiesController extends Controller
     {
         $title = 'All Ethnicities';
         $ethnicities = Ethnicity::orderBy('name')->get()->unique('name');
-
         return view('admin-pages.ethnicities-index')->with(compact('title', 'ethnicities'));
     }
 

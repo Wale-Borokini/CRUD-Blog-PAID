@@ -35,10 +35,6 @@ class DailyPostSelection extends Command
         //$oneDaysAgo = Carbon::now()->subDay();
         $threeWeeksAgo = Carbon::now()->subDays(21);
 
-        $today = Carbon::now();
-        
-        
-
         // Loop through each city
         foreach ($cities as $city) {
             // Generate a random number between 1 and 4
@@ -50,7 +46,18 @@ class DailyPostSelection extends Command
                         ->inRandomOrder()->take($randomCount)->get();
             // Update the created_at column for each selected post
             foreach ($randomPosts as $post) {
-                $post->update(['created_at' => $today]);
+                // Generate random minutes and hours between 0 minutes and 12 hours
+                $randomHours = rand(0, 12);
+                $randomMinutes = rand(0, 59);
+    
+                // Calculate the total minutes
+                $totalMinutes = ($randomHours * 60) + $randomMinutes;
+    
+                // Subtract the total minutes from the current time
+                $randomDate = Carbon::now()->subMinutes($totalMinutes);
+    
+                // Update the created_at column for the post
+                $post->update(['created_at' => $randomDate]);
             }
         }
 

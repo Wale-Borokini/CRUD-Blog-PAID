@@ -29,16 +29,10 @@ class CountriesController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-       
+    {       
         $title = 'Add Country';      
-        return view('admin-pages.create-countries')->with(compact('title'));
-
-        // return view('admin-pages.countries-index', compact('title', 'countries'))
-    
+        return view('admin-pages.create-countries')->with(compact('title'));            
     }
-    
-   
 
     /**
      * Store a newly created resource in storage.
@@ -69,11 +63,11 @@ class CountriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $slug)
+    public function show(Country $country)
     {
-        $country = Country::where('slug', $slug)->with(['states.cities', 'States.posts'])->withCount('states')->firstOrFail();
-        $states = $country->states()->orderBy('name')->cursorPaginate(50);
-
+        $country->loadCount(['states']);
+        $states = $country->states()->withCount(['cities', 'posts'])->orderBy('name')->cursorPaginate(50);
+        
         return view('admin-pages.country-details')->with(compact('country', 'states'));
     }
 
@@ -98,8 +92,7 @@ class CountriesController extends Controller
             'name.required' => 'The country name field is required.', 
             'name.unique' => 'The country name must be unique.'           
         ]);   
-
-        $oldSlug = $country->slug;
+        
         $country->name = $request->name;           
         $country->save();
 
@@ -117,6 +110,5 @@ class CountriesController extends Controller
         $alerted = Alert::success('Country Deleted', 'The country has been deleted'); 
         return redirect()->back()->with('alerted');
     }
-
     
 }

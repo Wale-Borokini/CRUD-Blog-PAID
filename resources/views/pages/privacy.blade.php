@@ -25,7 +25,7 @@
                         </div>
                         <div>
                             <p>
-                                Revised on September 26, 2016, Patron holds your privacy in high regard. Presented below is our Privacy Policy for this website:
+                                PatronCastle holds your privacy in high regard. Presented below is our Privacy Policy for this website:
                             </p>                            
                             <p>
                                 Every time you visit, use, create a post, submit content, or view the website, you indicate your agreement with the current Privacy Policy. If you do not agree with this Privacy Policy, you are not permitted to use the website and should cease using it immediately.
@@ -232,8 +232,13 @@
                             </p>         
                             <p>
                                 Any alterations to the Privacy Policy will be effective upon posting and will apply solely to information collected from you on and after the Last Revised date, unless we provide prior notice or engage in other forms of communication with you.    
-                            </p>                                                                                                               
-                        </div>                        
+                            </p>                               
+                        </div>     
+                        <div class="mt-4">
+                            <p>
+                                <small><i>Updated on November 9, 2020</i></small>
+                            </p>
+                        </div>                   
                     </div> 
                 </div>
             </div>

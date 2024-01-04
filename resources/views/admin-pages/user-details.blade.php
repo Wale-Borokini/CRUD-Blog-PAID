@@ -34,15 +34,17 @@
                             <div class="col-lg-12">
                                 <ul class="single-info-list">                                            
                                     <li>
-                                        <strong>Number of Posts: </strong>{{$user->posts->count()}}
+                                        <strong>Number of Posts: </strong>{{$user->posts_count}}
                                     </li> 
                                     <li>
                                         <strong>Joined, </strong>{{$user->created_at->diffForHumans()}}
                                     </li>                                            
                                 </ul>
-                                <div class="col-12 mt-2 mb-2">
-                                    <a class="btn btn-info btn-lg" href="{{ route('users-posts', $user->slug) }}">View Posts</a>
-                                </div>
+                                @if($user->posts_count > 0)
+                                    <div class="col-12 mt-2 mb-2">
+                                        <a class="btn btn-info btn-lg" href="{{ route('users-posts', $user->slug) }}">View Posts</a>
+                                    </div>
+                                @endif
                                 <div class="col-12 mt-5 mb-2">
                                     <a class="btn btn-success btn-lg" href="{{ route('credit.cash', $user->slug) }}">Credit User</a>
                                 </div>

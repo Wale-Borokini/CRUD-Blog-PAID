@@ -25,7 +25,7 @@
             <div class="row">					
                 <div class="col-md-12">
                     <div class="mt-3">
-                        <h3>Cities in {{$state->name}}</h3>
+                        <h3>Cities in {{$state->name}} ({{ $state->cities_count }})</h3>
                     </div>
                     <table class="table text-center table-striped table-responsive">
                         <thead>
@@ -38,12 +38,12 @@
                             </tr>
                         </thead>
                         <tbody> 
-                            @foreach($state->cities as $stateCity)                          
+                            @foreach($stateCities as $stateCity)                          
                                 <tr>
                                     <td><strong>{{$stateCity->name}}</strong></td>
                                     <td>{{$state->name}}</td>                                     
                                     <td>{{$state->country->name}}</td>                                     
-                                    <td>{{$stateCity->posts->count()}}</td>
+                                    <td>{{$stateCity->posts_count}}</td>
                                     <td><a class="btn btn-success btn-sm" href="{{ route('cities.show', $stateCity->slug) }}">Details</a></td>                          	                                                   
                                 </tr>
                             @endforeach                                  

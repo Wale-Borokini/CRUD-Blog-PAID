@@ -16,7 +16,6 @@ class EyesController extends Controller
     {
         $title = 'All Eye Color';
         $eyes = Eye::orderBy('name')->get()->unique('name');
-
         return view('admin-pages.eyes-index')->with(compact('title', 'eyes'));
     }
 

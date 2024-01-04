@@ -20,7 +20,7 @@
         <div class="footer-bottom">
             <div class="container d-sm-flex align-items-center">
                 <div class="footer-left">
-                    <span class="footer-copyright">© Patroncastle. 2009-{{date('Y')}}. All Rights Reserved</span>
+                    <span class="footer-copyright">© PatronCastle. 2012-{{date('Y')}}. All Rights Reserved</span>
                 </div>					
             </div>
         </div><!-- End .footer-bottom -->

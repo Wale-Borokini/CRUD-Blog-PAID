@@ -14,12 +14,11 @@
                                         We have your personal Bitcoin wallet. Any amount that you send to your Bitcoin Wallet will be credited to your account automatically
                                     </strong>
                                 </p>                                
-                                <p class="bg-warning text-white p-2 col-lg-4">
+                                <p class="bg-primary text-white p-2 col-lg-4">
                                     <strong>
                                         Your remaining credit balance is: ${{Auth::user()->credit_balance}}
                                     </strong>
-                                </p>
-                                <p>Check all your payment transactions here</p>                                                                            
+                                </p>                                                                                                          
                             </div>
                         </div>
 

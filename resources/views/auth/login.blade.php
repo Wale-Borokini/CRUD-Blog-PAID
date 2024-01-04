@@ -2,7 +2,7 @@
 
 @section('content')
     <main class="main">			
-        <div class="container login-container">
+        <div class="container login-container min-height-page">
             <div class="row">                          
                 <div class="col-md-6">
                     <div class="heading mb-1">
@@ -16,7 +16,7 @@
                             Username or email address
                             <span class="required">*</span>
                         </label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                         @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -26,12 +26,16 @@
                             Password
                             <span class="required">*</span>
                         </label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" oninput="checkPasswordVisibility()">
+
                         @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
+                        <label class="ml-2" for="show-password">
+                            <input type="checkbox" id="show-password" onclick="togglePasswordVisibility()"> View Password
+                        </label>
                         
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">
@@ -62,4 +66,25 @@
             </div>
         </div>
     </main><!-- End .main -->
+    <script>
+        function togglePasswordVisibility() {
+            var passwordField = document.getElementById('password');
+            var checkbox = document.getElementById('show-password');
+
+            if (checkbox.checked) {
+                passwordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+            }
+        }
+
+        function checkPasswordVisibility() {
+            var checkbox = document.getElementById('show-password');
+            var passwordField = document.getElementById('password');
+
+            if (checkbox.checked) {
+                passwordField.type = 'text';
+            }
+        }
+    </script>
 @endsection

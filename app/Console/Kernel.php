@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('posts:update-expired')->daily();
+        $schedule->command('posts:update-expired')->twiceDaily(2, 14)->withoutOverlapping();
+        $schedule->command('daily:post-selection')->dailyAt('1:00')->withoutOverlapping();
     }
 
     /**

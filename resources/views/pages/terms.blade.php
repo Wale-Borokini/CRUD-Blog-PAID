@@ -21,11 +21,11 @@
                     <!-- Privacy Policy -->
                     <div class="mb-5">
                         <div>
-                            <h4>Terms and Conditions for Paid Services on Patroncastle's</h4>
+                            <h4>Terms and Conditions for Paid Services on PatronCastle</h4>
                         </div>
                         <div>
                             <p>
-                                Occasionally, Patroncastle may offer specific services for a fee as part of the PatronCastle's Service ("Paid Services"). The subsequent terms of sale exclusively pertain to your acquisition of Paid Services from PatronCastle.
+                                Occasionally, PatronCastle may offer specific services for a fee as part of the PatronCastle's Service ("Paid Services"). The subsequent terms of sale exclusively pertain to your acquisition of Paid Services from PatronCastle.
                             </p>
 
                             <h5>Pricing</h5>
@@ -81,7 +81,7 @@
                                 In the event of an error related to the pricing or billing of Paid Services, we reserve the right to correct the error and adjust your order accordingly (including charging the accurate price) or cancel the purchase and refund any overcharged amount.                                
                             </p>
                             <p>
-                                Your sole remedy for billing errors is to obtain a refund for the excess amount charged. To qualify for such a refund, you must report the error within 120 days from the date of the billing statement where the error initially appeared.
+                                Your sole remedy for billing errors is to obtain a refund for the excess amount charged. To qualify for such a refund, you must report the error within 100 days from the date of the billing statement where the error initially appeared.
                             </p>
 
                         </div>                        

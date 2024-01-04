@@ -18,8 +18,8 @@
 	 <!-- Include SweetAlert2 CSS and JS -->
 	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 	 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
-	<!-- CKEditor -->
-	 <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
+	<!-- CKEditor -->	 
+	 <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
 
 	 <!-- recaptcha -->
 	 {!! NoCaptcha::renderJs() !!}
@@ -99,7 +99,7 @@
 						</li>
 
 						<li>
-							<a href="{{ route('profile') }}">Change Password</a>
+							<a href="{{ route('password.request') }}">Change Password</a>
 						</li>
 
 					@endif
@@ -119,7 +119,7 @@
 
 						@if (Route::has('register'))
 							<li>
-								<a href="{{ route('register') }}" class="login-link">Sign Up</a>
+								<a href="{{ route('register') }}">Sign Up</a>
 							</li>
 						@endif
 					
@@ -147,13 +147,14 @@
 	<a id="scroll-top" href="#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
 
 	<!-- Plugins JS File -->
-	<script data-cfasync="false" src="{{ asset('../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script><script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+	
+	<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 	<script src="{{ asset('assets/js/plugins.min.js') }}"></script>
 
 	<!-- Main JS File -->
 	<script src="{{ asset('assets/js/main.min.js') }}"></script>
-    <script>(function(){var js = "window['__CF$cv$params']={r:'7f3ad2fe6977b7f2',t:'MTY5MTUyOTg0NS42MTYwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='../../cdn-cgi/challenge-platform/h/g/scripts/jsd/74ac0d47/invisible.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script>
+    
 </body>
 
 </html>
