@@ -73,14 +73,6 @@ class AdminController extends Controller
         return view('admin-pages.users-posts')->with(compact('title', 'userPosts'));
     }
 
-    // public function viewAllPosts()
-    // {
-    //     $title = 'All Posts';
-    //     $posts = Post::orderBy('created_at', 'desc')->with('images')->cursorPaginate(50);
-    //     $totalPostsCount = Post::count();
-    //     return view('admin-pages.all-posts')->with(compact('title', 'posts', 'totalPostsCount'));
-    // }
-
     public function viewAllPosts(Request $request)
     {
         $title = 'All Posts';
@@ -149,7 +141,7 @@ class AdminController extends Controller
         $title = 'Search Results';
         $searchTerm = $request->input('search');
 
-        // Query the users table to search for users
+        // Query to search for users
         $users = User::where('username', 'LIKE', "%$searchTerm%")
             ->orWhere('email', 'LIKE', "%$searchTerm%")
             ->orWhere('credit_balance', 'LIKE', "%$searchTerm%")

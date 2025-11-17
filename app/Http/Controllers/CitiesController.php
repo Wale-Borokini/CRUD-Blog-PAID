@@ -94,8 +94,6 @@ class CitiesController extends Controller
     {   
         $title = 'Escorts in '.$city->name; 
         $city->loadCount(['posts']);            
-        // $posts = $city->posts()->with('images')
-        // ->orderBy('post_priority', 'desc')->orderBy('created_at', 'desc')->cursorPaginate(100); 
         $posts = $city->posts()->with('images')
         ->latest('post_priority')->latest('created_at')->cursorPaginate(50);
 
