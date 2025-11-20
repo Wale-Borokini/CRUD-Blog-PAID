@@ -9,67 +9,67 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    // public function up(): void
+    // {
         
-            Schema::table('countries', function (Blueprint $table) {
-                $table->dropUnique('countries_slug_unique');
-                $table->string('slug', 191)->nullable()->unique()->change(); 
-            });
+    //         Schema::table('countries', function (Blueprint $table) {
+    //             //$table->dropUnique('countries_slug_unique');
+    //             $table->string('slug', 191)->nullable()->unique()->change(); 
+    //         });
 
-            Schema::table('cities', function (Blueprint $table) {
+    //         Schema::table('cities', function (Blueprint $table) {
                 
-                $table->string('slug', 191)->nullable()->unique()->change(); 
-            });
+    //             $table->string('slug', 191)->nullable()->unique()->change(); 
+    //         });
 
 
-            Schema::table('ethnicities', function (Blueprint $table) {
-                $table->dropUnique('ethnicities_slug_unique');
-                $table->string('slug', 191)->nullable()->unique()->change();
-            });
+    //         Schema::table('ethnicities', function (Blueprint $table) {
+    //             //$table->dropUnique('ethnicities_slug_unique');
+    //             $table->string('slug', 191)->nullable()->unique()->change();
+    //         });
 
-            Schema::table('eyes', function (Blueprint $table) {
-                $table->dropUnique('eyes_slug_unique');
-                $table->string('slug', 191)->nullable()->unique()->change(); 
-            });
+    //         Schema::table('eyes', function (Blueprint $table) {
+    //             //$table->dropUnique('eyes_slug_unique');
+    //             $table->string('slug', 191)->nullable()->unique()->change(); 
+    //         });
 
-            Schema::table('genders', function (Blueprint $table) {
+    //         Schema::table('genders', function (Blueprint $table) {
                 
-                $table->string('slug', 191)->nullable()->unique()->change(); 
-            });
+    //             $table->string('slug', 191)->nullable()->unique()->change(); 
+    //         });
 
-            Schema::table('hairs', function (Blueprint $table) {
+    //         Schema::table('hairs', function (Blueprint $table) {
                
-                $table->string('slug', 191)->nullable()->unique()->change(); 
-            });
+    //             $table->string('slug', 191)->nullable()->unique()->change(); 
+    //         });
 
-            Schema::table('plans', function (Blueprint $table) {
+    //         Schema::table('plans', function (Blueprint $table) {
                 
-                $table->string('slug', 191)->nullable()->unique()->after('id');
-            });
+    //             $table->string('slug', 191)->nullable()->unique()->after('id');
+    //         });
 
-            Schema::table('posts', function (Blueprint $table) {
+    //         Schema::table('posts', function (Blueprint $table) {
                 
-                $table->string('slug', 191)->nullable()->unique()->change(); 
-            });
+    //             $table->string('slug', 191)->nullable()->unique()->change(); 
+    //         });
 
-            Schema::table('states', function (Blueprint $table) {                
-                $table->string('slug', 191)->nullable()->unique()->change(); 
-            });
+    //         Schema::table('states', function (Blueprint $table) {                
+    //             $table->string('slug', 191)->nullable()->unique()->change(); 
+    //         });
 
-            Schema::table('transactions', function (Blueprint $table) {
+    //         Schema::table('transactions', function (Blueprint $table) {
                 
-                $table->string('slug', 191)->nullable()->unique()->change(); 
-            });
+    //             $table->string('slug', 191)->nullable()->unique()->change(); 
+    //         });
 
-            Schema::table('users', function (Blueprint $table) {
+    //         Schema::table('users', function (Blueprint $table) {
                 
-                $table->string('slug', 191)->nullable()->unique()->change(); 
-            });
+    //             $table->string('slug', 191)->nullable()->unique()->change(); 
+    //         });
 
           
     
-    }
+    // }
 
     /**
      * Reverse the migrations.

@@ -13,7 +13,7 @@
 
         <div class="container">					
             <div class="blog-section row">
-                @foreach ($unitedStates->states as $state)                               
+                @foreach ($unitedStates?->states ?? [] as $state)                            
                     <div class="col-lg-2">                        
                         <article class="post">						
                             <div class="post-body">
