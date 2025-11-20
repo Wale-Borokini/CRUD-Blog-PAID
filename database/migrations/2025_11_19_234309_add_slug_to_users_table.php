@@ -12,11 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->tinyInteger('is_admin')->nullable();
-            $table->tinyInteger('is_super_admin')->nullable();
-
-            // Update the 'slug' column to be nullable
-            //$table->string('slug')->nullable()->change();
+            $table->string('slug')->nullable()->after('username');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-       //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('slug');
+        });
     }
 };

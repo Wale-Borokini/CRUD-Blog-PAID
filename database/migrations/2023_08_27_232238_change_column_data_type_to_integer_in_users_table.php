@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('transactions', function (Blueprint $table) {
             // $table->renameColumn('username', 'user_id');
-            $table->integer('user_id')->change();
+            // $table->integer('user_id')->change();
             $table->integer('performed_by')->change();
         });
         
