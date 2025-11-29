@@ -105,7 +105,6 @@ class TransactionsController extends Controller
         $regularUsers = User::where('is_admin', 0)->pluck('id');
 
         $transactions = Transaction::whereIn('user_id', $regularUsers)->with(['creditedUser', 'performedByAdmin'])->orderBy('created_at', 'desc')->cursorPaginate(50);
-        //$transactions = Transaction::with(['creditedUser', 'performedByAdmin'])->orderBy('created_at', 'desc')->cursorPaginate(50);
         $debitTotal = Transaction::whereIn('user_id', $regularUsers)->where('transaction_type', 'debit')->sum('transaction_amount');
         $creditTotal = Transaction::whereIn('user_id', $regularUsers)->where('transaction_type', 'credit')->sum('transaction_amount');
         
