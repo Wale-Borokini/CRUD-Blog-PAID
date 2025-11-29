@@ -17,8 +17,6 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        // $userPosts = auth()->user()->posts()->with('images')->orderBy('created_at', 'desc')->cursorPaginate(50);
-        // return view('pages.profile', compact('userPosts'));
         $user = auth()->user();
     
         // Check if the user has posts
